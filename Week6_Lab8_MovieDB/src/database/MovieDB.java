@@ -120,7 +120,9 @@ public class MovieDB {
 			System.out.println("Could not close connetction ");
 			s.printStackTrace();
 		}
-	}		
+	}
+	
+	//Revision 1 - 20.29pm 18.3.2014
 }
 	
 
