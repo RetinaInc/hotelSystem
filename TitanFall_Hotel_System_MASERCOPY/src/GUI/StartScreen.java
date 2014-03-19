@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import Model.Booking;
+
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDayChooser;
@@ -190,6 +192,8 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 			this.setVisible(false);
 			l.setVisible(true);
 		} else {
+			Booking b = new Booking(day.getYear(), month.getMonth(), year.getYear() ,numNights.getSelectedIndex());
+			b.availability();
 			Availability a = new Availability(dateChooser,numNights);
 			this.setVisible(false);
 			a.setVisible(true);
