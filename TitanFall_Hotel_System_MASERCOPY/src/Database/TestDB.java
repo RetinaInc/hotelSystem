@@ -12,6 +12,6 @@ public class TestDB {
 		t.buildRoomBookingsTable();
 		t.buildCreditCardsTable();
 		t.buildSpecialsTable();
-//		t.queryDB();
+		t.queryDB();
 	}
 }

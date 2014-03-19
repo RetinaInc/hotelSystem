@@ -522,13 +522,11 @@ public class CreateTables {
 		try {
 			q.open("local");
 			Statement stmt = q.getConn().createStatement();
-			// Send the statement to the DBMS.
+
 			rset = stmt.executeQuery(sqlStatement);
 
-			// Display the contents of the result set.
-			// The result set will have three columns.
 			while (rset.next()) {
-				System.out.printf("%10s %10s %10s  %10s %10s %10s %10s %10s\n",
+				System.out.printf("%5s %5s %8s %15s %20s %15s %25s %10s\n",
 						rset.getString("User_ID"),
 						rset.getString("UserType"),
 						rset.getString("First_Name"),
