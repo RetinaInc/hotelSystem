@@ -20,7 +20,7 @@ public class Queries {
 				ods.setUser("Delboy");
 				ods.setPassword("7777");
 				conn = ods.getConnection();
-				System.out.println("Local DB opened");
+//				System.out.println("Local DB opened");
 				}
 			catch(Exception e){
 					System.out.println("Open Database Error, check Queries class");
@@ -35,7 +35,7 @@ public class Queries {
 				ods.setUser("X00106072");
 				ods.setPassword("db29Mar78");
 				conn = ods.getConnection();
-				System.out.println("Tallaght DB opened");
+//				System.out.println("Tallaght DB opened");
 		}
 			catch(Exception e){
 			System.out.println("Open Database Error, check Queries class");
@@ -45,7 +45,7 @@ public class Queries {
 	public void close() {
 		try {
 			conn.close();
-			System.out.println("Connection closed (Query)");
+//			System.out.println("Connection closed (Query)");
 		} catch (SQLException e) {
 			System.out.print("Could not close connection ");
 			e.printStackTrace();

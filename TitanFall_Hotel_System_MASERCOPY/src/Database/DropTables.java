@@ -10,17 +10,16 @@ public class DropTables {
 	private Statement stmt;
 	private Queries q = new Queries();
 	
-	
+	//The tables are dropped in sequence so there is no conflict between Primary Key and Foreign Key
 	public void dropTables() {
 		q.open("local");
-		System.out.println("Checking for existing tables.");
+//		System.out.println("Checking for existing tables.\n");
 
 		try {
-			// Get a Statement object.
 			stmt = q.getConn().createStatement();
 
 			try{
-				//Drop the creditcards table.
+				//Drop the Credit Card table.
 				stmt.execute("DROP TABLE creditcards");
 				System.out.println("CreditCards table dropped.");
 			}
@@ -29,67 +28,60 @@ public class DropTables {
 				// The table simply did not exist.
 			}
 			try{
-				//Drop the specials table.
+				//Drop the Special table.
 				stmt.execute("DROP TABLE specials");
 				System.out.println("Specials table dropped.");
 			}
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			try{
-				//Drop the roombookings table.
+				//Drop the Room Booking table.
 				stmt.execute("DROP TABLE roombookings");
 				System.out.println("RoomBookings table dropped.");
 			}
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			try{
-				//Drop the bookings table.
+				//Drop the Booking table.
 				stmt.execute("DROP TABLE bookings");
 				System.out.println("Bookings table dropped.");
 			}
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			try {
-				// Drop the users table.
+				// Drop the User table.
 				stmt.execute("DROP TABLE users");
 				System.out.println("Users table dropped.");
 			} 
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			try{
-				//Drop the hotel table.
+				//Drop the Hotel table.
 				stmt.execute("DROP TABLE hotels");
 				System.out.println("Hotels table dropped.");
 			}
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			try{
-				//Drop the rooms table.
+				//Drop the Room table.
 				stmt.execute("DROP TABLE rooms");
 				System.out.println("Rooms table dropped.");
 			}
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			try{
-				//Drop the roomtypes table.
+				//Drop the Room Type table.
 				stmt.execute("DROP TABLE roomtypes");
-				System.out.println("RoomTypes table dropped.");
+				System.out.println("RoomTypes table dropped.\n");
 			}
 			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
+
 			}
 			
 		} catch (SQLException ex) {
@@ -98,9 +90,5 @@ public class DropTables {
 			
 		}
 		q.close();
-	}
-	public static void main(String args[]){
-		DropTables dt = new DropTables();
-		dt.dropTables();
 	}
 }

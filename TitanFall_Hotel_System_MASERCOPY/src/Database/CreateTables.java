@@ -17,12 +17,10 @@ public class CreateTables {
 			q.open("local");
 			stmt = q.getConn().createStatement();
 
-
 			stmt.executeUpdate("CREATE TABLE Users "
 					+ "(User_ID	varchar2(50) NOT NULL PRIMARY KEY, UserType varchar2(5), First_Name varchar2(50), Last_Name varchar2(50), HomeAddress varchar2(50), Phone_Number varchar2(50), Email_Address varchar2(50), UserPassword varchar2(50))");
 
 			String sqlInsert = "INSERT INTO users VALUES (?,?,?,?,?,?,?,?)";
-			
 			pstmt = q.getConn().prepareStatement(sqlInsert);
 			
 			// Insert row #1.
@@ -93,6 +91,7 @@ public class CreateTables {
 			q.open("local");
 			// Get a Statement object.
 			stmt = q.getConn().createStatement();
+			
 			stmt.executeUpdate("CREATE TABLE Hotels "
 					+ "(Hotel_ID number NOT NULL PRIMARY KEY, Hotel_Name varchar2(50), Hotel_PhoneNumber varchar2(50), Hotel_Address varchar2(50), NumOfRoom number, HotelRating number )");
 			
@@ -507,7 +506,7 @@ public class CreateTables {
 			pstmt.setInt(4, 003);
 			pstmt.executeUpdate();
 			
-			System.out.println("Specials table created.");
+			System.out.println("Specials table created.\n");
 			
 		} 
 		catch (SQLException ex) {
