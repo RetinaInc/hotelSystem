@@ -6,6 +6,12 @@ public class TestDB {
 		CreateTables t = new CreateTables();
 		t.buildUserTable();
 		t.buildHotelTable();
-		t.queryDB();
+		t.buildBookingsTable();
+		t.buildRoomTypesTable();
+		t.bulidRoomsTable();
+		t.buildRoomBookingsTable();
+		t.buildCreditCardsTable();
+		t.buildSpecialsTable();
+//		t.queryDB();
 	}
 }
