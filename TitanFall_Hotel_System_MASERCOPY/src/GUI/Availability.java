@@ -3,31 +3,30 @@ package GUI;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import com.toedter.calendar.JDateChooser;
+import Model.Room;
 
 import java.awt.event.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Availability extends JFrame implements ActionListener{
+public class Availability extends JFrame implements ActionListener {
 
-	private JTable bookings;
-	
-	private String[] columnNames = {"Room Type", "Cost of room","Room number"};
-	private String[] nums = {"1","2","3","4"};
-	private JTable table;
+	private static String[] columnNames = { "Room Type", "Cost of room",
+			"Room number" };
+	private String[] nums = { "1", "2", "3", "4" };
+	private String[] availableDates = new String[15];
 	private JTextField roomNumber;
-	private JLabel lblArrivalDate,lblNoOfNights,lblPleaseEnterThe;
-	private JButton back,continueb;
-	private int day,month,year, numNights;
-	private JDateChooser date;
-	private JComboBox numberOfNights;
-	private String arrivalDate,departureDate;
-	
-	public Availability(JDateChooser dc,JComboBox numnights){
-		super("Availability of rooms selected");
+	private JList availableList;
+	private JLabel lblArrivalDate, lblNoOfNights, lblPleaseEnterThe;
+	private JButton back, continueb;
+	private int numNights;
+	private Calendar calDate;
+	private String arrivalDate, departureDate;
 
+	public Availability(Calendar dc,int numnights){
+		super("Availability of rooms selected");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(575,355);
 		setLocationRelativeTo(null);
@@ -36,17 +35,16 @@ public class Availability extends JFrame implements ActionListener{
 		getContentPane().add(dates_selected, BorderLayout.NORTH);
 		dates_selected.setBorder(new TitledBorder("Dates Selected"));
 		
-		date = dc;
-		numberOfNights = numnights;
+		calDate = dc;
 		
-		int numofnights = Integer.parseInt(numberOfNights.getSelectedItem().toString());
+		numNights = numnights;
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		arrivalDate = dateFormat.format(date.getDate());
+		arrivalDate = dateFormat.format(calDate.getTime());
 		
-		Calendar c = Calendar.getInstance();
-		c.setTime(date.getDate());
-		c.add(Calendar.DATE, numofnights);
-		departureDate = (String)(dateFormat.format(c.getTime()));
+		
+		calDate.add(Calendar.DATE, numNights);
+		departureDate = (String)(dateFormat.format(calDate.getTime()));
 		
 		
 		 lblArrivalDate = new JLabel("Arrival Date: " + arrivalDate + " - " + departureDate);
@@ -56,7 +54,7 @@ public class Availability extends JFrame implements ActionListener{
 		JLabel filler = new JLabel("              ");
 		dates_selected.add(filler);
 		
-		 lblNoOfNights = new JLabel("No. of Nights: " + numofnights);
+		 lblNoOfNights = new JLabel("No. of Nights: " + numNights);
 		lblNoOfNights.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		dates_selected.add(lblNoOfNights);
 		
@@ -65,25 +63,13 @@ public class Availability extends JFrame implements ActionListener{
 		rooms_available.setBorder(new TitledBorder("Available Rooms"));
 		rooms_available.setLayout(null);
 		
-		Object[][] data = {
-				{"Single",69.99,"24"},
-				{"Single",69.99,"27"},
-				{"Double",80.00,"45"},
-				{"Double",80.00,"53"},
-				{"Suite",99.99,"63"},
-				{"Suite",99.99,"64"}
-		};
-		
-		table = new JTable(data,columnNames);
-		table.setPreferredScrollableViewportSize(new Dimension(50,50));
-		table.setFillsViewportHeight(true);
-		table.setEnabled(false);
-		table.getTableHeader().setReorderingAllowed(false);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
+		availableList = new JList(availableDates);  									//JList of available Rooms
+		availableList.setVisibleRowCount(5);											//number of rows 
+		availableList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); //allows multiple rows to be selected
+		JScrollPane scrollPane = new JScrollPane(availableList);		//adds scrollbar to JList
 		scrollPane.setBounds(59, 34, 285, 119);
 		rooms_available.add(scrollPane);
-		
+
 		 lblPleaseEnterThe = new JLabel("Please enter the room number of the room you wish to book");
 		lblPleaseEnterThe.setBounds(28, 178, 361, 14);
 		rooms_available.add(lblPleaseEnterThe);
@@ -92,6 +78,8 @@ public class Availability extends JFrame implements ActionListener{
 		roomNumber.setBounds(410, 175, 86, 20);
 		rooms_available.add(roomNumber);
 		roomNumber.setColumns(10);
+		
+		
 		
 		
 		
@@ -107,48 +95,54 @@ public class Availability extends JFrame implements ActionListener{
 		continueb.addActionListener(this);
 		buttons.add(continueb);
 		
+		
 	}
 
 	public Availability() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean loggedIn(){
-		return true;
+	public boolean loggedIn() {
+		return false;
 	}
 
-	
+	public void listContent(ArrayList<Room> al) {		//prepares an array of strings for the JList
+		for (int i = 0; i < al.size(); i++) {
+
+			availableDates[i] = al.get(i).getRoomNumber() + " "
+					+ al.get(i).getRoomType() + " " + al.get(i).getPrice();
+
+		}
+
+	}
+
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == back){
-			
-			if(loggedIn() == true){
-				
+		if (e.getSource() == back) {
+
+			if (loggedIn() == true) {
+
 				UserScreen u = new UserScreen();
 				this.setVisible(false);
 				u.setVisible(true);
 			}
-			
-			else
-			{
+
+			else {
 				StartScreen s = new StartScreen();
 				this.setVisible(false);
 				s.setVisible(true);
 			}
-			
-		}
-		else{
-			if(StartScreen.isLoggedIn() == true){
-				CC c = new CC();
+
+		} else {
+			if (StartScreen.isLoggedIn() == true) {
+				CreditCard c = new CreditCard();
 				this.setVisible(false);
 				c.setVisible(true);
-			}
-			else
-			{
+			} else {
 				Login l = new Login();
 				this.setVisible(false);
 				l.setVisible(true);
 			}
 		}
-		
+
 	}
 }

@@ -1,15 +1,21 @@
 package Model;
 
+import java.util.ArrayList;
+
+import javax.swing.JList;
+
 import Database.Queries;
+import GUI.Availability;
 
 public class Booking {
-	
+
 	private String bookingID;
-	private int numGuests,numNights,numRooms, day, months, year;
+	private int numGuests, numNights, numRooms, day, months, year;
 	private double totalCost;
 	private Queries q;
-	
-	public Booking(String bookingID, int numGuests, int day, int months, int year, int numNights, int numRooms, double totalCost){
+
+	public Booking(String bookingID, int numGuests, int day, int months,
+			int year, int numNights, int numRooms, double totalCost) {
 		this.bookingID = bookingID;
 		this.numGuests = numGuests;
 		this.numNights = numNights;
@@ -27,6 +33,10 @@ public class Booking {
 		this.year = year;
 		this.numNights = selectedIndex;
 		q = new Queries();
+	}
+
+	public Booking() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getBookingID() {
@@ -92,11 +102,12 @@ public class Booking {
 	public void setTotalCost(double totalCost) {
 		this.totalCost = totalCost;
 	}
-	public void availability(){
-		
-		q.availabilityQuery(getDay(),getMonths(), getYear(), getNumNights());
-		
+
+	public ArrayList<Room> availability() {
+
+		ArrayList<Room> roomList = new ArrayList<Room>(q.availabilityQuery(
+				getDay(), getMonths(), getYear(), getNumNights()));
+
+		return roomList;
 	}
-	
-	
 }

@@ -376,7 +376,7 @@ public class CreateTables {
 			// Insert row #1.
 			pstmt.setInt(1,101);
 			pstmt.setInt(2,000);
-			pstmt.setString(3,"2.12.14");
+			pstmt.setString(3,"4.9.14");
 			pstmt.executeUpdate();
 			
 			// Insert row #2.
@@ -541,17 +541,4 @@ public class CreateTables {
 		}
 		q.close();
 	}
-
-	public void closeDB() {
-		try {
-			stmt.close();
-			rset.close();
-			conn.close();
-			System.out.print("Connection closed");
-		} catch (SQLException e) {
-			System.out.print("Could not close connection ");
-			e.printStackTrace();
-		}
-	}
-
 }

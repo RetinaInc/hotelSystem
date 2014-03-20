@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import Model.Room;
-import Model.User;
 import oracle.jdbc.pool.OracleDataSource;
 
 public class Queries {
@@ -60,57 +59,47 @@ public class Queries {
 	// iterator is used to move through the arraylist, if the room number is
 	// present , remove that room from the list
 
-	public void availabilityQuery(int day, int month, int year, int numNights) {
-		String date = day + "." + (month + 1) + "." + (year - 2000);
-		System.out.println(date);
+	public ArrayList availabilityQuery(int day, int month, int year, int numNights) {
+		String date = day + "." + month + "." + (year - 2000);  //used to compare against in query
 		String firstRoomQuery = "SELECT r.room_number, rt.type_name, rt.roomtype_price FROM rooms r, roomtypes rt WHERE r.type_id = rt.type_id";
+		
 		String secondRoomQuery = "SELECT r.room_number FROM rooms r, roombookings rb "
-				+ "WHERE dateofbooking  = '"
-				+ date
-				+ "' AND  rb.room_number = r.room_number";
+				+ "WHERE dateofbooking  = '" + date + "' AND  rb.room_number = r.room_number";
 		ArrayList<Room> roomList = new ArrayList<Room>();
 		int[] bookedRooms = new int[15];
-		int newcounter = 0;
 		try {
 			open("local");
 			stmt = getConn().createStatement();
-			rset = stmt.executeQuery(firstRoomQuery);  // first query, selects all rooms
+			rset = stmt.executeQuery(firstRoomQuery); // first query, selects
+														// all rooms
 			while (rset.next()) {
 				Room r = new Room(rset.getInt("ROOM_NUMBER"),
 						rset.getString("TYPE_NAME"),
 						rset.getDouble("ROOMTYPE_PRICE"));
-				roomList.add(r);						// add room object to arraylist 
+				roomList.add(r); // add room object to arraylist
 			}
-			for (Room item : roomList) {
-				System.out.println(item.getRoomNumber() + " "
-						+ item.getRoomType() + " " + item.getPrice());
-			}
-
 			rset = stmt.executeQuery(secondRoomQuery);
 			int counter = 0;
 			while (rset.next()) {
 				bookedRooms[counter] = rset.getInt("ROOM_NUMBER");
 				counter++;
 			}
-			Iterator<Room> it = roomList.iterator(); // iterator to move through
-														// arraylist
-			for (int i = 0; i < roomList.size(); i++) {
-				while (it.hasNext()) {
-					if (it.next().getRoomNumber() == bookedRooms[i]) {
+			// iterator to move through arraylist, loop checks every iteration of room
+			// numbers against each value of bookedRooms
+			
+			Iterator<Room> it = roomList.iterator(); 
+			int loop =0;
+				while (it.hasNext()) {	
+					if (it.next().getRoomNumber() == bookedRooms[loop]) {
 						it.remove();
 						System.out.println("Room removed");
-					}
+						loop++;
 				}
-			}
-			for (Room item : roomList) {
-				System.out.println(item.getRoomNumber() + " "
-						+ item.getRoomType() + " " + item.getPrice());
-			}
+			}	
 		} catch (SQLException ex) {
 			System.out.println("ERROR: " + ex.getMessage());
-			ex.printStackTrace();
 		}
-
 		close();
+		return roomList;  //passed back to model as an arrayList of Room objects
 	}
 }

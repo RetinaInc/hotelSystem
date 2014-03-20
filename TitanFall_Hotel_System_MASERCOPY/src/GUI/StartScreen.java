@@ -23,9 +23,7 @@ import java.util.Date;
 
 public class StartScreen extends JFrame implements ActionListener, ItemListener {
 
-	private String[] nights = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
-			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-			"21" };
+	private String[] nights = { "1", "2", "3", "4", "5", "6", "7" };
 	private String[] rooms = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
 			"10" };
 	private String[] people = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -37,15 +35,15 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 	private JMonthChooser month;
 	private JLabel welcome;
 	private JComboBox numNights, numPeople, numRooms;
-	private JLabel lblnumNights, lblnumPeople, lblnumRooms, arrivalDate,
-			calendar;
+	private JLabel lblnumNights, lblnumPeople, lblnumRooms, arrivalDate;
 	private JButton login, btnSearch;
 	private Font font;
 	private Calendar chosenDate;
+	private Calendar cal = Calendar.getInstance();
 
 	public StartScreen() {
 		super("TitanFall Towers");
-		Calendar cal = Calendar.getInstance();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(515, 315);
 		setLocationRelativeTo(null);
@@ -95,9 +93,7 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 					if (day.getYear() == 31) {
 						day.setYear(30);
 					}
-
 				}
-
 				else if (month.getMonth() == 1 && year.getYear() != 2016) {
 					day.setMaximum(28);
 					if (day.getYear() == 29 || day.getYear() == 30
@@ -113,7 +109,6 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 					day.setMaximum(31);
 				}
 			}
-
 		});
 		search.add(month);
 
@@ -121,6 +116,7 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 		year.setYear(cal.get(Calendar.YEAR));
 		year.setMaximum(2016);
 		year.setMinimum(2014);
+
 		search.add(year);
 
 		// ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -186,18 +182,25 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
+		Calendar calDate = Calendar.getInstance();
+		calDate.set(year.getYear(), (month.getMonth()), day.getYear());
 		if (e.getSource() == login) {
 			Login l = new Login();
 			this.setVisible(false);
 			l.setVisible(true);
-		} else {
-			Booking b = new Booking(day.getYear(), month.getMonth(), year.getYear() ,numNights.getSelectedIndex());
+		} 
+		else if(calDate.compareTo(Calendar.getInstance()) >= 0){
+			Booking b = new Booking(day.getYear(), (month.getMonth()+1), year.getYear() ,(numNights.getSelectedIndex()) + 1);
 			b.availability();
-			Availability a = new Availability(dateChooser,numNights);
+			Availability a = new Availability(calDate,(numNights.getSelectedIndex()) + 1);
+			a.listContent(b.availability());
 			this.setVisible(false);
 			a.setVisible(true);
 		}
+		else{
+			JOptionPane.showMessageDialog(null, "Date cannot be in the past","Date input error",JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 
 	// getter and setter to set the loggedIn value to true or false throughout
