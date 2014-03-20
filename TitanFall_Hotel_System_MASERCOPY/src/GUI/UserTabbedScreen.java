@@ -4,7 +4,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 public class UserTabbedScreen extends JFrame {
 	private JTabbedPane tabbedPane;
 
@@ -14,8 +13,11 @@ public class UserTabbedScreen extends JFrame {
 	private JPanel panel4;
 	private JPanel panel5;
 	
+	private Font font;
+	
 	public UserTabbedScreen() {
 		super("Home");
+		font = new Font("Veranda", font.ITALIC, 20);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,400);
 		setLocationRelativeTo(null);
@@ -47,6 +49,7 @@ public class UserTabbedScreen extends JFrame {
 		tabbedPane.addTab("Manage Account", panel5);
 		this.add(tabbedPane, BorderLayout.CENTER);
 	}
+	
 
 	// Main method to get things started
 	public static void main(String args[]) {
