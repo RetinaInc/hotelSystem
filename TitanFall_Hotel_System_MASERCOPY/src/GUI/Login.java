@@ -67,6 +67,9 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		login_button.setLayout(new GridLayout(2,0));
 		
 		 btnLogin = new JButton("Login");
+		 btnLogin.isFocusable();
+		 btnLogin.addKeyListener(this);
+		 btnLogin.setFocusable(true);
 		btnLogin.addActionListener(this);
 		login_button.add(btnLogin);
 		
@@ -75,6 +78,8 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		create_accountOption.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		 lblCreateAccount = new JLabel("Create Account");
+		 lblCreateAccount.setFocusable(true);
+		 lblCreateAccount.addKeyListener(this);
 		 lblCreateAccount.setForeground(new Color(0,160,255));
 		 lblCreateAccount.addMouseListener(this);
 		 create_accountOption.add(lblCreateAccount);
@@ -171,7 +176,46 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
+	public void keyPressed(KeyEvent e) {
+		if(e.getSource() == btnLogin && e.getKeyCode() == KeyEvent.VK_ENTER){
+			try{
+				
+				if(loginSuccessful()){
+					try{
+					if(type.equals("A")){
+						Admin a = new Admin();
+						this.setVisible(false);
+						a.setVisible(true);
+					}
+					else{
+						UserScreen ab = new UserScreen(user,users);
+						this.setVisible(false);
+						ab.setVisible(true);
+						
+					}
+					}
+					catch(Exception ae){}
+					
+				
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Invalid username or password","Login Error",JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NumberFormatException ae){}
+		}
+		
+		else if(e.getSource() == lblCreateAccount && e.getKeyCode() == KeyEvent.VK_ENTER){
+			CreateAccount c = new CreateAccount();
+        	setVisible(false);
+        	c.setVisible(true);
+		}
+		
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -179,18 +223,11 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }
 
 

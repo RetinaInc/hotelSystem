@@ -9,7 +9,7 @@ import Model.User;
 
 import java.awt.event.*;
 import java.util.ArrayList;
-public class UserScreen extends JFrame implements ActionListener,MouseListener{
+public class UserScreen extends JFrame implements ActionListener,MouseListener,KeyListener{
 
 	private String[] floors = {"1","2","3","4"};
 	private String[] types = {"Single","Double","Suite"};
@@ -121,6 +121,8 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 		create_booking.add(welcomeUser);
 		
 		signOut = new JLabel("Sign Out");
+		signOut.setFocusable(true);
+		signOut.addKeyListener(this);
 		signOut.addMouseListener(this);
 		signOut.setForeground(new Color(0,160,255));
 		signOut.setBounds(701, 11, 68, 23);
@@ -358,6 +360,31 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 
 	public void mouseReleased(MouseEvent arg0) {
 		signOut.setForeground(Color.BLUE);
+		
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getSource() == signOut && e.getKeyCode() == KeyEvent.VK_ENTER){
+			StartScreen s = new StartScreen();
+			this.setVisible(false);
+			s.setVisible(true);
+		}
+		
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

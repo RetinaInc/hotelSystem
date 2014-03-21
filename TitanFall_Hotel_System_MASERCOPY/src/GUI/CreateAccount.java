@@ -12,7 +12,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CreateAccount extends JFrame implements ActionListener {
+public class CreateAccount extends JFrame implements ActionListener,KeyListener {
 	private JTextField fname, lname, email, address, phone, username;
 	private JPasswordField password;
 	private JButton btnLogin, btnContinue;
@@ -89,11 +89,15 @@ public class CreateAccount extends JFrame implements ActionListener {
 		account_details.add(password);
 
 		btnLogin = new JButton("Login");
+		btnLogin.isFocusable();
+		btnLogin.addKeyListener(this);
 		btnLogin.addActionListener(this);
 		btnLogin.setBounds(40, 276, 89, 23);
 		getContentPane().add(btnLogin);
 
 		btnContinue = new JButton("Continue");
+		btnContinue.isFocusable();
+		btnContinue.addKeyListener(this);
 		btnContinue.addActionListener(this);
 		btnContinue.setBounds(314, 276, 89, 23);
 		getContentPane().add(btnContinue);
@@ -191,5 +195,80 @@ public class CreateAccount extends JFrame implements ActionListener {
 
 		}
 
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getSource() == btnLogin && e.getKeyCode() == KeyEvent.VK_ENTER){
+			Login l = new Login();
+			this.setVisible(false);
+			l.setVisible(true);
+		}
+		
+		else if(e.getSource() == btnContinue && e.getKeyCode() == KeyEvent.VK_ENTER){
+			if (isNumber(fname.getText()) == false
+					&& isNumber(lname.getText()) == false
+					&& validateEmail(email.getText()) == true
+					&& isNumber(phone.getText()) == true 
+					&& emptyFields(fname.getText()) == true
+					&& emptyFields(lname.getText()) == true
+					&& emptyFields(address.getText()) == true
+					&& emptyFields(phone.getText()) == true
+					&& emptyFields(username.getText()) == true
+					&& emptyFields(password.getText()) == true) {
+
+				// Add information to the database
+				CreateTables c = new CreateTables();
+				Hotel h = c.getHotel();
+				ArrayList<User> users = c.getUsers();
+				
+				User u = new User(username.getText(),"G",fname.getText(),lname.getText(),address.getText(),phone.getText(),
+						email.getText(),password.getText());
+				
+				users.add(u);
+
+				CreateUsers cu = new CreateUsers();
+				if (cu.buildUser(u) == true) {
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"Sorry, this username is already taken, please try a different username",
+									"Warning", JOptionPane.WARNING_MESSAGE);
+				} else {
+					this.setVisible(false);
+					UserScreen us = new UserScreen(username.getText(),users);
+					us.setVisible(true);
+				}
+
+			} else {
+				if (emptyFields(fname.getText()) == false
+						|| emptyFields(lname.getText()) == false
+						|| emptyFields(address.getText()) == false
+						|| emptyFields(phone.getText()) == false
+						|| emptyFields(username.getText()) == false
+						|| emptyFields(password.getText()) == false) {
+					JOptionPane.showMessageDialog(null,
+							"You cannot leave a field blank", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+				} else if (validateEmail(email.getText()) == false) {
+					JOptionPane.showMessageDialog(null,
+							"You must enter a valid email address", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+				} else
+					JOptionPane.showMessageDialog(null,
+							"You must enter valid data for each field", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

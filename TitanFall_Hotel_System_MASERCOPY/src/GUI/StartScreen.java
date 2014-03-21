@@ -21,7 +21,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 import java.util.Date;
 
-public class StartScreen extends JFrame implements ActionListener, ItemListener {
+public class StartScreen extends JFrame implements ActionListener, ItemListener,KeyListener {
 
 	private String[] nights = { "1", "2", "3", "4", "5", "6", "7" };
 	private String[] rooms = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -169,11 +169,15 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 		userInteraction.add(buttons);
 
 		login = new JButton("Login");
+		login.isFocusable();
+		login.addKeyListener(this);
 		login.addActionListener(this);
 		login.setBounds(10, 47, 89, 23);
 		buttons.add(login);
 
 		btnSearch = new JButton("Search");
+		btnSearch.isFocusable();
+		btnSearch.addKeyListener(this);
 		btnSearch.addActionListener(this);
 		btnSearch.setBounds(376, 47, 89, 23);
 		buttons.add(btnSearch);
@@ -220,5 +224,41 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener 
 			day.setMaximum(30);
 		}
 
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		Calendar calDate = Calendar.getInstance();
+		calDate.set(year.getYear(), (month.getMonth()), day.getYear());
+		if(e.getSource() == login && e.getKeyCode() == KeyEvent.VK_ENTER){
+			
+			Login l = new Login();
+			this.setVisible(false);
+			l.setVisible(true);
+		}
+		else if(calDate.compareTo(Calendar.getInstance()) >= 0 && e.getKeyCode() == KeyEvent.VK_ENTER){
+			Booking b = new Booking(day.getYear(), (month.getMonth()+1), year.getYear() ,(numNights.getSelectedIndex()) + 1);
+			b.availability();
+			Availability a = new Availability(calDate,(numNights.getSelectedIndex()) + 1);
+			a.listContent(b.availability());
+			this.setVisible(false);
+			a.setVisible(true);
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Date cannot be in the past","Date input error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
