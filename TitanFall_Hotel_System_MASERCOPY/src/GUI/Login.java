@@ -1,7 +1,10 @@
 package GUI;
 import javax.swing.*;
 
+import Database.CreateTables;
 import Database.Queries;
+import Model.Hotel;
+import Model.User;
 import oracle.jdbc.pool.OracleDataSource;
 
 import java.awt.*;
@@ -9,9 +12,10 @@ import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 
-public class Login extends JFrame implements ActionListener,MouseListener{
+public class Login extends JFrame implements ActionListener,MouseListener,KeyListener{
 	private JTextField username;
 	private JPasswordField password;
 	private JButton btnLogin;
@@ -77,38 +81,29 @@ public class Login extends JFrame implements ActionListener,MouseListener{
 
 	}
 	String type = "";
+	String user = "";
+	
+	CreateTables c = new CreateTables();
+	Hotel h = c.getHotel();
+	ArrayList<User> users = c.getUsers();
+	
 	
 	public boolean loginSuccessful(){
 		boolean login = false;
-		String sqlStatement = "SELECT User_ID, UserPassword,UserType FROM Users";
 		
-		try {
-			q.open("local");
-			// Send the statement to the DBMS.
-			stmt = q.getConn().createStatement();
+		for(int i = 0; i < users.size(); i++){
 			
-			rset = stmt.executeQuery(sqlStatement);
-			// Display the contents of the result set.
-			// The result set will have three columns.
-			while (rset.next()) {
-				System.out.printf("%10s %10s %10s\n",
-						rset.getString("User_ID"),
-						rset.getString("UserPassword"),
-						rset.getString("UserType"));
-				
-				if(username.getText().equals(rset.getString("User_ID")) && password.getText().equals(rset.getString("UserPassword")))
-				{
-					login = true;
-					type = rset.getString("UserType");
-				}
+			if(users.get(i).getUserID().equals(username.getText()) && users.get(i).getPassword().equals(password.getText())){
+				login = true;
+				type = users.get(i).getUserType();
+				user = users.get(i).getUserID();
 			}
-			
-		} catch (Exception ex) { 
-			System.out.println("ERROR: " + ex.getMessage());
 		}
-		q.close();
+		
 		return login;
+
 	}
+
 
 	
 	public void actionPerformed(ActionEvent e) {
@@ -124,7 +119,7 @@ public class Login extends JFrame implements ActionListener,MouseListener{
 					a.setVisible(true);
 				}
 				else{
-					UserScreen ab = new UserScreen();
+					UserScreen ab = new UserScreen(user,users);
 					this.setVisible(false);
 					ab.setVisible(true);
 					
@@ -171,6 +166,30 @@ public class Login extends JFrame implements ActionListener,MouseListener{
 	public void mouseReleased(MouseEvent e) {
 
         	lblCreateAccount.setForeground(Color.BLUE);
+	}
+
+
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

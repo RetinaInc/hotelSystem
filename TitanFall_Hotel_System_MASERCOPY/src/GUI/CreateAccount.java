@@ -4,11 +4,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import Model.Hotel;
 import Model.User;
 import Database.*;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class CreateAccount extends JFrame implements ActionListener {
 	private JTextField fname, lname, email, address, phone, username;
@@ -145,10 +147,14 @@ public class CreateAccount extends JFrame implements ActionListener {
 					&& emptyFields(password.getText()) == true) {
 
 				// Add information to the database
-
-				User u = new User(fname.getText(), lname.getText(),
-						address.getText(), email.getText(), phone.getText(),
-						username.getText(), password.getText());
+				CreateTables c = new CreateTables();
+				Hotel h = c.getHotel();
+				ArrayList<User> users = c.getUsers();
+				
+				User u = new User(username.getText(),"G",fname.getText(),lname.getText(),address.getText(),phone.getText(),
+						email.getText(),password.getText());
+				
+				users.add(u);
 
 				CreateUsers cu = new CreateUsers();
 				if (cu.buildUser(u) == true) {
@@ -159,7 +165,7 @@ public class CreateAccount extends JFrame implements ActionListener {
 									"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
 					this.setVisible(false);
-					UserScreen us = new UserScreen();
+					UserScreen us = new UserScreen(username.getText(),users);
 					us.setVisible(true);
 				}
 

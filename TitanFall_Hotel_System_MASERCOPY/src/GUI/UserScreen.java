@@ -5,7 +5,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import Model.User;
+
 import java.awt.event.*;
+import java.util.ArrayList;
 public class UserScreen extends JFrame implements ActionListener,MouseListener{
 
 	private String[] floors = {"1","2","3","4"};
@@ -14,7 +17,8 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 	private JComboBox numNights,numPeople,numRooms,day,month,year,helpQscomboBox,helpQscomboBox2;
 	private JCheckBox chckbxGolf,chckbxSpaTreatment,chckbxBreakfast,chckbxGokarting;
 	private JLabel signOut,welcome,welcome2,welcome3,lblAddSomethingExtra,lblPrice,faq,lblAccountIssues,lblBookingIssues,helpLabel,lblOr,contactUs,
-	lblnumNights,lblnumPeople,lblnumRooms,arrivalDate,calendar,fname,lname,email,phone,oldPass,newPass,confirmNewPass;
+	lblnumNights,lblnumPeople,lblnumRooms,arrivalDate,calendar,fname,lname,email,phone,oldPass,newPass,confirmNewPass
+	,welcomeUser;
 	private JButton btnSearch,btnAddSpecials,updateDetailsBtn,changePasswordBtn;
 	private Font font;
 	private JTextField tfname,tlname,temail,tphone;
@@ -27,14 +31,21 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 	private  String[] rooms = {"1","2","3","4","5","6","7","8","9","10"};
 	private  String[] people = {"1","2","3","4","5","6","7","8","9","10"};
 	
+	private ArrayList<User> users;
+	private String usersID = "";
+	private String usersFirstName;
 	
-	
-	public UserScreen(){
+	public UserScreen(String user, ArrayList<User> users){
 		super("Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,400);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		usersID = user;
+		this.users = users;
+		
+		System.out.println(users.size());
+		
 		//if the users log in was successful then they are brought to this page and LoggedIn is set to true
 		StartScreen.setLoggedIn(true);
 		
@@ -80,9 +91,6 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 		year = new JComboBox(years);
 		search.add(year);
 		
-		calendar = new JLabel(new ImageIcon(getClass().getResource("calendar1.jpg")));
-		search.add(calendar);
-		
 		lblnumPeople = new JLabel("No. of People");
 		search.add(lblnumPeople);
 		
@@ -107,6 +115,10 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 		btnSearch.addActionListener(this);
 		btnSearch.setBounds(376, 47, 89, 23);
 		buttons.add(btnSearch);
+		
+		welcomeUser = new JLabel("Welcome " + getUsersFirstName());
+		welcomeUser.setBounds(576, 11, 127, 23);
+		create_booking.add(welcomeUser);
 		
 		signOut = new JLabel("Sign Out");
 		signOut.addMouseListener(this);
@@ -288,6 +300,21 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener{
 		
 			
 	}
+	
+	
+	//gets the users first name using the array of users passed in 
+	//by matching it against the user id of the user logged in
+	public String getUsersFirstName(){		
+		for(int i = 0; i < users.size(); i++){
+			
+			if(usersID.equals(users.get(i).getUserID())){
+				usersFirstName = users.get(i).getfName();
+			}
+		}
+		
+		return usersFirstName;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnSearch){
 			Availability a = new Availability();

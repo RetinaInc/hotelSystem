@@ -1,9 +1,12 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Hotel {
 
 	private String hotelID, hotelName, hotelPhoneNumber, hotelAddress;
 	private int totalNumberRooms, hotelRating;
+	private ArrayList<User> users = new ArrayList();
 	
 	public Hotel(String id, String name, String phoneNumber, String address, int totalNumberRooms, int hoteRating){
 		this.hotelID = id;
@@ -12,6 +15,33 @@ public class Hotel {
 		this.hotelAddress = address;
 		this.totalNumberRooms = totalNumberRooms;
 		this.hotelRating = hoteRating;
+	}
+	
+
+	
+	public void addUsers(User u){
+		users.add(u);
+	}
+	
+	public void removeUsers(User u){
+		users.remove(u);
+	}
+
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+	
+	public int getNumUsers()
+	{
+		return users.size();
+	}
+	
+	public User getUser(int index){
+		return users.get(index);
+	}
+
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
 	}
 
 	public String getHotelID() {

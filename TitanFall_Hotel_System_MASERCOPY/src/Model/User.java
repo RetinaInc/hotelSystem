@@ -4,15 +4,15 @@ public class User {
 
 	private String userType,fName,lName,homeaddress,email,phoneNum,userID,password;
 
-	public User(String fName, String lName,String homeaddress,
-			String email, String phoneNum, String userID, String password) {
-		
+	public User(String userID,String userType,String fName, String lName,String homeaddress,
+			String phoneNum,String email, String password) {
+		this.userID = userID;
+		this.userType = userType;
 		this.fName = fName;
 		this.lName = lName;
 		this.homeaddress = homeaddress;
-		this.phoneNum = phoneNum;
 		this.email = email;
-		this.userID = userID;
+		this.phoneNum = phoneNum;
 		this.password = password;
 	}
 

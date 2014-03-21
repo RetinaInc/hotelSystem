@@ -12,6 +12,11 @@ public class TestDB {
 		t.buildRoomBookingsTable();
 		t.buildCreditCardsTable();
 		t.buildSpecialsTable();
-		t.queryDB();
+		t.getHotel();
+		t.getUsers();
+		
+		//commented out because getUsers method also prints out all the
+		//users to the console
+		//t.queryDB();
 	}
 }

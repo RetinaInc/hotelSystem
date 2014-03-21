@@ -1,7 +1,10 @@
 package Database;
 
 import java.sql.*; // Needed for JDBC classes
+import java.util.ArrayList;
 
+import Model.Hotel;
+import Model.User;
 import oracle.jdbc.pool.OracleDataSource;
 
 public class CreateTables {
@@ -11,6 +14,7 @@ public class CreateTables {
 	private PreparedStatement pstmt;
 	private ResultSet rset;
 	private Queries q = new Queries();
+	private Hotel h;
 	
 	public void buildUserTable() {
 		try {
@@ -108,13 +112,13 @@ public class CreateTables {
 			pstmt.executeUpdate();
 			
 			// Insert row #2.
-			pstmt.setInt(1, 1002);
-			pstmt.setString(2, "Fawlty Towers");
-			pstmt.setString(3, "0851435213");
-			pstmt.setString(4, "Beverly Hills");
-			pstmt.setInt(5, 2000);
-			pstmt.setInt(6, 5);
-			pstmt.executeUpdate();
+//			pstmt.setInt(1, 1002);
+//			pstmt.setString(2, "Fawlty Towers");
+//			pstmt.setString(3, "0851435213");
+//			pstmt.setString(4, "Beverly Hills");
+//			pstmt.setInt(5, 2000);
+//			pstmt.setInt(6, 5);
+//			pstmt.executeUpdate();
 			
 			System.out.println("Hotels table created.");
 			
@@ -514,6 +518,85 @@ public class CreateTables {
 			ex.printStackTrace();
 		}
 		q.close();
+	}
+	
+	public Hotel getHotel(){
+		String sqlStatement = "SELECT * FROM Hotels";
+		try {
+			q.open("local");
+			Statement stmt = q.getConn().createStatement();
+			// Send the statement to the DBMS.
+			rset = stmt.executeQuery(sqlStatement);
+
+			// Display the contents of the result set.
+			// The result set will have three columns.  
+			
+			while (rset.next()) {
+				System.out.printf("%10s %10s %10s  %10s %10d %10d\n",
+						rset.getString("Hotel_ID"),
+						rset.getString("Hotel_Name"),
+						rset.getString("Hotel_PhoneNumber"),
+						rset.getString("Hotel_Address"),
+						rset.getInt("NumOfRoom"),
+						rset.getInt("HotelRating"));
+				
+				h = new Hotel(rset.getString("Hotel_ID"),
+						rset.getString("Hotel_Name"),
+						rset.getString("Hotel_PhoneNumber"),
+						rset.getString("Hotel_Address"),
+						rset.getInt("NumOfRoom"),
+						rset.getInt("HotelRating"));
+				
+				
+			}
+			
+		} catch (Exception ex) {
+			System.out.println("ERROR: queryDB " + ex.getMessage());
+		}
+		q.close();
+		return h;
+	}
+	
+	public ArrayList<User> getUsers() {
+		String sqlStatement = "SELECT * FROM Users";
+		try {
+			q.open("local");
+			Statement stmt = q.getConn().createStatement();
+			// Send the statement to the DBMS.
+			rset = stmt.executeQuery(sqlStatement);
+
+			// Display the contents of the result set.
+			// The result set will have three columns.
+			while (rset.next()) {
+				System.out.printf("%5s %5s %8s %15s %20s %15s %25s %10s\n",
+						rset.getString("User_ID"),
+						rset.getString("UserType"),
+						rset.getString("First_Name"),
+						rset.getString("Last_Name"),
+						rset.getString("HomeAddress"),
+						rset.getString("Phone_Number"),
+						rset.getString("Email_Address"),
+						rset.getString("UserPassword"));
+				
+				User u = new User(rset.getString("User_ID"),
+						rset.getString("UserType"),
+						rset.getString("First_Name"),
+						rset.getString("Last_Name"),
+						rset.getString("HomeAddress"),
+						rset.getString("Phone_Number"),
+						rset.getString("Email_Address"),
+						rset.getString("UserPassword"));
+				
+				h.addUsers(u);
+			}
+			
+		} catch (Exception ex) {
+			System.out.println("ERROR: queryDB " + ex.getMessage());
+		}
+		q.close();
+		return h.getUsers();
+		
+		
 	}
 	
 	public void queryDB() {
