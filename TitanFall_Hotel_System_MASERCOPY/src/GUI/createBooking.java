@@ -52,13 +52,13 @@ public class createBooking extends JPanel implements ActionListener {
 
 			welcome = new JLabel("Welcome to TitanFall Towers Hotel");
 			welcome.setFont(font);
-			welcome.setBounds(78, 11, 374, 33);
+			welcome.setBounds(10,10,25,25);
 			userCont.add(welcome,BorderLayout.NORTH);
 			
 		
-		JPanel userInteraction = new JPanel();
+		JPanel userInteraction = new JPanel(new BorderLayout());
 			userInteraction.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			userInteraction.setLayout(new GridLayout(3, 0));
+			userInteraction.setSize(400, 275);
 			userCont.add(userInteraction,BorderLayout.CENTER);
 		
 		JPanel searchr1 = new JPanel(new FlowLayout());
@@ -80,7 +80,7 @@ public class createBooking extends JPanel implements ActionListener {
 
 			numRooms = new JComboBox(rooms);
 			searchr1.add(numRooms);
-			userInteraction.add(searchr1);
+			userInteraction.add(searchr1,BorderLayout.NORTH);
 		
 		JPanel searchr2 = new JPanel(new FlowLayout());
 			
@@ -113,7 +113,7 @@ public class createBooking extends JPanel implements ActionListener {
 						}
 					});
 			searchr2.add(dateChooser);
-			userInteraction.add(searchr2);
+			
 			arrivalDate = new JLabel("Arrival Date");
 			searchr2.add(arrivalDate);
 
@@ -163,7 +163,7 @@ public class createBooking extends JPanel implements ActionListener {
 			year.setMinimum(2014);
 			searchr2.add(year);
 
-			
+			userInteraction.add(searchr2,BorderLayout.CENTER);
 
 		JPanel buttons = new JPanel();
 			btnSearch = new JButton("Search");
@@ -171,15 +171,15 @@ public class createBooking extends JPanel implements ActionListener {
 			btnSearch.setBounds(376, 47, 89, 23);
 			buttons.add(btnSearch);
 			userInteraction.add(buttons,BorderLayout.SOUTH);
-		add(userCont);
+		add(userCont,BorderLayout.CENTER);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == btnSearch) {
-			Availability a = new Availability(dateChooser,numNights);
-			this.setVisible(false);
-			a.setVisible(true);
+			//Availability a = new Availability(dateChooser,numNights);
+			//this.setVisible(false);
+			//a.setVisible(true);
 		} else {
 			
 		}
