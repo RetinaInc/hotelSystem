@@ -2,6 +2,8 @@ package Model;
 
 import java.util.ArrayList;
 
+import Database.CreateTables;
+
 public class Hotel {
 
 	private String hotelID, hotelName, hotelPhoneNumber, hotelAddress;
@@ -17,7 +19,49 @@ public class Hotel {
 		this.hotelRating = hoteRating;
 	}
 	
-
+	public void updateUsersDetails(String id,String fname,String lname,String address,String email,String phone){
+		
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getUserID().equals(id))
+			{
+				users.get(i).setfName(fname);
+				users.get(i).setlName(lname);
+				users.get(i).setHomeAddress(address);
+				users.get(i).setEmail(email);
+				users.get(i).setPhoneNum(phone);
+			}
+				
+		}
+		CreateTables c = new CreateTables();
+		c.updateDeatils(id, fname, lname, address, email, phone);
+	}
+	
+	public void updateUsersPassword(String id,String password){
+		
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getUserID().equals(id))
+			{
+				users.get(i).setPassword(password);
+			}
+				
+		}
+		CreateTables c = new CreateTables();
+		c.updatePassword(id, password);
+		
+	}
+	
+	public User getUser(String userid)
+	{
+		User u = null;
+		
+		for(int i = 0; i < users.size(); i++){
+			if(users.get(i).getUserID().equals(userid)){
+				u = users.get(i);
+			}
+		}
+		
+		return u;
+	}
 	
 	public void addUsers(User u){
 		users.add(u);

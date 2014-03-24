@@ -19,8 +19,7 @@ public class User {
 	public String getHomeaddress() {
 		return homeaddress;
 	}
-
-
+	
 	public String getUserID() {
 		return userID;
 	}
@@ -49,5 +48,28 @@ public class User {
 		return password;
 	}
 	
+	public void setfName(String fname){
+		this.fName = fname;
+	}
+	
+	public void setlName(String lname){
+		this.lName = lname;
+	}
+	
+	public void setHomeAddress(String add){
+		this.homeaddress = add;
+	}
+	
+	public void setEmail(String email){
+		this.email = email;
+	}
+	
+	public void setPhoneNum(String phone){
+		this.phoneNum = phone;
+	}
+	
+	public void setPassword(String p){
+		this.password = p;
+	}
 	
 }

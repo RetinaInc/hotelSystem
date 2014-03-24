@@ -44,6 +44,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblFirstName);
 
 		fname = new JTextField();
+		fname.setToolTipText("Enter your first name");
 		account_details.add(fname);
 		fname.setColumns(10);
 
@@ -51,6 +52,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblLastName);
 
 		lname = new JTextField();
+		lname.setToolTipText("Enter your last name");
 		account_details.add(lname);
 		lname.setColumns(10);
 
@@ -58,6 +60,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblHomeAddress);
 
 		address = new JTextField();
+		address.setToolTipText("Enter your home address");
 		account_details.add(address);
 		address.setColumns(10);
 
@@ -65,6 +68,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblTelephone);
 
 		phone = new JTextField();
+		phone.setToolTipText("Enter your phone number");
 		account_details.add(phone);
 		phone.setColumns(10);
 
@@ -72,6 +76,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblEmailAddress);
 
 		email = new JTextField();
+		email.setToolTipText("Enter your email address");
 		account_details.add(email);
 		email.setColumns(10);
 
@@ -79,6 +84,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblUsername);
 
 		username = new JTextField();
+		username.setToolTipText("Enter your chosen username");
 		account_details.add(username);
 		username.setColumns(10);
 
@@ -86,9 +92,11 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		account_details.add(lblPassword);
 
 		password = new JPasswordField();
+		password.setToolTipText("Enter your password");
 		account_details.add(password);
 
 		btnLogin = new JButton("Login");
+		btnLogin.setToolTipText("Login to your account");
 		btnLogin.isFocusable();
 		btnLogin.addKeyListener(this);
 		btnLogin.addActionListener(this);
@@ -96,6 +104,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 		getContentPane().add(btnLogin);
 
 		btnContinue = new JButton("Continue");
+		btnContinue.setToolTipText("Create your account");
 		btnContinue.isFocusable();
 		btnContinue.addKeyListener(this);
 		btnContinue.addActionListener(this);

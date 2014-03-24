@@ -169,6 +169,7 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener,
 		userInteraction.add(buttons);
 
 		login = new JButton("Login");
+		login.setToolTipText("Login to your account or create a new account");
 		login.isFocusable();
 		login.addKeyListener(this);
 		login.addActionListener(this);
@@ -176,6 +177,7 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener,
 		buttons.add(login);
 
 		btnSearch = new JButton("Search");
+		btnSearch.setToolTipText("Check availability of rooms");
 		btnSearch.isFocusable();
 		btnSearch.addKeyListener(this);
 		btnSearch.addActionListener(this);

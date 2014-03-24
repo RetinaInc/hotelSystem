@@ -599,6 +599,39 @@ public class CreateTables {
 		
 	}
 	
+	// This method updates a particular users details in the users table
+		// based on the id of the user 
+		public void updateDeatils(String id,String fname,String lname,String add,String email,String phone) {
+			try {
+				q.open("local");
+				String sql = "UPDATE Users SET First_Name = '" + fname + "', Last_Name = '" + lname + "', HomeAddress = '"
+						+ add + "',Email_Address = '" + email + "',Phone_Number = " + phone + "WHERE User_ID = '" + id + "'";
+	
+				stmt = q.getConn().createStatement();
+				stmt.executeUpdate(sql);
+				
+				System.out.println("Users deatils have been updated");
+			} catch (Exception e) {
+				System.out.println("Problem" + e);
+			}
+			q.close();
+		}
+		
+		public void updatePassword(String id,String password) {
+			try {
+				q.open("local");
+				String sql = "UPDATE Users SET UserPassword = '" + password + "' WHERE User_ID = '" + id + "'";
+	
+				stmt = q.getConn().createStatement();
+				stmt.executeUpdate(sql);
+				
+				System.out.println("Users password have been updated");
+			} catch (Exception e) {
+				System.out.println("Problem" + e);
+			}
+			q.close();
+		}
+	
 	public void queryDB() {
 		String sqlStatement = "SELECT * FROM Users";
 		try {

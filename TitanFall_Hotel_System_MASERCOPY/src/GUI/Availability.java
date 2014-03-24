@@ -102,10 +102,6 @@ public class Availability extends JFrame implements ActionListener {
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean loggedIn() {
-		return false;
-	}
-
 	public void listContent(ArrayList<Room> al) {		//prepares an array of strings for the JList
 		for (int i = 0; i < al.size(); i++) {
 
@@ -119,7 +115,7 @@ public class Availability extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == back) {
 
-			if (loggedIn() == true) {
+			if (StartScreen.isLoggedIn() == true) {
 
 				UserScreen u = new UserScreen();
 				this.setVisible(false);

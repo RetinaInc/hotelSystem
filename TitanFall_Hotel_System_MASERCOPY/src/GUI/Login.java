@@ -53,6 +53,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		login_details.add(lblUsername);
 		
 		username = new JTextField();
+		username.setToolTipText("Please enter your username");
 		login_details.add(username);
 		username.setColumns(10);
 		
@@ -60,6 +61,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		login_details.add(lblPassword);
 		
 		password = new JPasswordField();
+		password.setToolTipText("Please enter your password");
 		login_details.add(password);
 		
 		JPanel login_button = new JPanel();
@@ -67,6 +69,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		login_button.setLayout(new GridLayout(2,0));
 		
 		 btnLogin = new JButton("Login");
+		 btnLogin.setToolTipText("Login to your account");
 		 btnLogin.isFocusable();
 		 btnLogin.addKeyListener(this);
 		 btnLogin.setFocusable(true);
@@ -78,6 +81,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		create_accountOption.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		 lblCreateAccount = new JLabel("Create Account");
+		 lblCreateAccount.setToolTipText("Create a new account");
 		 lblCreateAccount.setFocusable(true);
 		 lblCreateAccount.addKeyListener(this);
 		 lblCreateAccount.setForeground(new Color(0,160,255));
@@ -119,7 +123,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 			if(loginSuccessful()){
 				try{
 				if(type.equals("A")){
-					Admin a = new Admin();
+					Admin a = new Admin(user,users);
 					this.setVisible(false);
 					a.setVisible(true);
 				}
@@ -183,7 +187,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 				if(loginSuccessful()){
 					try{
 					if(type.equals("A")){
-						Admin a = new Admin();
+						Admin a = new Admin(user,users);
 						this.setVisible(false);
 						a.setVisible(true);
 					}

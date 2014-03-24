@@ -4,13 +4,15 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import Database.CreateTables;
+import Model.Hotel;
+import Model.User;
+
 import java.awt.*;
-import java.awt.Event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 
-
-public class Admin extends JFrame{
+public class Admin extends JFrame implements ActionListener,MouseListener,KeyListener{
 
 	private String[] floors = {"1","2","3","4"};
 	private String[] types = {"Single","Double","Suite"};
@@ -19,38 +21,32 @@ public class Admin extends JFrame{
 	private JTextField roomNumberField,deleteBooking,specialNameT,priceField,roomNumberT,roomNumberT2,specialPrice;
 	private JButton addbutton,deleteBookingButton,btnDelete,btnUpdate,btnAddToSpecials,btnCancel,saveReportTo,openReport;
 	private JTable bookings,specialsList;
-	private JLabel roomFloor,roomType,roomNumber1,lblRoomNumber,roomNumber2,lblNewType,bookingId,specialName,lblPriceOfSpecial,lblDescriptionOfSpecial
+	private JLabel signOut,roomFloor,roomType,roomNumber1,lblRoomNumber,roomNumber2,lblNewType,bookingId,specialName,lblPriceOfSpecial,lblDescriptionOfSpecial
 					,lblCurrentSpecials,lblName,lblDescription,lblPrice,selectReport,faq,lblAccountIssues,lblBookingIssues
-					,helpLabel,lblOr,contactUs;
+					,helpLabel,lblOr,contactUs,welcomeUser,errorMessage,updatePasswordErrorMessage;
 
 	private String[] columnNames = {"Booking ID", "Room Number", "User ID"};
-	private JLabel welcome3;
-	private JLabel oldPass;
-	private JPasswordField toldPass;
-	private JLabel newPass;
-	private JPasswordField tnewPass;
-	private JLabel confirmNewPass;
-	private JPasswordField tconfirmNewPass;
-	private JButton changePasswordBtn;
-	private JButton updateDetailsBtn;
-	private JLabel fname;
-	private JTextField tfname;
-	private JLabel lname;
-	private JTextField tlname;
-	private JLabel email;
-	private JTextField temail;
-	private JLabel phone;
-	private JTextField tphone;
+	private JLabel welcome3,lHomeAddress,oldPass,newPass,confirmNewPass,fname,lname,email,phone;
+	private JPasswordField toldPass,tnewPass,tconfirmNewPass;
+	private JButton changePasswordBtn,updateDetailsBtn;
+	private JTextField tfname,tlname,temail,tphone,address;
 	private Font font;
+	private ArrayList<User> users;
+	private String usersID = "";
+	private String usersFirstName; 
 	
-	
-	public Admin() {
+	public Admin(String user, ArrayList<User> users) {
 		
 		super("Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,400);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		this.users = users;
+		usersID = user;
+		
+		//If users login was successful then they are brought to this page and they are logged in
+		StartScreen.setLoggedIn(true);
 		
 		font = new Font("Veranda",font.ITALIC,20);
 		
@@ -102,6 +98,18 @@ public class Admin extends JFrame{
 		deleteBooking.setBounds(261, 223, 86, 20);
 		manage_bookings.add(deleteBooking);
 		deleteBooking.setColumns(10);
+		
+		welcomeUser = new JLabel("Welcome " + getUsersFirstName());
+		welcomeUser.setBounds(576, 11, 127, 23);
+		manage_bookings.add(welcomeUser);
+		
+		signOut = new JLabel("Sign Out");
+		signOut.setFocusable(true);
+		signOut.addKeyListener(this);
+		signOut.addMouseListener(this);
+		signOut.setForeground(new Color(0,160,255));
+		signOut.setBounds(701, 11, 68, 23);
+		manage_bookings.add(signOut);
 		
 		//Manage rooms tab
 		JPanel manage_rooms = new JPanel();
@@ -373,40 +381,56 @@ public class Admin extends JFrame{
 		manage_account.add(options);
 		
 		//contains all the elements neccessary to change your details
-		JPanel updateDetailsOption = new JPanel(new GridLayout(2,0));
+		JPanel updateDetailsOption = new JPanel(null);
 		updateDetailsOption.setBounds(52, 19, 276, 183);
 		
-		JPanel updateDetails = new JPanel(new GridLayout(4,2));
+		JPanel updateDetails = new JPanel(new GridLayout(5,2));
+		updateDetails.setBounds(10,0,256,128);
 		updateDetailsOption.add(updateDetails);
 		
 		fname = new JLabel("First Name:");
 		tfname = new JTextField();
+		tfname.setToolTipText("Enter your first name");
 		lname = new JLabel("Last Name:");
 		tlname = new JTextField();
+		tlname.setToolTipText("Enter your last name");
+		lHomeAddress = new JLabel("Home Address");
+		address = new JTextField();
+		address.setToolTipText("Enter your home address");
 		email = new JLabel("Email Address:       ");
 		temail = new JTextField();
+		temail.setToolTipText("Enter your email address");
 		phone = new JLabel("Telephone:");
 		tphone = new JTextField();
+		tphone.setToolTipText("Enter your phone number");
 		
 		updateDetails.add(fname);
 		updateDetails.add(tfname);
 		updateDetails.add(lname);
 		updateDetails.add(tlname);
+		updateDetails.add(lHomeAddress);
+		updateDetails.add(address);
 		updateDetails.add(email);
 		updateDetails.add(temail);
 		updateDetails.add(phone);
 		updateDetails.add(tphone);
 		
-		JPanel updateButton = new JPanel(new FlowLayout());
-		updateDetailsBtn = new JButton("Update Details");
-		updateButton.add(updateDetailsBtn);
+		JPanel updateButton = new JPanel(null);
+		updateButton.setBounds(40,128,199,55);
 		updateDetailsOption.add(updateButton);
+		updateDetailsBtn = new JButton("Update Details");
+		updateDetailsBtn.setBounds(32, 12, 140, 23);
+		updateDetailsBtn.setToolTipText("Update your details");
+		updateDetailsBtn.isFocusable();
+		updateDetailsBtn.addKeyListener(this);
+		updateDetailsBtn.addActionListener(this);
+		updateButton.add(updateDetailsBtn);
 		
 		options.add(updateDetailsOption);
 		
 		//contains all the elements neccessary to change your password
 		JPanel updatePassword = new JPanel(new GridLayout(2,0));
-		updatePassword.setBounds(395, 11, 318, 183);
+		updatePassword.setBounds(395, 11, 318, 191);
 		options.add(updatePassword);
 		updatePassword.setBorder(BorderFactory.createTitledBorder("Change Password"));
 		
@@ -415,11 +439,13 @@ public class Admin extends JFrame{
 		
 		oldPass = new JLabel("Old Password:");
 		toldPass = new JPasswordField();
+		toldPass.setToolTipText("Enter your current password");
 		newPass = new JLabel("New Password:");
 		tnewPass = new JPasswordField();
+		tnewPass.setToolTipText("Enter your new password");
 		confirmNewPass = new JLabel("Confirm New Password:  ");
 		tconfirmNewPass = new JPasswordField();
-		
+		tconfirmNewPass.setToolTipText("Confirm your new password");
 		
 		changePassword.add(oldPass);
 		changePassword.add(toldPass);
@@ -428,11 +454,208 @@ public class Admin extends JFrame{
 		changePassword.add(confirmNewPass);
 		changePassword.add(tconfirmNewPass);
 		
-		JPanel changePasswordPanel = new JPanel(new FlowLayout());
+		JPanel changePasswordPanel = new JPanel(null);
 		changePasswordBtn = new JButton("Update Password");
+		changePasswordBtn.setBounds(88, 50, 140, 23);
+		changePasswordBtn.setToolTipText("Update your password");
+		changePasswordBtn.isFocusable();
+		changePasswordBtn.addKeyListener(this);
+		changePasswordBtn.addActionListener(this);
 		changePasswordPanel.add(changePasswordBtn);
 		updatePassword.add(changePasswordPanel);
 		
+		errorMessage = new JLabel("");
+		errorMessage.setForeground(Color.RED);
+		errorMessage.setBounds(91, 290, 225, 23);
+		errorMessage.setVisible(false);
+		manage_account.add(errorMessage);
+		
+		updatePasswordErrorMessage = new JLabel("");
+		updatePasswordErrorMessage.setForeground(Color.RED);
+		updatePasswordErrorMessage.setBounds(470, 290, 225, 23);
+		updatePasswordErrorMessage.setVisible(false);
+		manage_account.add(updatePasswordErrorMessage);
+	}
+	
+	public String getUsersFirstName(){		
+		for(int i = 0; i < users.size(); i++){
+			
+			if(usersID.equals(users.get(i).getUserID())){
+				usersFirstName = users.get(i).getfName();
+			}
+		}
+		
+		return usersFirstName;
+	}
+	
+	
+	public boolean emptyFields(String e) {
+		boolean valid = false;
+		if (e.isEmpty() == true) {
+			valid = false;
+		} else {
+			valid = true;
+		}
+		return valid;
 	}
 
+	public boolean validateEmail(String e) {
+		boolean valid = false;
+
+		int index = e.indexOf('@');
+		if (index != -1) {
+			valid = true;
+		}
+		return valid;
+	}
+
+	public static boolean isNumber(String string) {
+		try {
+			Long.parseLong(string);
+			// int a = Integer.parseInt(string);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getSource() == signOut && e.getKeyCode() == KeyEvent.VK_ENTER){
+			StartScreen s = new StartScreen();
+			this.setVisible(false);
+			s.setVisible(true);
+		}
+		
+		else if(e.getSource() == updateDetailsBtn && e.getKeyCode() == KeyEvent.VK_ENTER){
+			errorCheckingForUpdateDetails();
+		}
+		
+		else if(e.getSource() == changePasswordBtn && e.getKeyCode() == KeyEvent.VK_ENTER){
+			errorCheckingForUpdatePassword();
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {
+	}
+	public void keyTyped(KeyEvent e) {
+	}
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == updateDetailsBtn){
+			errorCheckingForUpdateDetails();
+		}
+		
+		else if(e.getSource() == changePasswordBtn){
+			errorCheckingForUpdatePassword();
+		}
+	}
+
+	public void errorCheckingForUpdateDetails(){
+		if (isNumber(tfname.getText()) == false
+				&& isNumber(tlname.getText()) == false
+				&& validateEmail(temail.getText()) == true
+				&& isNumber(tphone.getText()) == true 
+				&& emptyFields(tfname.getText()) == true
+				&& emptyFields(tlname.getText()) == true
+				&& emptyFields(address.getText()) == true
+				&& emptyFields(tphone.getText()) == true){
+		
+			CreateTables c = new CreateTables();
+			Hotel h = c.getHotel();
+			
+			
+			h.updateUsersDetails(usersID, tfname.getText(), tlname.getText(), address.getText(), temail.getText(), tphone.getText());
+			JOptionPane.showMessageDialog(null, "Details have been updated Successfully","Details Updated",JOptionPane.INFORMATION_MESSAGE);
+			
+			tfname.setText("");
+			tlname.setText("");
+			address.setText("");
+			temail.setText("");
+			tphone.setText("");
+			errorMessage.setText("");
+		}
+		
+		else{
+				if (emptyFields(tfname.getText()) == false
+						|| emptyFields(tlname.getText()) == false
+						|| emptyFields(address.getText()) == false
+						|| emptyFields(tphone.getText()) == false) {
+					errorMessage.setText("You cannot leave a field blank");
+					errorMessage.setVisible(true);
+				}
+				else if (validateEmail(temail.getText()) == false) {
+					errorMessage.setText("You must enter a valid email address");
+					errorMessage.setVisible(true);
+				} 
+				else
+				{
+					errorMessage.setText("You must enter valid data for each field");
+					errorMessage.setVisible(true);
+				}
+			}
+		}
+	
+	public void errorCheckingForUpdatePassword(){
+		for(int i = 0; i < users.size(); i++){
+			
+			if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword().equals(toldPass.getText()) && 
+					tnewPass.getText().equals(tconfirmNewPass.getText()) && emptyFields(tnewPass.getText()) == true &&
+							emptyFields(tconfirmNewPass.getText()) == true){
+				
+				users.get(i).setPassword(tnewPass.getText());
+				CreateTables c = new CreateTables();
+				Hotel h = c.getHotel();
+				
+				
+				h.updateUsersPassword(usersID, tnewPass.getText());
+				JOptionPane.showMessageDialog(null, "Password has been updated Successfully","Password Updated",JOptionPane.INFORMATION_MESSAGE);
+				toldPass.setText("");
+				tnewPass.setText("");
+				tconfirmNewPass.setText("");				
+				updatePasswordErrorMessage.setVisible(false);
+				break;
+			}
+			
+			else if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword() != toldPass.getText()
+					&& emptyFields(tnewPass.getText()) == true &&
+					emptyFields(tconfirmNewPass.getText()) == true)
+				{
+					updatePasswordErrorMessage.setText("Invalid Password entered");
+					updatePasswordErrorMessage.setVisible(true);
+				}
+			
+			 if(emptyFields(toldPass.getText()) == false 
+					|| emptyFields(tnewPass.getText()) == false ||
+					emptyFields(tconfirmNewPass.getText()) == false){
+				updatePasswordErrorMessage.setText("You cannot leave a field blank");
+			updatePasswordErrorMessage.setVisible(true);
+			}
+		}
+		
+		 
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		
+		StartScreen s = new StartScreen();
+		this.setVisible(false);
+		s.setVisible(true);
+		
+	}
+	public void mouseEntered(MouseEvent e) {
+		
+		signOut.setForeground(Color.GREEN);
+	}
+	public void mouseExited(MouseEvent e) {
+		
+		signOut.setForeground(new Color(0,160,255));
+	}
+	public void mousePressed(MouseEvent e) {
+		signOut.setForeground(Color.BLUE);
+		
+	}
+	public void mouseReleased(MouseEvent arg0) {
+		signOut.setForeground(Color.BLUE);
+		
+	}
 }
