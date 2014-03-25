@@ -16,13 +16,14 @@ public class Availability extends JFrame implements ActionListener {
 	private String[] availableDates = new String[15];
 	private JTextField roomNumber;
 	private JList availableList;
-	private JLabel lblArrivalDate, lblNoOfNights, lblPleaseEnterThe;
+	private JLabel lblArrivalDate, lblNoOfNights, lblnumRoomsLabel;
 	private JButton back, continueb;
 	private int numNights;
 	private Calendar calDate;
 	private String arrivalDate, departureDate;
+	private JTextField totalCostField;
 
-	public Availability(Calendar dc,int numnights){
+	public Availability(Calendar dc,int numnights, int numRooms){
 		super("Availability of rooms selected");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(575,355);
@@ -61,20 +62,46 @@ public class Availability extends JFrame implements ActionListener {
 		rooms_available.setLayout(null);
 		
 		availableList = new JList(availableDates);  									//JList of available Rooms
+		MouseListener mouseListener = new MouseAdapter() {
+		    public void mouseClicked(MouseEvent e) {
+		        if (e.getClickCount() == 1) {
+		           String selectedItem = (String) availableList.getSelectedValue();
+		           System.out.println(selectedItem); 
+		           if(((String) availableList.getSelectedValue()).contains("Single")){
+		        	   Double price = (59.00 * numNights);
+		        	   totalCostField.setText(price.toString());
+		           }
+		           else if(((String) availableList.getSelectedValue()).contains("Double")){
+		        	   Double price = (99.00 * numNights);
+		        	   totalCostField.setText(price.toString());
+		           }
+		         }
+		    }
+		};
+		availableList.addMouseListener(mouseListener);
 		availableList.setVisibleRowCount(5);											//number of rows 
 		availableList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); //allows multiple rows to be selected
-		JScrollPane scrollPane = new JScrollPane(availableList);		//adds scrollbar to JList
+		JScrollPane scrollPane = new JScrollPane(availableList);						//adds scrollbar to JList
 		scrollPane.setBounds(59, 34, 285, 119);
 		rooms_available.add(scrollPane);
 
-		 lblPleaseEnterThe = new JLabel("Please enter the room number of the room you wish to book");
-		lblPleaseEnterThe.setBounds(28, 178, 361, 14);
-		rooms_available.add(lblPleaseEnterThe);
+		 lblnumRoomsLabel = new JLabel("Number of rooms:");
+		 lblnumRoomsLabel.setBounds(358, 37, 117, 14);
+		rooms_available.add(lblnumRoomsLabel);
 		
 		roomNumber = new JTextField();
-		roomNumber.setBounds(410, 175, 86, 20);
+		roomNumber.setBounds(477, 34, 36, 20);
 		rooms_available.add(roomNumber);
 		roomNumber.setColumns(10);
+		
+		JLabel lblTotalCost = new JLabel("Total Cost : ");
+		lblTotalCost.setBounds(356, 64, 81, 16);
+		rooms_available.add(lblTotalCost);
+		
+		totalCostField= new JTextField();
+		totalCostField.setBounds(429, 64, 84, 22);
+		rooms_available.add(totalCostField);
+		totalCostField.setColumns(10);
 		
 		JPanel buttons = new JPanel();
 		getContentPane().add(buttons, BorderLayout.SOUTH);
@@ -99,8 +126,9 @@ public class Availability extends JFrame implements ActionListener {
 	}
 	public void listContent(ArrayList<Room> al) {		//prepares an array of strings for the JList
 		for (int i = 0; i < al.size(); i++) {
-
+			
 			availableDates[i] = al.get(i).getRoomNumber() + " " + al.get(i).getRoomType() + " " + al.get(i).getPrice();
+			
 		}
 	}
 	public void actionPerformed(ActionEvent e) {

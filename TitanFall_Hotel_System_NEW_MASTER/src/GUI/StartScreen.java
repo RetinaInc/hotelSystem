@@ -197,7 +197,7 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener,
 		} 
 		else if(calDate.compareTo(Calendar.getInstance()) >= 0){
 			Booking b = new Booking(day.getYear(), month.getMonth(), year.getYear() ,(numNights.getSelectedIndex()) + 1);
-			Availability a = new Availability(calDate,(numNights.getSelectedIndex()) + 1);
+			Availability a = new Availability(calDate,((numNights.getSelectedIndex()) + 1), numRooms.getSelectedIndex());
 			a.listContent(b.availability());
 			this.setVisible(false);
 			a.setVisible(true);
@@ -240,7 +240,7 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener,
 		else if(calDate.compareTo(Calendar.getInstance()) >= 0 && e.getKeyCode() == KeyEvent.VK_ENTER){
 			Booking b = new Booking(day.getYear(), (month.getMonth()), year.getYear() ,(numNights.getSelectedIndex()) + 1);
 			b.availability();
-			Availability a = new Availability(calDate,(numNights.getSelectedIndex()) + 1);
+			Availability a = new Availability(calDate,((numNights.getSelectedIndex()) + 1), numRooms.getSelectedIndex());
 			a.listContent(b.availability());
 			this.setVisible(false);
 			a.setVisible(true);
