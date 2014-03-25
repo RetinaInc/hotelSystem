@@ -15,6 +15,8 @@ public class CreateTables {
 	private Queries q = new Queries();
 	private Hotel h;
 	
+	/*Update database stuff with all new code */
+	
 	public void buildUserTable() {
 		try {
 			q.open("local");
