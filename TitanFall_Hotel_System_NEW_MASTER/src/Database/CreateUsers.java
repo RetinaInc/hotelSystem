@@ -1,8 +1,7 @@
 package Database;
 
-import java.sql.*; // Needed for JDBC classes
-
-import Model.User;
+import java.sql.*; 
+import Model.*;
 import oracle.jdbc.pool.OracleDataSource;
 
 public class CreateUsers {

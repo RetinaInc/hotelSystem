@@ -33,7 +33,7 @@ public class Queries {
 
 				ods.setURL("jdbc:oracle:thin:@//10.10.2.7:1521/global1");
 				ods.setUser("X00106072");
-				ods.setPassword("db29Nov93");
+				ods.setPassword("db29Mar78");
 				conn = ods.getConnection();
 			} catch (Exception e) {
 				System.out.println("Open Database Error, check Queries class");
@@ -54,11 +54,13 @@ public class Queries {
 		return conn;
 	}
 
-	// availability query selects all rooms for DB, stores in arrayList of rooms
-	// then selects all room numbers that have a booking for the date entered
-	// (from start screen)
-	// iterator is used to move through the arraylist, if the room number is
-	// present , remove that room from the list
+	/* 	
+	 * availability query selects all rooms for DB, stores in arrayList of rooms
+	 * then selects all room numbers that have a booking for the date entered
+	 * (from start screen)
+	 * iterator is used to move through the array-list, if the room number is
+	 * present , remove that room from the list
+	*/
 
 	public ArrayList availabilityQuery(int day, int month, int year, int numNights) {
 		Calendar cal = Calendar.getInstance();

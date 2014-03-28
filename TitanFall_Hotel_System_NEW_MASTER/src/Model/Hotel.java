@@ -6,11 +6,11 @@ import Database.CreateTables;
 
 public class Hotel {
 
-	private String hotelID, hotelName, hotelPhoneNumber, hotelAddress;
-	private int totalNumberRooms, hotelRating;
+	private String hotelName, hotelPhoneNumber, hotelAddress;
+	private int hotelID, totalNumberRooms, hotelRating; // Need to change hotelID to an integer to correspond with the ERD and class diagram
 	private ArrayList<User> users = new ArrayList();
 	
-	public Hotel(String id, String name, String phoneNumber, String address, int totalNumberRooms, int hoteRating){
+	public Hotel(int id, String name, String phoneNumber, String address, int totalNumberRooms, int hoteRating){
 		this.hotelID = id;
 		this.hotelName = name;
 		this.hotelPhoneNumber = phoneNumber;
@@ -88,11 +88,11 @@ public class Hotel {
 		this.users = users;
 	}
 
-	public String getHotelID() {
+	public int getHotelID() {
 		return hotelID;
 	}
 
-	public void setHotelID(String hotelID) {
+	public void setHotelID(int hotelID) {
 		this.hotelID = hotelID;
 	}
 

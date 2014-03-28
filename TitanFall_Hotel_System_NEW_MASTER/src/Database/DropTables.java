@@ -28,8 +28,9 @@ public class DropTables {
 				// The table simply did not exist.
 			}
 			try{
-				//Drop the Special table.
+				//Drop the Special table & Special Sequence
 				stmt.execute("DROP TABLE specials");
+				stmt.execute("DROP SEQUENCE special_seq");
 				System.out.println("Specials table dropped.");
 			}
 			catch (SQLException ex) {
@@ -44,8 +45,9 @@ public class DropTables {
 
 			}
 			try{
-				//Drop the Booking table.
+				//Drop the Booking table & Booking Sequence
 				stmt.execute("DROP TABLE bookings");
+				stmt.execute("DROP SEQUENCE booking_seq");
 				System.out.println("Bookings table dropped.");
 			}
 			catch (SQLException ex) {
@@ -60,24 +62,27 @@ public class DropTables {
 
 			}
 			try{
-				//Drop the Hotel table.
+				//Drop the Hotel table & Hotel Sequence
 				stmt.execute("DROP TABLE hotels");
+				stmt.execute("DROP SEQUENCE hotel_seq");
 				System.out.println("Hotels table dropped.");
 			}
 			catch (SQLException ex) {
 
 			}
 			try{
-				//Drop the Room table.
+				//Drop the Room table & Room Sequence
 				stmt.execute("DROP TABLE rooms");
+				stmt.execute("DROP SEQUENCE room_seq");
 				System.out.println("Rooms table dropped.");
 			}
 			catch (SQLException ex) {
 
 			}
 			try{
-				//Drop the Room Type table.
+				//Drop the Room Type table & RoomType Sequence
 				stmt.execute("DROP TABLE roomtypes");
+				stmt.execute("DROP SEQUENCE roomType_seq");
 				System.out.println("RoomTypes table dropped.\n");
 			}
 			catch (SQLException ex) {
