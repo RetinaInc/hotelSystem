@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class Login extends JFrame implements ActionListener,MouseListener,KeyListener{
@@ -24,10 +25,31 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 	private Statement stmt;
 	private ResultSet rset;
 	Queries q = new Queries();
-	
+	private boolean creatingBooking = false;
+	private double total;
+	private int numRooms,numNights,numGuests;
+	private String arrivalD,departureD;
+	private Calendar calDate;
 	
 	public Login(){
-		super("Login Screen");
+		createLoginScreen();
+	}
+	
+	public Login(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate){
+		this.calDate = dc;
+		creatingBooking = true;
+		this.total = total;
+		numRooms = numberOfRooms;
+		this.numNights = numNights;
+		numGuests = numberOfGuests;
+		arrivalD = arrivalDate;
+		departureD = departureDate;
+		createLoginScreen();
+
+	}
+	
+	public void createLoginScreen(){
+		setTitle("Login Screen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(520,325);
 		getContentPane().setLayout(null);
@@ -87,8 +109,8 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		 lblCreateAccount.setForeground(new Color(0,160,255));
 		 lblCreateAccount.addMouseListener(this);
 		 create_accountOption.add(lblCreateAccount);
-
 	}
+	
 	String type = "";
 	String user = "";
 	
@@ -127,11 +149,17 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 					this.setVisible(false);
 					a.setVisible(true);
 				}
-				else{
+				else if(loginSuccessful() == true && creatingBooking == true){
+					CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD);
+					this.setVisible(false);
+					c.setVisible(true);
+					
+				}
+				else
+				{
 					UserScreen ab = new UserScreen(user,users);
 					this.setVisible(false);
 					ab.setVisible(true);
-					
 				}
 				}
 				catch(Exception ae){}
@@ -191,11 +219,17 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 						this.setVisible(false);
 						a.setVisible(true);
 					}
-					else{
+					else if(loginSuccessful() == true && creatingBooking == true){
+						CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD);
+						this.setVisible(false);
+						c.setVisible(true);
+						
+					}
+					else
+					{
 						UserScreen ab = new UserScreen(user,users);
 						this.setVisible(false);
 						ab.setVisible(true);
-						
 					}
 					}
 					catch(Exception ae){}
@@ -206,6 +240,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 					JOptionPane.showMessageDialog(null, "Invalid username or password","Login Error",JOptionPane.ERROR_MESSAGE);
 				}
 				catch(NumberFormatException ae){}
+				
 		}
 		
 		else if(e.getSource() == lblCreateAccount && e.getKeyCode() == KeyEvent.VK_ENTER){

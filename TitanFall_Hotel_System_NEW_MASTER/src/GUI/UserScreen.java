@@ -5,30 +5,37 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JMonthChooser;
+import com.toedter.calendar.JYearChooser;
+
 import Database.CreateTables;
+import Model.Booking;
 import Model.Hotel;
 import Model.User;
 
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 public class UserScreen extends JFrame implements ActionListener,MouseListener,KeyListener{
 
 	private String[] floors = {"1","2","3","4"};
 	private String[] types = {"Single","Double","Suite"};
 	
-	private JComboBox numNights,numPeople,numRooms,day,month,year,helpQscomboBox,helpQscomboBox2;
+	private JComboBox numNights,numPeople,numRooms,helpQscomboBox,helpQscomboBox2;
 	private JCheckBox chckbxGolf,chckbxSpaTreatment,chckbxBreakfast,chckbxGokarting;
 	private JLabel signOut,welcome,welcome2,welcome3,lblAddSomethingExtra,lblPrice,faq,lblAccountIssues,lblBookingIssues,helpLabel,lblOr,contactUs,
-	lblnumNights,lblnumPeople,lblnumRooms,arrivalDate,calendar,fname,lname,email,lHomeAddress,phone,oldPass,newPass,confirmNewPass
+	lblnumNights,lblnumPeople,lblnumRooms,arrivalDate,fname,lname,email,lHomeAddress,phone,oldPass,newPass,confirmNewPass
 	,welcomeUser,errorMessage,updatePasswordErrorMessage;
 	private JButton btnSearch,btnAddSpecials,updateDetailsBtn,changePasswordBtn;
 	private Font font;
 	private JTextField tfname,tlname,temail,tphone,address;
 	private JPasswordField toldPass,tnewPass,tconfirmNewPass;
-	
-	private  String[] days = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
-	private String[] months = {"January","Febuary","March","April","May","June","July","Augest","September","October","November","December"};
-	private String[] years = {"2014","2015","2016","2017"};
+
 	private  String[] nights = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"};
 	private  String[] rooms = {"1","2","3","4","5","6","7","8","9","10"};
 	private  String[] people = {"1","2","3","4","5","6","7","8","9","10"};
@@ -36,6 +43,12 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener,K
 	private ArrayList<User> users;
 	private String usersID = "";
 	private String usersFirstName;
+	
+	private Calendar chosenDate;
+	private Calendar cal = Calendar.getInstance();
+	private JDateChooser dateChooser;
+	private JYearChooser day, year;
+	private JMonthChooser month;
 	
 	public UserScreen(String user, ArrayList<User> users){
 		super("Home");
@@ -45,7 +58,6 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener,K
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		usersID = user;
 		this.users = users;
-		
 		System.out.println(users.size());
 		
 		//if the users log in was successful then they are brought to this page and LoggedIn is set to true
@@ -68,49 +80,111 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener,K
 		
 		JPanel userInteraction = new JPanel();
 		userInteraction.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-		userInteraction.setLayout(new GridLayout(2,0));
-		userInteraction.setBounds(164,66,479,221);
+		userInteraction.setLayout(new GridLayout(2, 0));
+		userInteraction.setBounds(160, 66, 479, 167);
 		create_booking.add(userInteraction);
-		
+
 		JPanel search = new JPanel();
 		search.setLayout(new FlowLayout());
-		
+
 		lblnumNights = new JLabel("No. of Nights");
 		search.add(lblnumNights);
-		
+
 		numNights = new JComboBox(nights);
 		search.add(numNights);
-		
+
 		arrivalDate = new JLabel("Arrival Date");
 		search.add(arrivalDate);
-		
-		day = new JComboBox(days);
+
+		day = new JYearChooser();
+		day.setYear((cal.get(Calendar.DAY_OF_MONTH)));
+		day.setMaximum(31);
+		day.setMinimum(1);
 		search.add(day);
-		
-		month = new JComboBox(months);
+
+		month = new JMonthChooser();
+		month.setMonth(cal.get(Calendar.MONTH));
+		month.addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent e) {
+				if (month.getMonth() == 3 || month.getMonth() == 5
+						|| month.getMonth() == 8 || month.getMonth() == 10) {
+					day.setMaximum(30);
+					if (day.getYear() == 31) {
+						day.setYear(30);
+					}
+				}
+				else if (month.getMonth() == 1 && year.getYear() != 2016) {
+					day.setMaximum(28);
+					if (day.getYear() == 29 || day.getYear() == 30
+							|| day.getYear() == 31) {
+						day.setYear(28);
+					}
+				} else if (year.getYear() == 2016 && month.getMonth() == 1) {
+					day.setMaximum(29);
+					if (day.getYear() == 30 || day.getYear() == 31) {
+						day.setYear(29);
+					}
+				} else {
+					day.setMaximum(31);
+				}
+			}
+		});
 		search.add(month);
-		
-		year = new JComboBox(years);
+
+		year = new JYearChooser();
+		year.setYear(cal.get(Calendar.YEAR));
+		year.setMaximum(2016);
+		year.setMinimum(2014);
+
 		search.add(year);
-		
+
+		// ////////////////////////////////////////////////////////////////////////////////////////////////////
+		// JDateChooser //
+		// Sets date of comboBoxes to selected date //
+		// for-loop needed, otherwise it looks for position 2014,2015 etc //
+		// //
+		// //
+		// ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		dateChooser = new JDateChooser();
+		dateChooser.setMinSelectableDate(cal.getTime());
+		cal.add(Calendar.YEAR, 2);
+		dateChooser.setMaxSelectableDate(cal.getTime());
+		dateChooser.getDateEditor().addPropertyChangeListener(
+				new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent e) {
+						if ("date".equals(e.getPropertyName())) {
+							chosenDate = Calendar.getInstance();
+							chosenDate.setTime((Date) e.getNewValue());
+							day.setYear(chosenDate.get(Calendar.DAY_OF_MONTH));
+							month.setMonth(chosenDate.get(Calendar.MONTH));
+							year.setYear(chosenDate.get(Calendar.YEAR));
+
+						}
+
+					}
+				});
+		search.add(dateChooser);
+
 		lblnumPeople = new JLabel("No. of People");
 		search.add(lblnumPeople);
-		
+
 		numPeople = new JComboBox(people);
 		search.add(numPeople);
-		
+
 		lblnumRooms = new JLabel("No. of Rooms");
 		search.add(lblnumRooms);
-		
+
 		numRooms = new JComboBox(rooms);
 		search.add(numRooms);
-		
+
 		userInteraction.add(search);
 		
 		JPanel buttons = new JPanel();
 		buttons.setLayout(null);
-		userInteraction.add(buttons);
-		
 		userInteraction.add(buttons);
 
 		btnSearch = new JButton("Search");
@@ -386,8 +460,14 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener,K
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnSearch){
-			Availability a = new Availability();
+		Calendar calDate = Calendar.getInstance();
+		calDate.set(year.getYear(), (month.getMonth()), day.getYear());
+
+		if(calDate.compareTo(Calendar.getInstance()) >= 0){
+			Booking b = new Booking(day.getYear(), month.getMonth(), year.getYear() ,(numNights.getSelectedIndex()) + 1);
+			Availability a = new Availability(usersID,users,calDate,((numNights.getSelectedIndex()) + 1), numRooms.getSelectedIndex() + 1,
+					numPeople.getSelectedIndex() + 1);
+			a.listContent(b.availability());
 			this.setVisible(false);
 			a.setVisible(true);
 		}
@@ -436,8 +516,8 @@ public class UserScreen extends JFrame implements ActionListener,MouseListener,K
 					tnewPass.getText().equals(tconfirmNewPass.getText()) && emptyFields(tnewPass.getText()) == true &&
 							emptyFields(tconfirmNewPass.getText()) == true){
 				
-				users.get(i).setPassword(tnewPass.getText());
 				CreateTables c = new CreateTables();
+				users.get(i).setPassword(tnewPass.getText());
 				Hotel h = c.getHotel();
 				
 				

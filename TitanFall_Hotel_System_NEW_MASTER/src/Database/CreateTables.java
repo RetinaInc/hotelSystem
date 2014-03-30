@@ -13,6 +13,8 @@ public class CreateTables {
 	private ResultSet rset;
 	private Queries q = new Queries();
 	private Hotel h;
+	private int bookingID = 505;
+	private int hotelID = 2222;
 	
 	public java.sql.Date convertDate(int day, int month, int year){
 		GregorianCalendar cal = (GregorianCalendar)Calendar.getInstance();
@@ -21,6 +23,8 @@ public class CreateTables {
 		java.sql.Date releaseDate = new java.sql.Date(cal.getTime().getTime());
 		return releaseDate;
 	}
+	
+
 
 	public void buildTitanFallTables() 
 	{
@@ -390,7 +394,7 @@ public class CreateTables {
 			pstmt.setDate(5, convertDate(15, 1, 2016));
 //			pstmt.setDate(6, Date.valueOf("2016-02-16"));
 			pstmt.setDate(6, convertDate(16, 1, 2016));
-			pstmt.setString(7, "05");
+			pstmt.setString(7, "04");
 			pstmt.executeUpdate();
 			
 			String roomBookingsInsert6 = "INSERT INTO roombookings VALUES(room_seq.currval,booking_seq.currval,?)";
@@ -466,30 +470,54 @@ public class CreateTables {
 		q.close();
 	}
 	
+	public ResultSet getLastRow() {
+		String sqlStatement = "SELECT * FROM bookings ORDER BY Booking_ID";
+		try {
+			pstmt = q.getConn().prepareStatement(sqlStatement,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			rset = pstmt.executeQuery();
+			rset.last();
+			System.out.println(rset.getInt("Booking_ID"));
+		} catch (Exception ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		
+		q.close();
+		return rset;
+	}
+	
+	// This method takes a reference variable of type Booking as a parameter and 
+	// uses a prepared statement to add the booking to the Bookings table
+	//also arrival date is split into 3 integers to convert it into a date format suitable
+	//for sql
+
+	
 	
 	public Hotel getHotel(){
 		String hotelsqlS = "SELECT * FROM Hotels";
 		try {
-			q.open("college");
+			//q.open("college");
 			q.open("local");
 			Statement stmt = q.getConn().createStatement();
 			
 			rset = stmt.executeQuery(hotelsqlS);
 			while (rset.next()) {
 				System.out.printf("%10d %10s %10s  %10s %10d %10d\n",
-						rset.getInt("Hotel_ID"),
-						rset.getString("Hotel_Name"),
-						rset.getString("Hotel_PhoneNumber"),
-						rset.getString("Hotel_Address"),
-						rset.getInt("NumOfRoom"),
-						rset.getInt("HotelRating"));
+						rset.getInt(1),
+						rset.getString(2),
+						rset.getString(3),
+						rset.getString(4),
+						rset.getInt(5),
+						rset.getInt(6));
 				
-				h = new Hotel(rset.getInt("Hotel_ID"),
-						rset.getString("Hotel_Name"),
-						rset.getString("Hotel_PhoneNumber"),
-						rset.getString("Hotel_Address"),
-						rset.getInt("NumOfRoom"),
-						rset.getInt("HotelRating"));
+				h = new Hotel(
+						rset.getInt(1),
+						rset.getString(2),
+						rset.getString(3),
+						rset.getString(4),
+						rset.getInt(5),
+						rset.getInt(6));
 			}
 			
 		} catch (Exception ex) {
@@ -499,10 +527,11 @@ public class CreateTables {
 		return h;
 	}
 	
+	
 	public ArrayList<User> getUsers() {
 		String sqlStatement = "SELECT * FROM Users";
 		try {
-			q.open("college");
+			//q.open("college");
 			q.open("local");
 			Statement stmt = q.getConn().createStatement();
 
@@ -538,7 +567,59 @@ public class CreateTables {
 		return h.getUsers();
 	}
 	
-	
+	private String dayString,monthString,yearString,dayString2,monthString2,yearString2;
+	private int day,month,year,day2,month2,year2;
+	public void addBooking(Booking b) {
+		dayString = b.getArrivalDate().substring(0, 2);
+		monthString =  b.getArrivalDate().substring(3, 5);		
+		yearString =  b.getArrivalDate().substring(6, 10);
+		
+		day = Integer.parseInt(dayString);
+		month = Integer.parseInt(monthString);
+		month = month -1;						//subtract 1 to get precise month i.e 01 should be 00 to represent Jan
+		year = Integer.parseInt(yearString);
+		
+		dayString2 = b.getDepartureDate().substring(0, 2);
+		monthString2 = b.getDepartureDate().substring(3, 5);
+		yearString2 =  b.getDepartureDate().substring(6, 10);
+		
+		day2 = Integer.parseInt(dayString2);
+		month2 = Integer.parseInt(monthString2);
+		month2 = month2 -1;							//subtract 1 to get precise month i.e 01 should be 00 to represent Jan
+		year2 = Integer.parseInt(yearString2);
+		
+		try {
+			q.open("local");
+			bookingID++;
+			String sql = "INSERT INTO Bookings VALUES (booking_seq.nextval,?,?,?,?,?,?,hotel_seq.currval,?) ";
+
+			pstmt = q.getConn().prepareStatement(sql);
+			
+			pstmt.setInt(1, b.getNumGuests());
+			pstmt.setInt(2, b.getNumNights());
+			pstmt.setInt(3, b.getNumRooms());
+			pstmt.setDouble(4, b.getTotalCost());
+			pstmt.setDate(5, convertDate(day,month,year)); //arrival Date
+			pstmt.setDate(6, convertDate(day2,month2,year2)); //departure Date
+			pstmt.setString(7, b.getUserID());
+//			pstmt.setInt(1, bookingID);
+//			pstmt.setInt(2, b.getNumGuests());
+//			pstmt.setInt(3, b.getNumNights());
+//			pstmt.setInt(4, b.getNumRooms());
+//			pstmt.setDouble(5, b.getTotalCost());
+//			pstmt.setDate(6, convertDate(day,month,year)); //arrival Date
+//			pstmt.setDate(7, convertDate(day2,month2,year2)); //departure Date
+//			pstmt.setInt(8, hotelID);
+//			pstmt.setString(9, b.getUserID());
+
+			pstmt.executeUpdate();
+			
+			System.out.println("booking created for " + b.getUserID());
+		} catch (Exception se) {
+			System.out.println("Error creating a booking " + se);
+		}
+		q.close();
+	}
 	
 		/* 	
 		 * This method updates a particular users details in the users table
@@ -578,32 +659,5 @@ public class CreateTables {
 				System.out.println("Update password error" + e);
 			}
 			q.close();
-		}
-	
-	public void queryDB() {
-		String sqlStatement = "SELECT * FROM Users";
-		try {
-//			q.open("college");
-			q.open("local");
-			Statement stmt = q.getConn().createStatement();
-
-			rset = stmt.executeQuery(sqlStatement);
-
-			while (rset.next()) {
-				System.out.printf("%5s %5s %8s %15s %20s %15s %25s %10s\n",
-						rset.getString("User_ID"),
-						rset.getString("UserType"),
-						rset.getString("First_Name"),
-						rset.getString("Last_Name"),
-						rset.getString("HomeAddress"),
-						rset.getString("Phone_Number"),
-						rset.getString("Email_Address"),
-						rset.getString("UserPassword"));
-			}
-			
-		} catch (Exception ex) {
-			System.out.println("ERROR: queryDB " + ex.getMessage());
-		}
-		q.close();
-	}	
+		}	
 }

@@ -1,8 +1,18 @@
 package Model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import Database.CreateTables;
+
+
 public class User {
 
 	private String userType,fName,lName,homeaddress,email,phoneNum,userID,password;
+	private ArrayList<Booking> bookings;
+	private ResultSet rset;
+	private CreateTables c;
+
 
 	public User(String userID,String userType,String fName, String lName,String homeaddress,
 			String phoneNum,String email, String password) {
@@ -15,6 +25,42 @@ public class User {
 		this.phoneNum = phoneNum;
 		this.password = password;
 	}
+	
+	public User(String userID,CreateTables c){
+		this.userID = userID;
+		this.c = c;
+		bookings = new ArrayList<Booking>();
+	}
+	
+	public void addBooking()
+	{
+		rset = c.getLastRow();
+		try {
+			 {
+				Booking b = new Booking(rset.getInt(1), rset.getInt(2),
+						rset.getInt(3),rset.getInt(4), rset.getDouble(5), rset.getString(6),rset.getString(7),
+						rset.getInt(8),rset.getString(9));
+				
+				bookings.add(b);
+				
+				System.out.println(rset.getInt(1) + ", " + rset.getInt(2) + ", " + rset.getInt(3) + ", " +  rset.getInt(4) + ", "
+				+  rset.getDouble(5) + ", " + rset.getString(6) + ", " + rset.getString(7) + ", " +
+						  rset.getInt(8) + ", " + rset.getString(9));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public ArrayList<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(ArrayList<Booking> bookings) {
+		this.bookings = bookings;
+	}
+	
 
 	public String getHomeaddress() {
 		return homeaddress;

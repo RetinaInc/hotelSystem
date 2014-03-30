@@ -121,7 +121,7 @@ public class Queries {
 			System.out.println("ERROR: " + ex.getMessage());
 			ex.printStackTrace();
 		}
-		close();
+		//close();
 		return roomList;  //passed back to model as an arrayList of Room objects
 	}
 }

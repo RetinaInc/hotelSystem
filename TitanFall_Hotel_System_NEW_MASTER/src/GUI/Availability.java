@@ -3,7 +3,9 @@ package GUI;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import Database.CreateTables;
 import Model.Room;
+import Model.User;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -18,13 +20,35 @@ public class Availability extends JFrame implements ActionListener {
 	private JList availableList;
 	private JLabel lblArrivalDate, lblNoOfNights, lblnumRoomsLabel;
 	private JButton back, continueb;
-	private int numNights;
+	private int numNights,numberOfRooms,numberOfGuests;
 	private Calendar calDate;
 	private String arrivalDate, departureDate;
 	private JTextField totalCostField;
+	private double total;
+	private String user;
+	private ArrayList<User> users;
 
-	public Availability(Calendar dc,int numnights, int numRooms){
-		super("Availability of rooms selected");
+	public Availability(Calendar dc,int numnights, int numRooms,int numGuests){
+		calDate = dc;
+		numNights = numnights;
+		numberOfRooms = numRooms;
+		numberOfGuests = numGuests;
+		createAvailabilityScreen();
+		
+	}
+	
+	public Availability(String userID,ArrayList<User> users,Calendar dc,int numnights, int numRooms,int numGuests){
+		calDate = dc;
+		numNights = numnights;
+		numberOfRooms = numRooms;
+		numberOfGuests = numGuests;
+		user = userID;
+		this.users = users;
+		createAvailabilityScreen();
+	}
+
+	public void createAvailabilityScreen(){
+		setTitle("Availability of rooms selected");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(575,355);
 		setLocationRelativeTo(null);
@@ -33,13 +57,8 @@ public class Availability extends JFrame implements ActionListener {
 		getContentPane().add(dates_selected, BorderLayout.NORTH);
 		dates_selected.setBorder(new TitledBorder("Dates Selected"));
 		
-		calDate = dc;
-		
-		numNights = numnights;
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		arrivalDate = dateFormat.format(calDate.getTime());
-		
 		
 		calDate.add(Calendar.DATE, numNights);
 		departureDate = (String)(dateFormat.format(calDate.getTime()));
@@ -75,6 +94,11 @@ public class Availability extends JFrame implements ActionListener {
 		        	   Double price = (99.00 * numNights);
 		        	   totalCostField.setText(price.toString());
 		           }
+		           else
+		           {
+		        	   Double price = (199.00 * numNights);
+		        	   totalCostField.setText(price.toString());
+		           }
 		         }
 		    }
 		};
@@ -90,7 +114,9 @@ public class Availability extends JFrame implements ActionListener {
 		rooms_available.add(lblnumRoomsLabel);
 		
 		roomNumber = new JTextField();
+		roomNumber.setText("" + numberOfRooms);
 		roomNumber.setBounds(477, 34, 36, 20);
+		roomNumber.setEditable(false);
 		rooms_available.add(roomNumber);
 		roomNumber.setColumns(10);
 		
@@ -99,6 +125,7 @@ public class Availability extends JFrame implements ActionListener {
 		rooms_available.add(lblTotalCost);
 		
 		totalCostField= new JTextField();
+		totalCostField.setEditable(false);
 		totalCostField.setBounds(429, 64, 84, 22);
 		rooms_available.add(totalCostField);
 		totalCostField.setColumns(10);
@@ -114,16 +141,8 @@ public class Availability extends JFrame implements ActionListener {
 		continueb = new JButton("Continue");
 		continueb.addActionListener(this);
 		buttons.add(continueb);
-		
-		
 	}
 
-	public Availability() {
-		// TODO Auto-generated constructor stub
-	}
-	public boolean loggedIn() {
-		return false;
-	}
 	public void listContent(ArrayList<Room> al) {		//prepares an array of strings for the JList
 		for (int i = 0; i < al.size(); i++) {
 			
@@ -132,11 +151,13 @@ public class Availability extends JFrame implements ActionListener {
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		total = Double.parseDouble(totalCostField.getText());
+		
 		if (e.getSource() == back) {
 
 			if (StartScreen.isLoggedIn() == true) {
 
-				UserScreen u = new UserScreen(arrivalDate, null);
+				UserScreen u = new UserScreen(user, users);
 				this.setVisible(false);
 				u.setVisible(true);
 			}
@@ -147,13 +168,15 @@ public class Availability extends JFrame implements ActionListener {
 				s.setVisible(true);
 			}
 
-		} else {
+		} 
+		else {
 			if (StartScreen.isLoggedIn() == true) {
-				CreditCard c = new CreditCard();
+				CreditCard c = new CreditCard(calDate,user,users,total, numberOfRooms,numNights,numberOfGuests,arrivalDate,departureDate);
 				this.setVisible(false);
 				c.setVisible(true);
-			} else {
-				Login l = new Login();
+			} 
+			else {
+				Login l = new Login(calDate,total,numberOfRooms,numNights,numberOfGuests,arrivalDate,departureDate);
 				this.setVisible(false);
 				l.setVisible(true);
 			}

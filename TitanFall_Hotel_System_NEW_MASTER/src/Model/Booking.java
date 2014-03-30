@@ -9,12 +9,15 @@ import GUI.Availability;
 
 public class Booking {
 
-	private String bookingID;
+	private int bookingID,hotelID;
+	
+
 	private int numGuests, numNights, numRooms, day, months, year;
 	private double totalCost;
+	private String arrivalDate,departureDate,userID;
 	private Queries q;
 
-	public Booking(String bookingID, int numGuests, int day, int months,
+	public Booking(int bookingID, int numGuests, int day, int months,
 			int year, int numNights, int numRooms, double totalCost) {
 		this.bookingID = bookingID;
 		this.numGuests = numGuests;
@@ -39,11 +42,70 @@ public class Booking {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getBookingID() {
+	
+
+	public Booking(int bookingID, int numGuests, int numNights, int numRooms, double total,
+			String arrivalDate, String departureDate, int hotelID, String userID) {
+		this.bookingID = bookingID;
+		this.numGuests = numGuests;
+		this.numNights = numNights;
+		this.numRooms = numRooms;
+		this.totalCost = total;
+		this.arrivalDate = arrivalDate;
+		this.departureDate = departureDate;
+		this.hotelID = hotelID;
+		this.userID = userID;
+	}
+	
+	//used to pass a booking object to the database where a full booking object is created from this
+	public Booking(int numGuests, int numNights, int numRooms, double total,
+			String arrivalDate, String departureDate, String userID) {
+		this.numGuests = numGuests;
+		this.numNights = numNights;
+		this.numRooms = numRooms;
+		this.totalCost = total;
+		this.arrivalDate = arrivalDate;
+		this.departureDate = departureDate;
+		this.userID = userID;
+	}
+
+	public int getHotelID() {
+		return hotelID;
+	}
+
+	public void setHotelID(int hotelID) {
+		this.hotelID = hotelID;
+	}
+
+	public String getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(String arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
+	public String getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(String departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public int getBookingID() {
 		return bookingID;
 	}
 
-	public void setBookingID(String bookingID) {
+	public void setBookingID(int bookingID) {
 		this.bookingID = bookingID;
 	}
 

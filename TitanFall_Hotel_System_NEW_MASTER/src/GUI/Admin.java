@@ -14,14 +14,13 @@ import java.util.ArrayList;
 
 public class Admin extends JFrame implements ActionListener,MouseListener,KeyListener{
 
-	private String[] floors = {"1","2","3","4"};
 	private String[] types = {"Single","Double","Suite"};
 	
 	private JComboBox comboBoxFloors,comboBoxTypes,update_types,reportOptions,helpQscomboBox,helpQscomboBox2;
 	private JTextField roomNumberField,deleteBooking,specialNameT,priceField,roomNumberT,roomNumberT2,specialPrice;
 	private JButton addbutton,deleteBookingButton,btnDelete,btnUpdate,btnAddToSpecials,btnCancel,saveReportTo,openReport;
 	private JTable bookings,specialsList;
-	private JLabel signOut,roomFloor,roomType,roomNumber1,lblRoomNumber,roomNumber2,lblNewType,bookingId,specialName,lblPriceOfSpecial,lblDescriptionOfSpecial
+	private JLabel signOut,roomType,roomNumber1,lblRoomNumber,roomNumber2,lblNewType,bookingId,specialName,lblPriceOfSpecial,lblDescriptionOfSpecial
 					,lblCurrentSpecials,lblName,lblDescription,lblPrice,selectReport,faq,lblAccountIssues,lblBookingIssues
 					,helpLabel,lblOr,contactUs,welcomeUser,errorMessage,updatePasswordErrorMessage;
 
@@ -36,7 +35,6 @@ public class Admin extends JFrame implements ActionListener,MouseListener,KeyLis
 	private String usersFirstName; 
 	
 	public Admin(String user, ArrayList<User> users) {
-		
 		super("Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,400);
@@ -135,12 +133,6 @@ public class Admin extends JFrame implements ActionListener,MouseListener,KeyLis
 		JPanel roomsDetails = new JPanel();
 		add_rooms.add(roomsDetails);
 		roomsDetails.setLayout(new GridLayout(3, 3));
-		
-		 roomFloor = new JLabel("Room Floor");
-		 roomsDetails.add(roomFloor);
-		
-		comboBoxFloors = new JComboBox(floors);
-		roomsDetails.add(comboBoxFloors);
 		
 		roomType = new JLabel("Room Type");
 		roomsDetails.add(roomType);

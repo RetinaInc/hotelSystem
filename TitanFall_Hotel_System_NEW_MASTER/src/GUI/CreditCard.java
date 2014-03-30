@@ -2,7 +2,11 @@ package GUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import javax.swing.*;
+
 import Model.*;
 import Database.*;
 
@@ -13,16 +17,30 @@ public class CreditCard extends JFrame implements ActionListener,MouseListener {
 	private JButton btnBack, btnPayNow;
 	private JLabel securityCode, creditCardNumber, cardholderName, creditCardType, titanfallTowersHotel, ccvNumber;
 	
-	public CreditCard() {
-		
+	private String userID,arrivalDate,departureDate;
+	private double total;
+	private int numRooms,numNights,numGuests;
+	private ArrayList<User> users;
+	private Calendar calDate;
+	
+	public CreditCard(Calendar dc,String user, ArrayList<User> users, double total, int numRooms, int numNights, int numGuests, String arrivalD, String departureD) {
 		super("Credit Card Details");
 		setLocationRelativeTo(null);
 		this.setSize(500,300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		this.calDate = dc;
+		userID = user;
+		this.users = users;
+		this.total = total;
+		this.numRooms = numRooms;
+		this.numNights = numNights;
+		this.numGuests = numGuests;
+		this.arrivalDate = arrivalD;
+		this.departureDate = departureD;
 				
 		titanfallTowersHotel = new JLabel("TitanFall Towers Hotel");
-		titanfallTowersHotel.setFont(new Font("Jokerman", Font.BOLD | Font.ITALIC, 19));
+		titanfallTowersHotel.setFont(new Font("Veranda", Font.BOLD | Font.ITALIC, 19));
 		titanfallTowersHotel.setHorizontalAlignment(SwingConstants.CENTER);
 		titanfallTowersHotel.setBounds(82, 11, 267, 20);
 		getContentPane().add(titanfallTowersHotel);
@@ -127,13 +145,21 @@ public class CreditCard extends JFrame implements ActionListener,MouseListener {
 
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == btnBack){
-			Availability a = new Availability();
+			Availability a = new Availability(userID,users,calDate, numNights,numRooms,numGuests);
 			this.setVisible(false);
 			a.setVisible(true);
 		}
 		else {
+			//i think we have to go to the database to the the sequence id then send it to the gui
+			
+			Booking b = new Booking(numGuests,numNights,numRooms,total,arrivalDate,departureDate,userID);
+			CreateTables c = new CreateTables();
+			c.addBooking(b);
+			
 			JOptionPane.showMessageDialog(null, "Booking successful","Booking successful",JOptionPane.INFORMATION_MESSAGE);
-			UserScreen us = new UserScreen(null, null);
+			
+			
+			UserScreen us = new UserScreen(userID, users);
 			this.setVisible(false);
 			us.setVisible(true);
 			
