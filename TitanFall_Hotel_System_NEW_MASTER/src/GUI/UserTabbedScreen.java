@@ -1,8 +1,11 @@
 package GUI;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
+
+import Model.User;
 
 public class UserTabbedScreen extends JFrame {
 	private JTabbedPane tabbedPane;
@@ -15,6 +18,7 @@ public class UserTabbedScreen extends JFrame {
 	private JPanel panel6;
 	
 	private Font font;
+
 	
 	public UserTabbedScreen() {
 		
@@ -22,13 +26,15 @@ public class UserTabbedScreen extends JFrame {
 		super("Home");
 		font = new Font("Veranda", font.ITALIC, 20);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600,300);
+		setSize(1000,500);
 		setLocationRelativeTo(null);
 	
 		//if the users log in was successful then they are brought to this page and LoggedIn is set to true
 		this.setTitle("Titanfall Towers-User Home Screen");
 		this.setResizable(false);
 		this.setBackground(Color.gray);
+		
+		
 
 		// Create the tab pages
 		panel1 = new createBooking();

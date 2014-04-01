@@ -11,31 +11,21 @@ public class calendar extends JPanel {
 	public calendar(){
 		
 		Font font = new Font("Verdana", Font.ITALIC, 20);
-		JPanel calendarCont = new JPanel(new BorderLayout());
-		
-		JPanel title = new JPanel(new BorderLayout());
-		
-			welcome = new JLabel("   TitanFall Towers Hotel  ");
-			welcome.setFont(font);
-			title.add(welcome,BorderLayout.CENTER);
-			calendarCont.add(title,BorderLayout.NORTH);
+			this.setLayout(new BorderLayout());
+			welcome = new JLabel("                     TitanFall Towers Hotel  ");
+			add(welcome,BorderLayout.NORTH);
+			welcome.setFont(new Font("Verdana", Font.ITALIC, 32));
 			
-		JPanel bigCal = new JPanel(new BorderLayout());
+	
 		
 			JCalendar bigCalendar = new JCalendar();
+			bigCalendar.setSize(800,300);
+			
 			bigCalendar.getDayChooser();
-			bigCal.add(bigCalendar,BorderLayout.CENTER);
-			calendarCont.add(bigCal,BorderLayout.CENTER);
-			
-		JPanel info = new JPanel(new BorderLayout());
+			add(bigCalendar,BorderLayout.CENTER);
 		
-		infoText = new JLabel("Click a date to see our special offers");
+		infoText = new JLabel("                             Click a date to see our special offers");
+		add(infoText,BorderLayout.SOUTH);
 		infoText.setFont(font);
-		info.add(infoText,BorderLayout.CENTER);
-		calendarCont.add(info,BorderLayout.SOUTH);
-			
-		
-			
-		add(calendarCont);
 	}
 }
