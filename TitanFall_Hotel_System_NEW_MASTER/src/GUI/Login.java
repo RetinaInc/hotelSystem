@@ -30,12 +30,13 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 	private int numRooms,numNights,numGuests;
 	private String arrivalD,departureD;
 	private Calendar calDate;
-	
+	private ArrayList<Integer> roomChoice;
 	public Login(){
 		createLoginScreen();
 	}
 	
-	public Login(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate){
+	public Login(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
+		this.roomChoice = roomChoice; //Possibly not working
 		this.calDate = dc;
 		creatingBooking = true;
 		this.total = total;
@@ -150,7 +151,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 					a.setVisible(true);
 				}
 				else if(loginSuccessful() == true && creatingBooking == true){
-					CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD);
+					CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
 					this.setVisible(false);
 					c.setVisible(true);
 					
@@ -220,7 +221,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 						a.setVisible(true);
 					}
 					else if(loginSuccessful() == true && creatingBooking == true){
-						CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD);
+						CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
 						this.setVisible(false);
 						c.setVisible(true);
 						

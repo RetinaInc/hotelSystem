@@ -13,8 +13,8 @@ public class CreateTables {
 	private ResultSet rset;
 	private Queries q = new Queries();
 	private Hotel h;
-	private int bookingID = 505;
-	private int hotelID = 2222;
+	private int bookingID;
+//	private int hotelID = 2222;
 	
 	public java.sql.Date convertDate(int day, int month, int year){
 		GregorianCalendar cal = (GregorianCalendar)Calendar.getInstance();
@@ -29,9 +29,8 @@ public class CreateTables {
 	public void buildTitanFallTables() 
 	{
 		try {
-//			q.open("college");
-			q.open("local");
-			
+//			q.open("local");
+			q.open("college");
 			stmt = q.getConn().createStatement();
 			
 // USERS TABLE
@@ -363,7 +362,7 @@ public class CreateTables {
 			pstmt.setInt(3, 1);
 			pstmt.setDouble(4, 1393);
 			pstmt.setDate(5, convertDate(29, 10, 2014)); // 10 represents November
-			pstmt.setDate(6, convertDate(6, 11, 2914)); // 11 represents December
+			pstmt.setDate(6, convertDate(6, 11, 2014)); // 11 represents December
 			pstmt.setString(7, "03");
 			pstmt.executeUpdate();
 			
@@ -470,8 +469,11 @@ public class CreateTables {
 		q.close();
 	}
 	
-	public ResultSet getLastRow() {
+	public  int getLastRow() {
+		q.open("college");
+//		q.open("local");
 		String sqlStatement = "SELECT * FROM bookings ORDER BY Booking_ID";
+		int bookingID=0;
 		try {
 			pstmt = q.getConn().prepareStatement(sqlStatement,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -479,12 +481,14 @@ public class CreateTables {
 			rset = pstmt.executeQuery();
 			rset.last();
 			System.out.println(rset.getInt("Booking_ID"));
+			bookingID = rset.getInt("Booking_ID");
 		} catch (Exception ex) {
 			System.out.println("ERROR: " + ex.getMessage());
 		}
 		
-		q.close();
-		return rset;
+		//q.close();
+		return bookingID;
+		
 	}
 	
 	// This method takes a reference variable of type Booking as a parameter and 
@@ -497,8 +501,8 @@ public class CreateTables {
 	public Hotel getHotel(){
 		String hotelsqlS = "SELECT * FROM Hotels";
 		try {
-			//q.open("college");
-			q.open("local");
+			q.open("college");
+//			q.open("local");
 			Statement stmt = q.getConn().createStatement();
 			
 			rset = stmt.executeQuery(hotelsqlS);
@@ -531,8 +535,8 @@ public class CreateTables {
 	public ArrayList<User> getUsers() {
 		String sqlStatement = "SELECT * FROM Users";
 		try {
-			//q.open("college");
-			q.open("local");
+			q.open("college");
+//			q.open("local");
 			Statement stmt = q.getConn().createStatement();
 
 			rset = stmt.executeQuery(sqlStatement);
@@ -569,7 +573,7 @@ public class CreateTables {
 	
 	private String dayString,monthString,yearString,dayString2,monthString2,yearString2;
 	private int day,month,year,day2,month2,year2;
-	public void addBooking(Booking b) {
+	public void addBooking(Booking b,ArrayList<Integer> roomChoice) {
 		dayString = b.getArrivalDate().substring(0, 2);
 		monthString =  b.getArrivalDate().substring(3, 5);		
 		yearString =  b.getArrivalDate().substring(6, 10);
@@ -589,34 +593,49 @@ public class CreateTables {
 		year2 = Integer.parseInt(yearString2);
 		
 		try {
-			q.open("local");
-			bookingID++;
-			String sql = "INSERT INTO Bookings VALUES (booking_seq.nextval,?,?,?,?,?,?,hotel_seq.currval,?) ";
+//			q.open("local");
+			q.open("college");
+			String sql = "INSERT INTO Bookings VALUES (?,?,?,?,?,?,?,?,?) ";
 
 			pstmt = q.getConn().prepareStatement(sql);
 			
-			pstmt.setInt(1, b.getNumGuests());
-			pstmt.setInt(2, b.getNumNights());
-			pstmt.setInt(3, b.getNumRooms());
-			pstmt.setDouble(4, b.getTotalCost());
-			pstmt.setDate(5, convertDate(day,month,year)); //arrival Date
-			pstmt.setDate(6, convertDate(day2,month2,year2)); //departure Date
-			pstmt.setString(7, b.getUserID());
-//			pstmt.setInt(1, bookingID);
-//			pstmt.setInt(2, b.getNumGuests());
-//			pstmt.setInt(3, b.getNumNights());
-//			pstmt.setInt(4, b.getNumRooms());
-//			pstmt.setDouble(5, b.getTotalCost());
-//			pstmt.setDate(6, convertDate(day,month,year)); //arrival Date
-//			pstmt.setDate(7, convertDate(day2,month2,year2)); //departure Date
-//			pstmt.setInt(8, hotelID);
-//			pstmt.setString(9, b.getUserID());
+//			pstmt.setInt(1, b.getNumGuests());
+//			pstmt.setInt(2, b.getNumNights());
+//			pstmt.setInt(3, b.getNumRooms());
+//			pstmt.setDouble(4, b.getTotalCost());
+//			pstmt.setDate(5, convertDate(day,month,year)); //arrival Date
+//			pstmt.setDate(6, convertDate(day2,month2,year2)); //departure Date
+//			pstmt.setString(7, b.getUserID());
+			pstmt.setInt(1, (b.getBookingID()+1));
+			pstmt.setInt(2, b.getNumGuests());
+			pstmt.setInt(3, b.getNumNights());
+			pstmt.setInt(4, b.getNumRooms());
+			pstmt.setDouble(5, b.getTotalCost());
+			pstmt.setDate(6, convertDate(day,month,year)); //arrival Date
+			pstmt.setDate(7, convertDate(day2,month2,year2)); //departure Date
+			pstmt.setInt(8, 2222);
+			pstmt.setString(9, b.getUserID());
 
 			pstmt.executeUpdate();
-			
 			System.out.println("booking created for " + b.getUserID());
+			String sql2 = "INSERT INTO RoomBookings VALUES (?,?,?) ";
+			
+			pstmt = q.getConn().prepareStatement(sql2);
+			Calendar cal = Calendar.getInstance();
+			
+			for (int i = 0; i < roomChoice.size(); i++) {
+				pstmt.setInt(1, roomChoice.get(i));
+				pstmt.setInt(2, (b.getBookingID()+1));	
+				pstmt.setString(3, "01.04.2014");
+				pstmt.executeUpdate();
+				System.out.println("oo rah!");
+			}
+			
+			
+			
 		} catch (Exception se) {
 			System.out.println("Error creating a booking " + se);
+			se.printStackTrace();
 		}
 		q.close();
 	}
@@ -627,8 +646,8 @@ public class CreateTables {
 		*/
 		public void updateDeatils(String id,String fname,String lname,String add,String email,String phone) {
 			try {
-//				q.open("college");
-				q.open("local");
+				q.open("college");
+//				q.open("local");
 				String sql = "UPDATE Users SET First_Name = '" + fname + "', Last_Name = '" + lname + "', HomeAddress = '"
 						+ add + "',Email_Address = '" + email + "',Phone_Number = " + phone + "WHERE User_ID = '" + id + "'";
 	
@@ -647,8 +666,8 @@ public class CreateTables {
 		*/
 		public void updatePassword(String id,String password) {
 			try {
-//				q.open("college");
-				q.open("local");
+				q.open("college");
+//				q.open("local");
 				String sql = "UPDATE Users SET UserPassword = '" + password + "' WHERE User_ID = '" + id + "'";
 	
 				stmt = q.getConn().createStatement();

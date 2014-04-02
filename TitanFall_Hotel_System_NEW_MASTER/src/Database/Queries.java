@@ -82,7 +82,8 @@ public class Queries {
 		ArrayList<Room> roomList = new ArrayList<Room>();
 		int[] bookedRooms = new int[15];
 		try {
-			open("local");
+//			open("local");
+			open("college");
 			System.out.println(arrivalQ.get(Calendar.MONTH)+1);
 			System.out.println(cal.getTime());
 			stmt = getConn().createStatement();
@@ -103,7 +104,7 @@ public class Queries {
 			// iterator to move through arraylist, loop checks every iteration of room
 			// numbers against each value of bookedRooms
 			for(Room r : roomList){
-				System.out.println(r.getRoomNumber());
+				System.out.println(r.getRoomNumber() +" " + r.getPrice() +" " + r.getRoomType());
 			}
 			for(int i = 0; i <bookedRooms.length;i++){
 				System.out.println(bookedRooms[i]);

@@ -2,6 +2,8 @@ package GUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -21,14 +23,17 @@ public class CreditCard extends JFrame implements ActionListener,MouseListener {
 	private double total;
 	private int numRooms,numNights,numGuests;
 	private ArrayList<User> users;
+	private ArrayList<Integer> roomChoice;
 	private Calendar calDate;
+	private ResultSet rs;
 	
-	public CreditCard(Calendar dc,String user, ArrayList<User> users, double total, int numRooms, int numNights, int numGuests, String arrivalD, String departureD) {
+	public CreditCard(Calendar dc,String user, ArrayList<User> users, double total, int numRooms, int numNights, int numGuests, String arrivalD, String departureD, ArrayList<Integer> roomChoice) {
 		super("Credit Card Details");
-		setLocationRelativeTo(null);
 		this.setSize(500,300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
+		this.roomChoice = roomChoice;
 		this.calDate = dc;
 		userID = user;
 		this.users = users;
@@ -142,7 +147,41 @@ public class CreditCard extends JFrame implements ActionListener,MouseListener {
 		securityCode.setBounds(268, 121, 123, 14);
 		getContentPane().add(securityCode);
 	}
+	public boolean emptyFields(String e) {
+		boolean valid = false;
+		if (e.isEmpty() == true) {
+			valid = false;
+		} else {
+			valid = true;
+		}
+		return valid;
+	}
+	public static boolean isNumber(String string) {
+		try {
+			Long.parseLong(string);
+			// int a = Integer.parseInt(string);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	public boolean luhnAlgorithm(String ccnum){
 
+		int s1 = 0, s2 = 0;
+        String reverse = new StringBuffer(ccnum).reverse().toString();
+        for(int i = 0 ;i < reverse.length();i++){
+            int digit = Character.digit(reverse.charAt(i), 10);
+            if(i % 2 == 0){//this is for odd digits, they are 1-indexed in the algorithm
+                s1 += digit;
+            }else{//add 2 * digit for 0-4, add 2 * digit - 9 for 5-9
+                s2 += 2 * digit;
+                if(digit >= 5){
+                    s2 -= 9;
+                }
+            }
+        }
+        return (s1 + s2) % 10 == 0;
+	}
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == btnBack){
 			Availability a = new Availability(userID,users,calDate, numNights,numRooms,numGuests);
@@ -151,17 +190,29 @@ public class CreditCard extends JFrame implements ActionListener,MouseListener {
 		}
 		else {
 			//i think we have to go to the database to the the sequence id then send it to the gui
-			
-			Booking b = new Booking(numGuests,numNights,numRooms,total,arrivalDate,departureDate,userID);
-			CreateTables c = new CreateTables();
-			c.addBooking(b);
-			
-			JOptionPane.showMessageDialog(null, "Booking successful","Booking successful",JOptionPane.INFORMATION_MESSAGE);
-			
-			
-			UserScreen us = new UserScreen(userID, users);
-			this.setVisible(false);
-			us.setVisible(true);
+			if(emptyFields(cardNum.getText()) == true && emptyFields(expiry.getText()) == true && emptyFields(ccv.getText()) == true){
+				if(isNumber(cardNum.getText()) == true && isNumber(ccv.getText()) == true){
+				if(luhnAlgorithm(cardNum.getText()) == true){
+				CreateTables c = new CreateTables();
+				int bookingID = c.getLastRow();
+				Booking b = new Booking(bookingID, numGuests,numNights,numRooms,total,arrivalDate,departureDate,userID);
+				c.addBooking(b,roomChoice);
+				
+				JOptionPane.showMessageDialog(null, "Booking successful","Booking successful",JOptionPane.INFORMATION_MESSAGE);
+				
+				
+				UserScreen us = new UserScreen(userID, users);
+				this.setVisible(false);
+				us.setVisible(true);
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Card number/CCV must be a valid number","Booking error",JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "You cannot leave a field blank","Warning",JOptionPane.WARNING_MESSAGE);
+			}
+			}
 			
 		}
 	}

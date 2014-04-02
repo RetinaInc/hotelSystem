@@ -12,7 +12,8 @@ public class DropTables {
 	
 	//The tables are dropped in sequence so there is no conflict between Primary Key and Foreign Key
 	public void dropTables() {
-		q.open("local");
+//		q.open("local");
+		q.open("college");
 //		System.out.println("Checking for existing tables.\n");
 
 		try {

@@ -14,7 +14,8 @@ public class CreateUsers {
 
 	public void openDB() {
 		try {
-			q.open("local");
+//			q.open("local");
+			q.open("college");
 		} catch (Exception e) {
 			System.out.print("Unable to load driver " + e);
 			System.exit(1);
@@ -24,7 +25,8 @@ public class CreateUsers {
 
 	public boolean buildUser(User u) {
 		boolean existing = false;
-		q.open("local");
+//		q.open("local");
+		q.open("college");
 		theUser = u;
 		try {
 			stmt = q.getConn().createStatement();

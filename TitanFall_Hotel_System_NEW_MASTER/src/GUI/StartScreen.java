@@ -195,16 +195,16 @@ public class StartScreen extends JFrame implements ActionListener, ItemListener,
 			this.setVisible(false);
 			l.setVisible(true);
 		} 
-		else if(calDate.compareTo(Calendar.getInstance()) >= 0){
+		else if(calDate.compareTo(Calendar.getInstance()) < 0){
+			JOptionPane.showMessageDialog(null, "Date cannot be in the past","Date input error",JOptionPane.ERROR_MESSAGE);	
+		}
+		else{
 			Booking b = new Booking(day.getYear(), month.getMonth(), year.getYear() ,(numNights.getSelectedIndex()) + 1);
 			Availability a = new Availability(calDate,((numNights.getSelectedIndex()) + 1), numRooms.getSelectedIndex() + 1,
 					numPeople.getSelectedIndex() + 1);
 			a.listContent(b.availability());
 			this.setVisible(false);
 			a.setVisible(true);
-		}
-		else{
-			JOptionPane.showMessageDialog(null, "Date cannot be in the past","Date input error",JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}

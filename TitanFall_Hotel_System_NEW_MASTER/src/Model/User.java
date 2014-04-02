@@ -34,7 +34,7 @@ public class User {
 	
 	public void addBooking()
 	{
-		rset = c.getLastRow();
+		//rset = c.getLastRow();
 		try {
 			 {
 				Booking b = new Booking(rset.getInt(1), rset.getInt(2),
