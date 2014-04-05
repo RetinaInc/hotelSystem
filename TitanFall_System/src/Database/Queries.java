@@ -20,8 +20,8 @@ public class Queries {
 				OracleDataSource ods = new OracleDataSource();
 
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("root");
-				ods.setPassword("root");
+				ods.setUser("thomasmurphy1991@gmail.com");
+				ods.setPassword("Tm160491");
 				conn = ods.getConnection();
 			} catch (Exception e) {
 				try {
