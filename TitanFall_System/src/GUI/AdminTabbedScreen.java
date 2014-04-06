@@ -17,25 +17,25 @@ public class AdminTabbedScreen extends JFrame {
 	private JPanel panel4;
 	private JPanel panel5;
 	private JPanel panel6;
-	
+
 	private Font font;
 
-	
+
 	public AdminTabbedScreen() {
-		
-		
+
+
 		super("Home");
 		font = new Font("Veranda", font.ITALIC, 20);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000,500);
 		setLocationRelativeTo(null);
-	
+
 		//if the users log in was successful then they are brought to this page and LoggedIn is set to true
 		this.setTitle("Titanfall Towers-Admin Home Screen");
 		this.setResizable(false);
 		this.setBackground(Color.gray);
-		
-		
+
+
 
 		// Create the tab pages
 		panel1 = new AdminManageBooking();
@@ -55,7 +55,7 @@ public class AdminTabbedScreen extends JFrame {
 		tabbedPane.addTab("Manage Account", panel6);
 		this.add(tabbedPane);
 	}
-	
+
 
 	// Main method to get things started
 	public static void main(String args[]) {

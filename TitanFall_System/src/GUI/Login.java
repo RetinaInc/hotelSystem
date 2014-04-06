@@ -34,7 +34,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 	public Login(){
 		createLoginScreen();
 	}
-	
+
 	public Login(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
 		this.roomChoice = roomChoice; //Possibly not working
 		this.calDate = dc;
@@ -48,7 +48,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		createLoginScreen();
 
 	}
-	
+
 	public void createLoginScreen(){
 		setTitle("Login Screen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,152 +58,152 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 		JPanel greeting = new JPanel();
 		getContentPane().add(greeting);
 		greeting.setBounds(54,11,390,50);
-		
+
 		JLabel lblTitanfallTowersHotel = new JLabel("Welcome to TitanFall Towers Hotel");
 		lblTitanfallTowersHotel.setFont(new Font("Verdana", Font.ITALIC, 20));
 		greeting.add(lblTitanfallTowersHotel);
-		
+
 		JPanel login_panel = new JPanel();
 		getContentPane().add(login_panel);
 		login_panel.setLayout(new GridLayout(2,2));
 		login_panel.setBounds(127, 84, 238, 92);
-		
+
 		JPanel login_details = new JPanel();
 		login_panel.add(login_details);
 		login_details.setLayout(new GridLayout(2,2));
-		
+
 		JLabel lblUsername = new JLabel("Username");
 		login_details.add(lblUsername);
-		
+
 		username = new JTextField();
 		username.setToolTipText("Please enter your username");
 		login_details.add(username);
 		username.setColumns(10);
-		
+
 		JLabel lblPassword = new JLabel("Password");
 		login_details.add(lblPassword);
-		
+
 		password = new JPasswordField();
 		password.setToolTipText("Please enter your password");
 		login_details.add(password);
-		
+
 		JPanel login_button = new JPanel();
 		login_panel.add(login_button);
 		login_button.setLayout(new GridLayout(2,0));
-		
-		 btnLogin = new JButton("Login");
-		 btnLogin.setToolTipText("Login to your account");
-		 btnLogin.isFocusable();
-		 btnLogin.addKeyListener(this);
-		 btnLogin.setFocusable(true);
+
+		btnLogin = new JButton("Login");
+		btnLogin.setToolTipText("Login to your account");
+		btnLogin.isFocusable();
+		btnLogin.addKeyListener(this);
+		btnLogin.setFocusable(true);
 		btnLogin.addActionListener(this);
 		login_button.add(btnLogin);
-		
+
 		JPanel create_accountOption = new JPanel();
 		login_button.add(create_accountOption);
 		create_accountOption.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		 lblCreateAccount = new JLabel("Create Account");
-		 lblCreateAccount.setToolTipText("Create a new account");
-		 lblCreateAccount.setFocusable(true);
-		 lblCreateAccount.addKeyListener(this);
-		 lblCreateAccount.setForeground(new Color(0,160,255));
-		 lblCreateAccount.addMouseListener(this);
-		 create_accountOption.add(lblCreateAccount);
+
+		lblCreateAccount = new JLabel("Create Account");
+		lblCreateAccount.setToolTipText("Create a new account");
+		lblCreateAccount.setFocusable(true);
+		lblCreateAccount.addKeyListener(this);
+		lblCreateAccount.setForeground(new Color(0,160,255));
+		lblCreateAccount.addMouseListener(this);
+		create_accountOption.add(lblCreateAccount);
 	}
-	
+
 	String type = "";
 	String user = "";
-	
+
 	CreateTables c = new CreateTables();
 	Hotel h = c.getHotel();
 	ArrayList<User> users = c.getUsers();
-	
-	
+
+
 	public boolean loginSuccessful(){
 		boolean login = false;
-		
+
 		for(int i = 0; i < users.size(); i++){
-			
+
 			if(users.get(i).getUserID().equals(username.getText()) && users.get(i).getPassword().equals(password.getText())){
 				login = true;
 				type = users.get(i).getUserType();
 				user = users.get(i).getUserID();
 			}
 		}
-		
+
 		return login;
 
 	}
 
 
-	
+
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if(e.getSource() == btnLogin){
 			try{
-			
-			if(loginSuccessful()){
-				try{
-				if(type.equals("A")){
-					Admin a = new Admin(user,users);
-					this.setVisible(false);
-					a.setVisible(true);
-				}
-				else if(loginSuccessful() == true && creatingBooking == true){
-					CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
-					this.setVisible(false);
-					c.setVisible(true);
-					
+
+				if(loginSuccessful()){
+					try{
+						if(type.equals("A")){
+							Admin a = new Admin(user,users);
+							this.setVisible(false);
+							a.setVisible(true);
+						}
+						else if(loginSuccessful() == true && creatingBooking == true){
+							CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+							this.setVisible(false);
+							c.setVisible(true);
+
+						}
+						else
+						{
+							UserScreen ab = new UserScreen(user,users);
+							this.setVisible(false);
+							ab.setVisible(true);
+						}
+					}
+					catch(Exception ae){}
+
+
 				}
 				else
-				{
-					UserScreen ab = new UserScreen(user,users);
-					this.setVisible(false);
-					ab.setVisible(true);
-				}
-				}
-				catch(Exception ae){}
-				
-			
-			}
-			else
-				JOptionPane.showMessageDialog(null, "Invalid username or password","Login Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Invalid username or password","Login Error",JOptionPane.ERROR_MESSAGE);
 			}
 			catch(NumberFormatException ae){}
-			}
-			
 		}
 
-
-	public void mouseClicked(MouseEvent e) {    
-        	CreateAccount c = new CreateAccount();
-        	setVisible(false);
-        	c.setVisible(true);
-		
 	}
 
 
-	
+	public void mouseClicked(MouseEvent e) {    
+		CreateAccount c = new CreateAccount();
+		setVisible(false);
+		c.setVisible(true);
+
+	}
+
+
+
 	public void mouseEntered(MouseEvent e) {
-        	lblCreateAccount.setForeground(new Color(100,255,100));
-        }
+		lblCreateAccount.setForeground(new Color(100,255,100));
+	}
 
 
-	
+
 	public void mouseExited(MouseEvent e) {
 		lblCreateAccount.setForeground(new Color(0,160,255)); 
 	}
 
 
-	
+
 	public void mousePressed(MouseEvent e) {
-        	lblCreateAccount.setForeground(Color.BLUE);
+		lblCreateAccount.setForeground(Color.BLUE);
 	}
 
 	public void mouseReleased(MouseEvent e) {
 
-        	lblCreateAccount.setForeground(Color.BLUE);
+		lblCreateAccount.setForeground(Color.BLUE);
 	}
 
 
@@ -212,44 +212,44 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 	public void keyPressed(KeyEvent e) {
 		if(e.getSource() == btnLogin && e.getKeyCode() == KeyEvent.VK_ENTER){
 			try{
-				
+
 				if(loginSuccessful()){
 					try{
-					if(type.equals("A")){
-						Admin a = new Admin(user,users);
-						this.setVisible(false);
-						a.setVisible(true);
-					}
-					else if(loginSuccessful() == true && creatingBooking == true){
-						CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
-						this.setVisible(false);
-						c.setVisible(true);
-						
-					}
-					else
-					{
-						UserScreen ab = new UserScreen(user,users);
-						this.setVisible(false);
-						ab.setVisible(true);
-					}
+						if(type.equals("A")){
+							Admin a = new Admin(user,users);
+							this.setVisible(false);
+							a.setVisible(true);
+						}
+						else if(loginSuccessful() == true && creatingBooking == true){
+							CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+							this.setVisible(false);
+							c.setVisible(true);
+
+						}
+						else
+						{
+							UserScreen ab = new UserScreen(user,users);
+							this.setVisible(false);
+							ab.setVisible(true);
+						}
 					}
 					catch(Exception ae){}
-					
-				
+
+
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Invalid username or password","Login Error",JOptionPane.ERROR_MESSAGE);
-				}
-				catch(NumberFormatException ae){}
-				
+			}
+			catch(NumberFormatException ae){}
+
 		}
-		
+
 		else if(e.getSource() == lblCreateAccount && e.getKeyCode() == KeyEvent.VK_ENTER){
 			CreateAccount c = new CreateAccount();
-        	setVisible(false);
-        	c.setVisible(true);
+			setVisible(false);
+			c.setVisible(true);
 		}
-		
+
 	}
 
 
@@ -257,7 +257,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
@@ -265,7 +265,7 @@ public class Login extends JFrame implements ActionListener,MouseListener,KeyLis
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

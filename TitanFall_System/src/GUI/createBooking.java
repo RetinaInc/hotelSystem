@@ -60,7 +60,7 @@ public class createBooking extends JPanel implements ActionListener {
 		welcome.setBounds(194, 33, 589, 26);
 		add(welcome);
 		welcome.setFont(new Font("Verdana", Font.ITALIC, 32));
-		
+
 		JLabel welcomeUser = new JLabel("Welcome " + "Thomas");
 		welcomeUser.setForeground(new Color(50, 205, 50));
 		welcomeUser.setFont(new Font("Tahoma", Font.ITALIC, 14));
@@ -140,13 +140,13 @@ public class createBooking extends JPanel implements ActionListener {
 		panel.add(dateChooser);
 		dateChooser.setMinSelectableDate(cal.getTime());
 		dateChooser.setMaxSelectableDate(cal.getTime());
-		
-				btnSearch = new JButton("Search");
-				btnSearch.setBackground(Color.GREEN);
-				btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				btnSearch.setBounds(254, 202, 126, 26);
-				panel.add(btnSearch);
-				btnSearch.addActionListener(this);
+
+		btnSearch = new JButton("Search");
+		btnSearch.setBackground(Color.GREEN);
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnSearch.setBounds(254, 202, 126, 26);
+		panel.add(btnSearch);
+		btnSearch.addActionListener(this);
 		dateChooser.getDateEditor().addPropertyChangeListener(
 				new PropertyChangeListener() {
 					@Override

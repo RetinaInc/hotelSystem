@@ -113,7 +113,7 @@ public class Availability extends JFrame implements ActionListener {
 
 						if (roomChoice.contains(roomNumberList[listofRooms[i]])) {
 							roomChoice.remove(i);
-							
+
 							// price = price - Double.parseDouble();
 
 						} else {
@@ -146,15 +146,15 @@ public class Availability extends JFrame implements ActionListener {
 		availableList.addMouseListener(mouseListener);
 		availableList.setVisibleRowCount(5); // number of rows
 		availableList
-				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // allows
+		.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // allows
 		// multiple
 		// rows
 		// to
 		// be
 		// selected
 		JScrollPane scrollPane = new JScrollPane(availableList); // adds
-																	// scrollbar
-																	// to JList
+		// scrollbar
+		// to JList
 		scrollPane.setBounds(59, 34, 285, 119);
 		rooms_available.add(scrollPane);
 
@@ -182,7 +182,7 @@ public class Availability extends JFrame implements ActionListener {
 	}
 
 	public void listContent(ArrayList<Room> al) { // prepares an array of
-													// strings for the JList
+		// strings for the JList
 		for (int i = 0; i < al.size(); i++) {
 			roomNumberList[i] = al.get(i).getRoomNumber();
 			availableDates[i] = al.get(i).getRoomType() + " "

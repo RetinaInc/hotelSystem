@@ -17,7 +17,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 	private JPasswordField password;
 	private JButton btnLogin, btnContinue;
 	private JLabel lblFirstName, lblLastName, lblEmailAddress, lblHomeAddress,
-			lblTelephone, lblUsername, lblPassword;
+	lblTelephone, lblUsername, lblPassword;
 
 	public CreateAccount() {
 		super("Create an account");
@@ -163,19 +163,19 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 				CreateTables c = new CreateTables();
 				Hotel h = c.getHotel();
 				ArrayList<User> users = c.getUsers();
-				
+
 				User u = new User(username.getText(),"G",fname.getText(),lname.getText(),address.getText(),phone.getText(),
 						email.getText(),password.getText());
-				
+
 				users.add(u);
 
 				CreateUsers cu = new CreateUsers();
 				if (cu.buildUser(u) == true) {
 					JOptionPane
-							.showMessageDialog(
-									null,
-									"Sorry, this username is already taken, please try a different username",
-									"Warning", JOptionPane.WARNING_MESSAGE);
+					.showMessageDialog(
+							null,
+							"Sorry, this username is already taken, please try a different username",
+							"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
 					this.setVisible(false);
 					UserScreen us = new UserScreen(username.getText(),users);
@@ -212,7 +212,7 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 			this.setVisible(false);
 			l.setVisible(true);
 		}
-		
+
 		else if(e.getSource() == btnContinue && e.getKeyCode() == KeyEvent.VK_ENTER){
 			if (isNumber(fname.getText()) == false
 					&& isNumber(lname.getText()) == false
@@ -229,19 +229,19 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 				CreateTables c = new CreateTables();
 				Hotel h = c.getHotel();
 				ArrayList<User> users = c.getUsers();
-				
+
 				User u = new User(username.getText(),"G",fname.getText(),lname.getText(),address.getText(),phone.getText(),
 						email.getText(),password.getText());
-				
+
 				users.add(u);
 
 				CreateUsers cu = new CreateUsers();
 				if (cu.buildUser(u) == true) {
 					JOptionPane
-							.showMessageDialog(
-									null,
-									"Sorry, this username is already taken, please try a different username",
-									"Warning", JOptionPane.WARNING_MESSAGE);
+					.showMessageDialog(
+							null,
+							"Sorry, this username is already taken, please try a different username",
+							"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
 					this.setVisible(false);
 					UserScreen us = new UserScreen(username.getText(),users);
@@ -268,16 +268,16 @@ public class CreateAccount extends JFrame implements ActionListener,KeyListener 
 							JOptionPane.WARNING_MESSAGE);
 			}
 		}
-		
+
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
