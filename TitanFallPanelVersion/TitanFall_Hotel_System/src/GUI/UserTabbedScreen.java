@@ -1,0 +1,117 @@
+package GUI;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
+import Model.User;
+
+public class UserTabbedScreen extends JFrame implements MouseListener {
+	private JTabbedPane tabbedPane;
+
+	private JPanel panel1;
+	private JPanel panel2;
+	private JPanel panel3;
+	private JPanel panel4;
+	private JPanel panel5;
+	private JPanel panel6;
+	private String usersID;
+	private Font font, fontRegular;
+	private ArrayList<User> users;
+	private JLabel welcome,  welcomeUser,signOut;
+	private String usersFirstName;
+	
+	public UserTabbedScreen(String user, ArrayList<User> users) {
+		
+		
+		super("Titanfall Towers-User Home Screen");
+		font = new Font("Veranda", font.ITALIC, 20);
+		fontRegular = new Font("Veranda", font.PLAIN, 16);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(1000,600);
+		setLocationRelativeTo(null);
+		usersID = user;
+		this.users = users;
+		//if the users log in was successful then they are brought to this page and LoggedIn is set to true
+		this.setResizable(false);
+		this.setBackground(Color.gray);
+		StartScreen.setLoggedIn(true);
+		ImageIcon icon = new ImageIcon("lib/TitanFallLogo.png");
+		welcome = new JLabel(icon);
+		welcome.setBounds(150, 50, 700, 196);
+		add(welcome);
+		
+		welcomeUser = new JLabel("Welcome, " + getUsersFirstName());
+		welcomeUser.setBounds(760, 30, 127, 23);
+		welcomeUser.setFont(fontRegular);
+		add(welcomeUser);
+		
+		signOut = new JLabel("Sign Out");
+		signOut.setFocusable(true);
+		signOut.addMouseListener(this);
+		signOut.setForeground(new Color(0, 160, 255));
+		signOut.setBounds(920, 30, 127, 23);
+		signOut.setFont(new Font("Veranda", font.PLAIN, 16));
+		this.add(signOut);
+
+		// Create the tab pages
+		panel1 = new createBooking(usersID, this.users);
+		panel2 = new manageBooking(this.usersID);
+		panel3 = new calendar();
+		panel4 = new specials();
+		panel5 = new help();
+		panel6 = new manageAccount(this.usersID, this.users);
+		
+		// Create a tabbed pane
+		tabbedPane = new JTabbedPane();
+		tabbedPane.addTab("Create Booking", panel1);
+		tabbedPane.addTab("Manage Booking", panel2);
+		tabbedPane.addTab("Calendar", panel3);
+		tabbedPane.addTab("Add Specials", panel4);
+		tabbedPane.addTab("Help", panel5);
+		tabbedPane.addTab("Manage Account", panel6);
+		this.add(tabbedPane);
+	}
+	public String getUsersFirstName() {
+		for (int i = 0; i < users.size(); i++) {
+
+			if (usersID.equals(users.get(i).getUserID())) {
+				usersFirstName = users.get(i).getfName();
+			}
+		}
+
+		return usersFirstName;
+	}
+	public void mouseClicked(MouseEvent e) {
+
+		StartScreen s = new StartScreen();
+		setVisible(false);
+		s.setVisible(true);
+		s.setLoggedIn(false);
+
+	}
+
+	public void mouseEntered(MouseEvent e) {
+
+		signOut.setForeground(Color.GREEN);
+	}
+
+	public void mouseExited(MouseEvent e) {
+
+		signOut.setForeground(new Color(0, 160, 255));
+	}
+
+	public void mousePressed(MouseEvent e) {
+		signOut.setForeground(Color.BLUE);
+
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
+		signOut.setForeground(Color.BLUE);
+
+	}
+	
+}
