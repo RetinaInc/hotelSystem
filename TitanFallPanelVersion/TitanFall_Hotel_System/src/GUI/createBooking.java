@@ -45,7 +45,7 @@ public class createBooking extends JPanel implements ActionListener {
 	private JPanel panel;
 	private ArrayList<User> users;
 	private String usersID;
-
+	private Color color = new Color(227,99,26);
 
 
 	public createBooking(String user, ArrayList<User> users) {
@@ -58,10 +58,7 @@ public class createBooking extends JPanel implements ActionListener {
 		usersID = user;
 		this.users = users;
 
-		
-
-		
-
+	
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		panel.setBounds(153, 221, 633, 282);
@@ -128,7 +125,7 @@ public class createBooking extends JPanel implements ActionListener {
 		dateChooser.setMaxSelectableDate(cal.getTime());
 		
 				btnSearch = new JButton("Search");
-				
+				btnSearch.setBackground(color);
 				btnSearch.setFont(fontBigger);
 				btnSearch.setBounds(260, 109, 126, 26);
 				panel.add(btnSearch);
@@ -202,8 +199,6 @@ public class createBooking extends JPanel implements ActionListener {
 				add(a);
 				
 			}
-		} else {
-
 		}
 	}
 

@@ -30,6 +30,7 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 	private String arrivalD,departureD;
 	private Calendar calDate;
 	private ArrayList<Integer> roomChoice;
+	private Color color = new Color(227,99,26);
 	public Login(){
 		createLoginScreen();
 	}
@@ -98,6 +99,8 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 		login_details.add(lblPassword, gbc_lblPassword);
 		
 		password = new JPasswordField();
+		password.isFocusable();
+		password.addKeyListener(this);
 		password.setToolTipText("Please enter your password");
 		GridBagConstraints gbc_password = new GridBagConstraints();
 		gbc_password.fill = GridBagConstraints.HORIZONTAL;
@@ -112,6 +115,7 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 		button_panel.setLayout(new GridLayout(2,0));
 		
 		 btnLogin = new JButton("Login");
+		 btnLogin.setBackground(color);
 		 btnLogin.setToolTipText("Login to your account");
 		 btnLogin.isFocusable();
 		 btnLogin.addKeyListener(this);
@@ -119,6 +123,7 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 		btnLogin.addActionListener(this);
 		buttons.add(btnLogin);
 		btnBack = new JButton("Back");
+		btnBack.setBackground(color);
 		btnBack.setToolTipText("Go Back");
 		btnBack.isFocusable();
 		btnBack.addKeyListener(this);
@@ -134,7 +139,6 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 		 lblCreateAccount.setToolTipText("Create a new account");
 		 lblCreateAccount.setFocusable(true);
 		 lblCreateAccount.addKeyListener(this);
-		 lblCreateAccount.setForeground(new Color(0,160,255));
 		 lblCreateAccount.addMouseListener(this);
 		 create_accountOption.add(lblCreateAccount);
 	}
@@ -192,24 +196,34 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 	
 
 
-	public void mouseClicked(MouseEvent e) {    
-        	CreateAccount c = new CreateAccount();
+	public void mouseClicked(MouseEvent e) {  
+		if(creatingBooking == true){
+			CreateAccount c = new CreateAccount(calDate,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
         	container.setVisible(false);
         	c.setVisible(true);
         	add(c);
+		}
+		else
+		{
+			CreateAccount c = new CreateAccount();
+        	container.setVisible(false);
+        	c.setVisible(true);
+        	add(c);
+		}
+        	
 		
 	}
 
 
 	
 	public void mouseEntered(MouseEvent e) {
-        	lblCreateAccount.setForeground(new Color(100,255,100));
+        	lblCreateAccount.setForeground(color);
         }
 
 
 	
 	public void mouseExited(MouseEvent e) {
-		lblCreateAccount.setForeground(new Color(0,160,255)); 
+		lblCreateAccount.setForeground(color.BLACK); 
 	}
 
 
@@ -231,10 +245,8 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 			loginMethod();			
 		}
 		
-		else if(e.getSource() == lblCreateAccount && e.getKeyCode() == KeyEvent.VK_ENTER){
-			CreateAccount c = new CreateAccount();
-        	setVisible(false);
-        	c.setVisible(true);
+		else if(e.getSource() == password && e.getKeyCode() == KeyEvent.VK_ENTER){
+			loginMethod();
 		}	
 	}
 	@Override

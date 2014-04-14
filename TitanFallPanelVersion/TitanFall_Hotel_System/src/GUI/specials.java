@@ -5,71 +5,161 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.UIManager;
+
 import java.awt.SystemColor;
+
 import javax.swing.border.EtchedBorder;
 
-public class specials extends JPanel {
-	
-	public specials(){
-		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		setBackground(new Color(192, 192, 192));
-		setLayout(null);	
-		JPanel panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 128, 0), null, new Color(0, 0, 0), null));
-		panel.setBackground(new Color(245, 245, 245));
-		panel.setBounds(125,210, 743, 288);
-		add(panel);
-		panel.setLayout(null);
+import Database.Queries;
 
+public class specials extends JPanel implements ActionListener{
+	
+	private JButton addSpecials;
+	private JCheckBox golf,spa,breaky,karting;
+	private Color color = new Color(227,99,26);
+	private Font font;
+	private JLabel addSomething,price;
+	private Double priceField = 0.0;
+	private int bookingid,numGolf,numBreaky,numSpa,numKarting;
+	private Queries q = new Queries();
+	private String usersID;
+	private JPanel specials;
+	public specials(String usersID,int bookingid){
+		setLayout(null);	
+		 specials = new JPanel();
+		specials.setBounds(125,210, 743, 288);
+		add(specials);
+		specials.setLayout(null);
+		font = new Font("Veranda", font.PLAIN, 18);
+		this.bookingid = bookingid;
+		this.usersID = usersID;
 		
-		JCheckBox chckbxGolf = new JCheckBox("Golf");
-		chckbxGolf.setBackground(new Color(245, 245, 245));
-		chckbxGolf.setBounds(323, 165, 139, 23);
-		panel.add(chckbxGolf);
-		chckbxGolf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		addSomething = new JLabel("Add something extra to your stay with us,"
+	 		      + " by selecting from our range of available specials");
+	  addSomething.setFont(font);
+	 addSomething.setBounds(10, 0, 760, 36);
+	 specials.add(addSomething);
 		
-		 JLabel lblAddSomethingExtra = new JLabel("Add something extra to your stay with us,"
-		 		      + " by selecting from our range of available specials");
-		 lblAddSomethingExtra.setBounds(10, 0, 743, 36);
-		 panel.add(lblAddSomethingExtra);
-		 lblAddSomethingExtra.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		 golf = new JCheckBox("Golf");
+		 golf.setFont(font);
+		golf.setBounds(323, 165, 160, 23);
+		golf.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(golf.isSelected()){
+					priceField = priceField + 100;
+					price.setText("Price: €" + priceField);
+					numGolf++;
+				}
+				else
+				{
+					priceField = priceField - 100;
+					price.setText("Price: €" + priceField);
+					numGolf--;
+				}
+			}
+			});
+		specials.add(golf);
 		
-		 JCheckBox chckbxSpaTreatment = new JCheckBox("Spa Treatment");
-		 chckbxSpaTreatment.setBackground(new Color(245, 245, 245));
-		 chckbxSpaTreatment.setBounds(323, 87, 139, 23);
-		 panel.add(chckbxSpaTreatment);
-		 chckbxSpaTreatment.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		  spa = new JCheckBox("Spa Treatment");
+		  spa.setFont(font);
+		  spa.setBounds(323, 87, 160, 23);
+		  spa.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(spa.isSelected()){
+						priceField = priceField + 150;
+						price.setText("Price: €" + priceField);
+						numSpa++;
+					}
+					else
+					{
+						priceField = priceField - 150;
+						price.setText("Price: €" + priceField);
+						numSpa--;
+					}
+				}
+				});
+		  specials.add(spa);
 		
-		 JCheckBox chckbxBreakfast = new JCheckBox("Breakfast");
-		 chckbxBreakfast.setBackground(new Color(245, 245, 245));
-		 chckbxBreakfast.setBounds(323, 139, 126, 23);
-		 panel.add(chckbxBreakfast);
-		 chckbxBreakfast.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		  breaky = new JCheckBox("Breakfast");
+		  breaky.setFont(font);
+		  breaky.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(breaky.isSelected()){
+						priceField = priceField + 20;
+						price.setText("Price: €" + priceField);
+						numBreaky++;
+					}
+					else
+					{
+						priceField = priceField - 20;
+						price.setText("Price: €" + priceField);
+						numBreaky--;
+					}
+				}
+				});
+		  breaky.setBounds(323, 139, 160, 23);
+		  specials.add(breaky);
 		
-		 JCheckBox chckbxGokarting = new JCheckBox("Go-karting");
-		 chckbxGokarting.setBackground(new Color(245, 245, 245));
-		 chckbxGokarting.setBounds(323, 113, 128, 23);
-		 panel.add(chckbxGokarting);
-		 chckbxGokarting.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		JLabel lblPrice = new JLabel("Price: \u20AC100.00");
-		lblPrice.setBounds(317, 225, 110, 14);
-		panel.add(lblPrice);
-		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		  karting = new JCheckBox("Go-karting");
+		  karting.setFont(font);
+		  karting.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(karting.isSelected()){
+						priceField = priceField + 50;
+						price.setText("Price: €" + priceField);
+						numKarting++;
+					}
+					else
+					{
+						priceField = priceField - 50;
+						price.setText("Price: €" + priceField);
+						numKarting--;
+					}
+				}
+				});
+		  karting.setBounds(323, 113, 160, 23);
+		  specials.add(karting);
+		 
+		 price = new JLabel("Price: €" + priceField);
+		 price.setFont(font);
+		price.setBounds(317, 225, 140, 14);
+		specials.add(price);
 		
 		
-		JButton btnAddSpecials = new JButton("Add Specials");
-		btnAddSpecials.setBackground(new Color(0, 255, 0));
-		btnAddSpecials.setBounds(296, 250, 151, 23);
-		panel.add(btnAddSpecials);
-		btnAddSpecials.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		 addSpecials = new JButton("Add Specials");
+		 addSpecials.setFont(font);
+		addSpecials.setBackground(color);
+		addSpecials.addActionListener(this);
+		addSpecials.setBounds(296, 250, 150, 23);
+		specials.add(addSpecials);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == addSpecials){
+			q.addSpecials(numGolf,numSpa,numBreaky,numKarting,bookingid,priceField);
+			JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
+					JOptionPane.INFORMATION_MESSAGE);
+			
+			manageBooking a = new manageBooking(usersID);
+			specials.setVisible(false);
+			a.setVisible(true);
+			add(a);
+		}
+		
 	}
 
 }

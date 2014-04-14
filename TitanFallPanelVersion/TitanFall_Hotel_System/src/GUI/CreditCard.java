@@ -31,6 +31,7 @@ public class CreditCard extends JPanel implements ActionListener,MouseListener {
 	private JPanel panel_3;
 	private JPanel panel_4;
 	private JPanel panel_5;
+	private Color color = new Color(227,99,26);
 	
 	public CreditCard(Calendar dc,String user, ArrayList<User> users, double total, int numRooms, int numNights, int numGuests, String arrivalD, String departureD, ArrayList<Integer> roomChoice) {
 		setSize(575,600);
@@ -61,6 +62,7 @@ public class CreditCard extends JPanel implements ActionListener,MouseListener {
 		creditCardType.setBounds(82, 59, 127, 14);
 		
 		combo = new JComboBox<String>();
+		combo.setBackground(SystemColor.text);
 		panel.add(combo);
 		combo.setBackground(new Color(240, 240, 240));
 		combo.addItem("Select");
@@ -145,12 +147,12 @@ public class CreditCard extends JPanel implements ActionListener,MouseListener {
 		
 		
 		btnBack = new JButton("Cancel");
+		btnBack.setBackground(color);
 		panel_5.add(btnBack);
-		btnBack.setForeground(Color.RED);
 		
 		btnPayNow = new JButton("Pay Now");
 		panel_5.add(btnPayNow);
-		btnPayNow.setForeground(new Color(0, 128, 0));
+		btnPayNow.setBackground(color);;
 		btnPayNow.addActionListener(this);
 		btnBack.addActionListener(this);
 	}

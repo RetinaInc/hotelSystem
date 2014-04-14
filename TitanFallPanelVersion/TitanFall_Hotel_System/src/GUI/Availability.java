@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
 import Model.Room;
 import Model.User;
 
@@ -30,6 +31,7 @@ public class Availability extends JPanel implements ActionListener {
 	private ArrayList<User> users;
 	private JPanel container;
 	private JScrollPane scrollPane;
+	private Color color = new Color(227,99,26);
 
 	public Availability(Calendar dc, int numnights, int numGuests) {
 		calDate = dc;
@@ -103,10 +105,12 @@ public class Availability extends JPanel implements ActionListener {
 		buttons.setLayout(new FlowLayout(FlowLayout.CENTER, 200, 5));
 
 		back = new JButton("Back");
+		back.setBackground(color);
 		back.addActionListener(this);
 		buttons.add(back);
 
 		continueb = new JButton("Continue");
+		continueb.setBackground(color);
 		continueb.addActionListener(this);
 		buttons.add(continueb);
 

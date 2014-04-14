@@ -28,6 +28,14 @@ public class DropTables {
 				// The table simply did not exist.
 			}
 			try{
+				//Drop the SpecialBookings table
+				stmt.execute("DROP TABLE specialbookings");
+				System.out.println("SpecialBookings table dropped.");
+			}
+			catch (SQLException ex) {
+
+			}
+			try{
 				//Drop the Special table & Special Sequence
 				stmt.execute("DROP TABLE specials");
 				stmt.execute("DROP SEQUENCE special_seq");

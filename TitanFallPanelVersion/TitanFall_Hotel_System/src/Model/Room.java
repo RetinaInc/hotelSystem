@@ -1,14 +1,15 @@
 package Model;
 
 public class Room {
-	private int roomNumber;
-	private boolean roomAvailability;
+	private int roomNumber,typeID;
+	private String roomAvailability;
 	private String roomType;
 	private double price;
 	
-	public Room(int roomNumber, boolean roomAvailability){
+	public Room(int roomNumber, String roomAvailability,int typeID){
 		this.roomNumber = roomNumber;
 		this.roomAvailability = roomAvailability;
+		this.typeID = typeID;
 	}
 	public Room(int roomNumber, String roomType , double price){
 		this.roomNumber = roomNumber;
@@ -36,11 +37,11 @@ public class Room {
 		this.roomNumber = roomNumber;
 	}
 
-	public boolean isRoomAvailability() {
+	public String isRoomAvailability() {
 		return roomAvailability;
 	}
 
-	public void setRoomAvailability(boolean roomAvailability) {
+	public void setRoomAvailability(String roomAvailability) {
 		this.roomAvailability = roomAvailability;
 	}
 	

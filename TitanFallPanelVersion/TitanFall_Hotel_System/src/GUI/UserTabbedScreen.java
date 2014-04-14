@@ -23,6 +23,7 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 	private ArrayList<User> users;
 	private JLabel welcome,  welcomeUser,signOut;
 	private String usersFirstName;
+	private Color color = new Color(227,99,26);
 	
 	public UserTabbedScreen(String user, ArrayList<User> users) {
 		
@@ -45,14 +46,13 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 		add(welcome);
 		
 		welcomeUser = new JLabel("Welcome, " + getUsersFirstName());
-		welcomeUser.setBounds(760, 30, 127, 23);
+		welcomeUser.setBounds(740, 30, 140, 23);
 		welcomeUser.setFont(fontRegular);
 		add(welcomeUser);
 		
 		signOut = new JLabel("Sign Out");
 		signOut.setFocusable(true);
 		signOut.addMouseListener(this);
-		signOut.setForeground(new Color(0, 160, 255));
 		signOut.setBounds(920, 30, 127, 23);
 		signOut.setFont(new Font("Veranda", font.PLAIN, 16));
 		this.add(signOut);
@@ -61,7 +61,6 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 		panel1 = new createBooking(usersID, this.users);
 		panel2 = new manageBooking(this.usersID);
 		panel3 = new calendar();
-		panel4 = new specials();
 		panel5 = new help();
 		panel6 = new manageAccount(this.usersID, this.users);
 		
@@ -70,7 +69,6 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 		tabbedPane.addTab("Create Booking", panel1);
 		tabbedPane.addTab("Manage Booking", panel2);
 		tabbedPane.addTab("Calendar", panel3);
-		tabbedPane.addTab("Add Specials", panel4);
 		tabbedPane.addTab("Help", panel5);
 		tabbedPane.addTab("Manage Account", panel6);
 		this.add(tabbedPane);
@@ -96,12 +94,12 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 
 	public void mouseEntered(MouseEvent e) {
 
-		signOut.setForeground(Color.GREEN);
+		signOut.setForeground(color);
 	}
 
 	public void mouseExited(MouseEvent e) {
 
-		signOut.setForeground(new Color(0, 160, 255));
+		signOut.setForeground(color.BLACK);
 	}
 
 	public void mousePressed(MouseEvent e) {

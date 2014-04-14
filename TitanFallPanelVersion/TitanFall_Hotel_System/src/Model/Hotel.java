@@ -9,6 +9,7 @@ public class Hotel {
 	private String hotelName, hotelPhoneNumber, hotelAddress;
 	private int hotelID, totalNumberRooms, hotelRating; // Need to change hotelID to an integer to correspond with the ERD and class diagram
 	private ArrayList<User> users = new ArrayList();
+	private ArrayList<Room> rooms = new ArrayList();
 	
 	public Hotel(int id, String name, String phoneNumber, String address, int totalNumberRooms, int hoteRating){
 		this.hotelID = id;
@@ -19,6 +20,9 @@ public class Hotel {
 		this.hotelRating = hoteRating;
 	}
 	
+	public Hotel() {
+	}
+
 	public void updateUsersDetails(String id,String fname,String lname,String address,String email,String phone){
 		
 		for (int i = 0; i < users.size(); i++) {
@@ -50,19 +54,34 @@ public class Hotel {
 		
 	}
 	
-	public User getUser(String userid)
-	{
-		User u = null;
-		
-		for(int i = 0; i < users.size(); i++){
-			if(users.get(i).getUserID().equals(userid)){
-				u = users.get(i);
-			}
-		}
-		
-		return u;
+//	public User getUser(String userid)
+//	{
+//		User u = null;
+//		
+//		for(int i = 0; i < users.size(); i++){
+//			if(users.get(i).getUserID().equals(userid)){
+//				u = users.get(i);
+//			}
+//		}
+//		
+//		return u;
+//	}
+	public void addRooms(Room r){
+		rooms.add(r);
 	}
 	
+	public void removeRooms(Room r){
+		rooms.remove(r);
+	}
+	
+	public ArrayList<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(ArrayList<Room> rooms) {
+		this.rooms = rooms;
+	}
+
 	public void addUsers(User u){
 		users.add(u);
 	}

@@ -32,6 +32,7 @@ public class manageAccount extends JPanel implements KeyListener,
 	private ArrayList<User> users;
 	private JPasswordField toldPass,tnewPass,  tconfirmNewPass;
 	private JButton changeDetailsBtn,changePasswordBtn;
+	private Color color = new Color(227,99,26);
 	public manageAccount(String userID, ArrayList<User> users) {
 		usersID = userID;
 		this.users = users;
@@ -83,6 +84,7 @@ public class manageAccount extends JPanel implements KeyListener,
 		updateDetails.add(tphone);
 
 		changeDetailsBtn = new JButton("Update Details");
+		changeDetailsBtn.setBackground(color);
 		changeDetailsBtn.setBounds(119, 200, 144, 35);
 		changeDetailsBtn.setToolTipText("Update your password");
 		changeDetailsBtn.isFocusable();
@@ -118,6 +120,7 @@ public class manageAccount extends JPanel implements KeyListener,
 
 		JPanel changePasswordPanel = new JPanel(null);
 		changePasswordBtn = new JButton("Update Password");
+		changePasswordBtn.setBackground(color);
 		changePasswordBtn.setBounds(114, 71, 151, 36);
 		changePasswordBtn.setToolTipText("Update your password");
 		changePasswordBtn.isFocusable();

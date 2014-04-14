@@ -13,6 +13,8 @@ public class Queries {
 	private Connection conn;
 	private Statement stmt;
 	private ResultSet rset;
+	private PreparedStatement pstmt;
+	private int numSpecials = 0;
 
 	public void open() {
 
@@ -147,4 +149,69 @@ public class Queries {
 		
 	}
 	
+	//method used to add a users special price to the total price in the bookings table
+	public void addSpecials(int golf,int spa,int breakfast,int karting,int bookingid,double price){
+		try
+		{
+			open();
+			
+			String sql = "Update Bookings set Total_Cost = Total_Cost + " + price + " where Booking_ID = " + bookingid;
+			
+			pstmt = getConn().prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+			if(golf > 0){
+				sql = "Insert into SpecialBookings values(?,?,?)";
+				pstmt = getConn().prepareStatement(sql);
+				numSpecials++;
+				pstmt.setInt(1, numSpecials);
+				pstmt.setInt(2, 11);
+				pstmt.setInt(3,bookingid );
+				pstmt.executeUpdate();
+			}
+			if(spa > 0){
+				sql = "Insert into SpecialBookings values(?,?,?)";
+				pstmt = getConn().prepareStatement(sql);
+				
+				numSpecials++;
+				pstmt.setInt(1, numSpecials);
+				pstmt.setInt(2, 22);
+				pstmt.setInt(3,bookingid );
+				pstmt.executeUpdate();
+				pstmt.executeUpdate();
+			}
+
+			if(breakfast > 0){
+				sql = "Insert into SpecialBookings values(?,?,?)";
+				pstmt = getConn().prepareStatement(sql);
+				
+				numSpecials++;
+				pstmt.setInt(1, numSpecials);
+				pstmt.setInt(2, 33);
+				pstmt.setInt(3,bookingid );
+				pstmt.executeUpdate();
+				pstmt.executeUpdate();
+			}
+
+			if(karting > 0){
+				sql = "Insert into SpecialBookings values(?,?,?)";
+				pstmt = getConn().prepareStatement(sql);
+				
+				numSpecials++;
+				pstmt.setInt(1, numSpecials);
+				pstmt.setInt(2, 44);
+				pstmt.setInt(3,bookingid );
+				pstmt.executeUpdate();
+				pstmt.executeUpdate();
+			}
+
+			
+			
+			System.out.println("Special cost added to booking ");
+		}
+		catch(Exception e){
+			System.out.println("could not add special " + e);
+		}
+		close();
+	}
 }

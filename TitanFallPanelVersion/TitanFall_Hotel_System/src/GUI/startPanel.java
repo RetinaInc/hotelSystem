@@ -42,6 +42,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 	private JPanel userInteraction;
 	private Calendar chosenDate;
 	private Calendar cal = Calendar.getInstance();
+	private Color color = new Color(227,99,26);
 	
 	public startPanel(){
 		font = new Font("Veranda", font.ITALIC, 20);
@@ -157,6 +158,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 
 
 		login = new JButton("Login");
+		login.setBackground(color);
 		login.setToolTipText("Login to your account or create a new account");
 		login.isFocusable();
 		login.addKeyListener(this);
@@ -165,6 +167,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 		buttons.add(login);
 
 		btnSearch = new JButton("Search");
+		btnSearch.setBackground(color);
 		btnSearch.setToolTipText("Check availability of rooms");
 		btnSearch.isFocusable();
 		btnSearch.addKeyListener(this);
