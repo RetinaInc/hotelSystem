@@ -264,8 +264,8 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 			if(loginSuccessful()){
 				try{
 				if(type.equals("A")){
-					Admin a = new Admin(user,users);
-					this.setVisible(false);
+					AdminTabbedScreen a = new AdminTabbedScreen(user,users);
+					getTopLevelAncestor().setVisible(false);
 					a.setVisible(true);
 				}
 				else if(loginSuccessful() == true && creatingBooking == true){

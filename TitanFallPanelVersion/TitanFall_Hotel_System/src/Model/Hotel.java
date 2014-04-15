@@ -1,16 +1,24 @@
 package Model;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import Database.CreateTables;
+import Database.RoomOperations;
 
 public class Hotel {
 
 	private String hotelName, hotelPhoneNumber, hotelAddress;
 	private int hotelID, totalNumberRooms, hotelRating; // Need to change hotelID to an integer to correspond with the ERD and class diagram
-	private ArrayList<User> users = new ArrayList();
-	private ArrayList<Room> rooms = new ArrayList();
+	private ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<Room> roomList;
+	private RoomOperations roomOp;
+	private boolean roomAvailability;
+	private ResultSet rset;
 	
+	private Hotel(RoomOperations ro) {	
+		this.roomOp = ro;
+	}
 	public Hotel(int id, String name, String phoneNumber, String address, int totalNumberRooms, int hoteRating){
 		this.hotelID = id;
 		this.hotelName = name;
@@ -21,8 +29,8 @@ public class Hotel {
 	}
 	
 	public Hotel() {
+		//default constructor
 	}
-
 	public void updateUsersDetails(String id,String fname,String lname,String address,String email,String phone){
 		
 		for (int i = 0; i < users.size(); i++) {
@@ -54,34 +62,19 @@ public class Hotel {
 		
 	}
 	
-//	public User getUser(String userid)
-//	{
-//		User u = null;
-//		
-//		for(int i = 0; i < users.size(); i++){
-//			if(users.get(i).getUserID().equals(userid)){
-//				u = users.get(i);
-//			}
-//		}
-//		
-//		return u;
-//	}
-	public void addRooms(Room r){
-		rooms.add(r);
+	public User getUser(String userid)
+	{
+		User u = null;
+		
+		for(int i = 0; i < users.size(); i++){
+			if(users.get(i).getUserID().equals(userid)){
+				u = users.get(i);
+			}
+		}
+		
+		return u;
 	}
 	
-	public void removeRooms(Room r){
-		rooms.remove(r);
-	}
-	
-	public ArrayList<Room> getRooms() {
-		return rooms;
-	}
-
-	public void setRooms(ArrayList<Room> rooms) {
-		this.rooms = rooms;
-	}
-
 	public void addUsers(User u){
 		users.add(u);
 	}
@@ -153,6 +146,43 @@ public class Hotel {
 
 	public void setHotelRating(int hotelRating) {
 		this.hotelRating = hotelRating;
+	}
+	public void refreshList(){
+		rset = roomOp.getRooms();
+		
+		if(roomList.size() > 0){
+			for (int i = roomList.size(); i >= 0; i--) {
+				roomList.remove(i);
+			}
+		}
+		try{
+			while(rset.next()){
+				Room r = new Room(rset.getInt(1), rset.getString(2), rset.getInt(3));
+				roomList.add(r);
+			}
+		}catch (Exception e){
+			System.out.println(e);
+		}
+	}
+	
+	public void addRoom(){
+		roomOp = new RoomOperations();
+		System.out.println("hello");
+		rset = roomOp.getLastRow();
+		
+		try{
+			Room r = new Room(rset.getInt(1),rset.getString(2), rset.getInt(3));
+			System.out.println("before adding");
+			System.out.println(r.getRoomNumber());
+			roomList = new ArrayList<Room>();
+			refreshList();
+			totalNumberRooms++;
+			roomList.add(r);
+			System.out.println("after adding");
+			System.out.println(rset.getInt(1) +  rset.getString(2)  +  rset.getInt(3));
+		}catch(Exception e){
+			System.out.println(e);
+		}
 	}
 	
 	
