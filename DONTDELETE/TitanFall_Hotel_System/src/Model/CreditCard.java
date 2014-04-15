@@ -12,6 +12,7 @@ public class CreditCard {
 		this.ccvnNum = ccv;
 	}
 
+	// Getters and Setters
 	public String getCreditCardNummber() {
 		return creditCardNummber;
 	}

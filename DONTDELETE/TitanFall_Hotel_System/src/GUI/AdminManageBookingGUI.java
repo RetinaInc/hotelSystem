@@ -15,10 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class AdminManageBooking extends JPanel implements KeyListener, MouseListener {
+public class AdminManageBookingGUI extends JPanel implements KeyListener, MouseListener {
 	private String[] columnNames = {"Booking ID", "Room Number", "User ID"};
 	private JPanel container;
-	public AdminManageBooking(){
+	public AdminManageBookingGUI(){
 		this.setLayout(null);
 		container = new JPanel();
 		container.setLayout(null);

@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Availability extends JPanel implements ActionListener {
+public class AvailabilityGUI extends JPanel implements ActionListener {
 
 	private String[] availableDates = new String[15];
 	private int[] roomNumberList = new int[15];
@@ -33,7 +33,7 @@ public class Availability extends JPanel implements ActionListener {
 	private JScrollPane scrollPane;
 	private Color color = new Color(227,99,26);
 
-	public Availability(Calendar dc, int numnights, int numGuests) {
+	public AvailabilityGUI(Calendar dc, int numnights, int numGuests) {
 		calDate = dc;
 		numNights = numnights;
 		numberOfGuests = numGuests;
@@ -43,7 +43,7 @@ public class Availability extends JPanel implements ActionListener {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public Availability(String userID, ArrayList<User> users, Calendar dc,
+	public AvailabilityGUI(String userID, ArrayList<User> users, Calendar dc,
 			int numnights, int numGuests) {
 		calDate = dc;
 		numNights = numnights;
@@ -198,15 +198,15 @@ public class Availability extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == back) {
 
-			if (StartScreen.isLoggedIn() == true) {
+			if (StartScreenGUI.isLoggedIn() == true) {
 
-				UserTabbedScreen u = new UserTabbedScreen(user, users);
+				UserTabbedScreenGUI u = new UserTabbedScreenGUI(user, users);
 				getTopLevelAncestor().setVisible(false);
 				u.setVisible(true);
 			}
 
 			else {
-				startPanel s = new startPanel();
+				StartPanelGUI s = new StartPanelGUI();
 				s.setVisible(true);
 				s.setSize(1000, 600);
 				container.setVisible(false);
@@ -218,8 +218,8 @@ public class Availability extends JPanel implements ActionListener {
 		} else {
 			try {
 				total = Double.parseDouble(totalCostField.getText());
-				if (StartScreen.isLoggedIn() == true) {
-					CreditCard c = new CreditCard(calDate, user, users, total,
+				if (StartScreenGUI.isLoggedIn() == true) {
+					CreditCardGUI c = new CreditCardGUI(calDate, user, users, total,
 							numberOfRooms, numNights, numberOfGuests,
 							arrivalDate, departureDate, roomChoice);
 					container.setVisible(false);

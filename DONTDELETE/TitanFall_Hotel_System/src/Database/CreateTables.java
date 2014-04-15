@@ -13,9 +13,11 @@ public class CreateTables {
 	private ResultSet rset;
 	private Queries q = new Queries();
 	private Hotel h;
-	private int bookingID;
-//	private int hotelID = 2222;
 	
+	/*
+	 * This method helps out when inserting dates into the database 
+	 * using prepared statements that includes sequences
+	 */
 	public java.sql.Date convertDate(int day, int month, int year){
 		GregorianCalendar cal = (GregorianCalendar)Calendar.getInstance();
 		cal.clear();
@@ -23,17 +25,14 @@ public class CreateTables {
 		java.sql.Date releaseDate = new java.sql.Date(cal.getTime().getTime());
 		return releaseDate;
 	}
-	
-
 
 	public void buildTitanFallTables() 
 	{
-		try {
-//			
+		try {			
 			q.open();
 			stmt = q.getConn().createStatement();
 			
-// USERS TABLE
+			// USERS TABLE
 			stmt.executeUpdate("CREATE TABLE Users "
 					+ "(User_ID	varchar2(50) NOT NULL PRIMARY KEY, UserType varchar2(1) CHECK (UserType IN ('G','A')), First_Name varchar2(50), Last_Name varchar2(50), HomeAddress varchar2(50), Phone_Number varchar2(50), Email_Address varchar2(50), UserPassword varchar2(50) NOT NULL)");
 			
@@ -41,61 +40,61 @@ public class CreateTables {
 			pstmt = q.getConn().prepareStatement(sqlInsert);
 			
 			// USERS Insert row #1.
-						pstmt.setString(1,"01");
-						pstmt.setString(2,"G");
-						pstmt.setString(3,"Derek");
-						pstmt.setString(4,"Mulhern");
-						pstmt.setString(5,"Celbridge");
-						pstmt.setString(6,"088123456");
-						pstmt.setString(7,"delpeter@gmail.com");
-						pstmt.setString(8,"9zFn82OjhKk=");
-						pstmt.executeUpdate();
+			pstmt.setString(1,"01");
+			pstmt.setString(2,"G");
+			pstmt.setString(3,"Derek");
+			pstmt.setString(4,"Mulhern");
+			pstmt.setString(5,"Celbridge");
+			pstmt.setString(6,"088123456");
+			pstmt.setString(7,"delpeter@gmail.com");
+			pstmt.setString(8,"9zFn82OjhKk=");
+			pstmt.executeUpdate();
 						
-						// USERS Insert row #2.
-						pstmt.setString(1,"02");
-						pstmt.setString(2,"G");
-						pstmt.setString(3,"Robert");
-						pstmt.setString(4,"Kenny");
-						pstmt.setString(5,"101 The Jacks");
-						pstmt.setString(6,"088123457");
-						pstmt.setString(7,"robertkenny@gmail.com");
-						pstmt.setString(8,"0+nu06G9r0o=");
-						pstmt.executeUpdate();
+			// USERS Insert row #2.
+			pstmt.setString(1,"02");
+			pstmt.setString(2,"G");
+			pstmt.setString(3,"Robert");
+			pstmt.setString(4,"Kenny");
+			pstmt.setString(5,"101 The Jacks");
+			pstmt.setString(6,"088123457");
+			pstmt.setString(7,"robertkenny@gmail.com");
+			pstmt.setString(8,"0+nu06G9r0o=");
+			pstmt.executeUpdate();
 						
-						// USERS Insert row #3.
-						pstmt.setString(1,"03");
-						pstmt.setString(2,"G");
-						pstmt.setString(3,"Mark");
-						pstmt.setString(4,"Lordan");
-						pstmt.setString(5,"121 The Whatever");
-						pstmt.setString(6,"088123458");
-						pstmt.setString(7,"marklordan@gmail.com");
-						pstmt.setString(8,"GVb3hMSMrVM=");
-						pstmt.executeUpdate();
+			// USERS Insert row #3.
+			pstmt.setString(1,"03");
+			pstmt.setString(2,"G");
+			pstmt.setString(3,"Mark");
+			pstmt.setString(4,"Lordan");
+			pstmt.setString(5,"121 The Whatever");
+			pstmt.setString(6,"088123458");
+			pstmt.setString(7,"marklordan@gmail.com");
+			pstmt.setString(8,"GVb3hMSMrVM=");
+			pstmt.executeUpdate();
 						
-						// USERS Insert row #4.
-						pstmt.setString(1,"04");
-						pstmt.setString(2,"G");
-						pstmt.setString(3,"Thomas");
-						pstmt.setString(4,"Murphy");
-						pstmt.setString(5,"7 The Pub");
-						pstmt.setString(6,"088123459");
-						pstmt.setString(7,"thomasmurphy@gmail.com");
-						pstmt.setString(8,"bua6oR4xy/M=");
-						pstmt.executeUpdate();
+			// USERS Insert row #4.
+			pstmt.setString(1,"04");
+			pstmt.setString(2,"G");
+			pstmt.setString(3,"Thomas");
+			pstmt.setString(4,"Murphy");
+			pstmt.setString(5,"7 The Pub");
+			pstmt.setString(6,"088123459");
+			pstmt.setString(7,"thomasmurphy@gmail.com");
+			pstmt.setString(8,"bua6oR4xy/M=");
+			pstmt.executeUpdate();
 						
-						// USERS Insert row #5.
-						pstmt.setString(1,"05");
-						pstmt.setString(2,"A");
-						pstmt.setString(3,"Eileen");
-						pstmt.setString(4,"Costello");
-						pstmt.setString(5,"88 The Titanfall");
-						pstmt.setString(6,"088123460");
-						pstmt.setString(7,"eileencostello@gmail.com");
-						pstmt.setString(8,"cz/uuFILsAU=");
-						pstmt.executeUpdate();
+			// USERS Insert row #5.
+			pstmt.setString(1,"05");
+			pstmt.setString(2,"A");
+			pstmt.setString(3,"Eileen");
+			pstmt.setString(4,"Costello");
+			pstmt.setString(5,"88 The Titanfall");
+			pstmt.setString(6,"088123460");
+			pstmt.setString(7,"eileencostello@gmail.com");
+			pstmt.setString(8,"cz/uuFILsAU=");
+			pstmt.executeUpdate();
 			
-// HOTELS TABLE
+			// HOTELS TABLE
 			stmt.executeUpdate("CREATE TABLE Hotels "
 					+ "(Hotel_ID number NOT NULL PRIMARY KEY, Hotel_Name varchar2(50), Hotel_PhoneNumber varchar2(50), Hotel_Address varchar2(50), NumOfRooms number, HotelRating number)");
 			
@@ -112,7 +111,7 @@ public class CreateTables {
 			pstmt.setInt(5,5);
 			pstmt.executeUpdate();
 
-// BOOKINGS TABLE
+			// BOOKINGS TABLE
 			stmt.executeUpdate("CREATE TABLE Bookings "
 					+ "(Booking_ID number NOT NULL PRIMARY KEY, Number_Of_Guests number NOT NULL, Number_Of_Nights number NOT NULL, Number_Of_Rooms number NOT NULL, Total_Cost number(6,2), "
 					+ "ArrivalDate Date, DepartureDate Date, Hotel_ID number, User_ID varchar2(50), FOREIGN KEY (Hotel_ID) REFERENCES hotels (Hotel_ID) ON DELETE CASCADE, FOREIGN KEY (User_ID) REFERENCES users (User_ID) ON DELETE CASCADE)");
@@ -127,14 +126,11 @@ public class CreateTables {
 			pstmt.setInt(2, 1);
 			pstmt.setInt(3, 1);
 			pstmt.setDouble(4, 199);
-			pstmt.setDate(5, convertDate(1,0,2015)); 				// 0 is representing January, 1 is February etc.	
+			pstmt.setDate(5, convertDate(1,0,2015)); // 0 represents January, 1 is February etc.	
 			pstmt.setDate(6, convertDate(2,0,2015));
 			pstmt.setString(7, "01");
 			pstmt.executeUpdate();
 			
-//			pstmt.setDate(6, Date.valueOf("2015-01-02")); Keeping this comment as reference
-//			pstmt.setDate(5, Date.valueOf("2015-01-01")); Keeping this comment as reference
-
 			// ROOMTYPE TABLE
 			stmt.executeUpdate("CREATE TABLE Roomtypes "
 						+ "(Type_ID number NOT NULL PRIMARY KEY, Type_Name varchar2(50), RoomType_Price number(5,2))");
@@ -149,7 +145,7 @@ public class CreateTables {
 			pstmt.setDouble(2, 59);
 			pstmt.executeUpdate();
 			
-// ROOMS TABLE
+			// ROOMS TABLE
 			stmt.executeUpdate("CREATE TABLE Rooms "
 					+ "(Room_Number number NOT NULL PRIMARY KEY, Room_Availability char(1) CHECK (Room_Availability IN('T','F')), Type_ID number, FOREIGN KEY (Type_ID) REFERENCES roomtypes (Type_ID) ON DELETE CASCADE)");
 			
@@ -162,8 +158,7 @@ public class CreateTables {
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
 		
-			
-// ROOMBOOKINGS TABLE
+			// ROOMBOOKINGS TABLE
 			stmt.executeUpdate("CREATE TABLE RoomBookings "
 					+ "(Room_Number number NOT NULL, Booking_ID number NOT NULL, DateOfBooking varchar2(50), PRIMARY KEY(Room_Number, Booking_ID), FOREIGN KEY (Room_Number) REFERENCES rooms (Room_Number) ON DELETE CASCADE, FOREIGN KEY (Booking_ID) REFERENCES bookings (Booking_ID) ON DELETE CASCADE)");
 			
@@ -174,7 +169,7 @@ public class CreateTables {
 			pstmt.setString(1,"26.12.14");
 			pstmt.executeUpdate();
 			
-// SPECIALS TABLE
+			// SPECIALS TABLE
 			stmt.executeUpdate("CREATE TABLE Specials "
 					+ "(Special_ID number NOT NULL PRIMARY KEY, Special_Name varchar2(50), Special_Cost number(5,2))");
 			
@@ -195,9 +190,11 @@ public class CreateTables {
 			// ROOMS Insert row #2.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
+			
 			// ROOMS Insert row #3.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
+			
 			// ROOMS Insert row #4.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
@@ -215,14 +212,12 @@ public class CreateTables {
 			pstmt.setString(7, "01");
 			pstmt.executeUpdate();
 
-			
 			String roomInsert3 = "INSERT INTO rooms values(room_seq.nextval,?,roomType_seq.currval)";
 			pstmt = q.getConn().prepareStatement(roomInsert3);
 			
 			// ROOMS Insert row #5.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
-			
 			
 			String roomTypeInsert3 = "INSERT INTO roomtypes values(roomType_seq.nextval,?,?)"; 
 			pstmt = q.getConn().prepareStatement(roomTypeInsert3);
@@ -270,13 +265,11 @@ public class CreateTables {
 			pstmt.setString(7, "01");
 			pstmt.executeUpdate();
 			
-			
 			String roomInsert5 = "INSERT INTO rooms values(room_seq.nextval,?,roomType_seq.currval)";
 			pstmt = q.getConn().prepareStatement(roomInsert5);
 			// ROOMS Insert row #8.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
-			
 			
 			String roomBookingsInsert3 = "INSERT INTO roombookings VALUES(room_seq.currval,booking_seq.currval,?)";
 			pstmt = q.getConn().prepareStatement(roomBookingsInsert3);
@@ -299,6 +292,7 @@ public class CreateTables {
 			// ROOMS Insert row #9.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
+			
 			// ROOMS Insert row #10.
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
@@ -389,9 +383,7 @@ public class CreateTables {
 			pstmt.setInt(2, 1);
 			pstmt.setInt(3, 1);
 			pstmt.setDouble(4, 199);
-//			pstmt.setDate(5, Date.valueOf("2016-02-15"));
 			pstmt.setDate(5, convertDate(15, 1, 2016));
-//			pstmt.setDate(6, Date.valueOf("2016-02-16"));
 			pstmt.setDate(6, convertDate(16, 1, 2016));
 			pstmt.setString(7, "04");
 			pstmt.executeUpdate();
@@ -479,38 +471,31 @@ public class CreateTables {
 	
 	public  int getLastRow() {
 		q.open();
-//		
 		String sqlStatement = "SELECT * FROM bookings ORDER BY Booking_ID";
 		int bookingID=0;
 		try {
-			pstmt = q.getConn().prepareStatement(sqlStatement,
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
+			pstmt = q.getConn().prepareStatement(sqlStatement,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			rset = pstmt.executeQuery();
 			rset.last();
+			
 			System.out.println(rset.getInt("Booking_ID"));
 			bookingID = rset.getInt("Booking_ID");
-		} catch (Exception ex) {
+		}catch (Exception ex) {
 			System.out.println("ERROR: " + ex.getMessage());
 		}
-		
-		//q.close();
+		q.close();
 		return bookingID;
-		
 	}
-	
-	// This method takes a reference variable of type Booking as a parameter and 
-	// uses a prepared statement to add the booking to the Bookings table
-	//also arrival date is split into 3 integers to convert it into a date format suitable
-	//for sql
-
-	
-	
+	/* 
+	 * This method takes a reference variable of type Booking as a parameter and 
+	 * uses a prepared statement to add the booking to the Bookings table
+	 * also arrival date is split into 3 integers to convert it into a date format suitable
+	 * for sql 
+	*/
 	public Hotel getHotel(){
 		String hotelsqlS = "SELECT * FROM Hotels";
 		try {
 			q.open();
-//			
 			Statement stmt = q.getConn().createStatement();
 			
 			rset = stmt.executeQuery(hotelsqlS);
@@ -531,7 +516,6 @@ public class CreateTables {
 						rset.getInt(5),
 						rset.getInt(6));
 			}
-			
 		} catch (Exception ex) {
 			System.out.println("ERROR: getHotel " + ex.getMessage());
 		}
@@ -539,12 +523,10 @@ public class CreateTables {
 		return h;
 	}
 	
-	
 	public ArrayList<User> getUsers() {
 		String sqlStatement = "SELECT * FROM Users";
 		try {
-			q.open();
-//			
+			q.open();	
 			Statement stmt = q.getConn().createStatement();
 
 			rset = stmt.executeQuery(sqlStatement);
@@ -579,16 +561,17 @@ public class CreateTables {
 		return h.getUsers();
 	}
 	
-	private String dayString,monthString,yearString,dayString2,monthString2,yearString2;
-	private int day,month,year,day2,month2,year2;
+	private String dayString, monthString, yearString, dayString2, monthString2, yearString2;
+	private int day, month, year, day2, month2, year2;
 	public void addBooking(Booking b,ArrayList<Integer> roomChoice) {
+		
 		dayString = b.getArrivalDate().substring(0, 2);
 		monthString =  b.getArrivalDate().substring(3, 5);		
 		yearString =  b.getArrivalDate().substring(6, 10);
 		
 		day = Integer.parseInt(dayString);
 		month = Integer.parseInt(monthString);
-		month = month -1;						//subtract 1 to get precise month i.e 01 should be 00 to represent Jan
+		month = month -1; // Subtract 1 to get precise month i.e 01 should be 00 to represent January
 		year = Integer.parseInt(yearString);
 		
 		dayString2 = b.getDepartureDate().substring(0, 2);
@@ -597,35 +580,27 @@ public class CreateTables {
 		
 		day2 = Integer.parseInt(dayString2);
 		month2 = Integer.parseInt(monthString2);
-		month2 = month2 -1;							//subtract 1 to get precise month i.e 01 should be 00 to represent Jan
+		month2 = month2 -1;	// Subtract 1 to get precise month i.e 01 should be 00 to represent January
 		year2 = Integer.parseInt(yearString2);
 		
 		try {
-//			
 			q.open();
 			String sql = "INSERT INTO Bookings VALUES (?,?,?,?,?,?,?,?,?) ";
 
 			pstmt = q.getConn().prepareStatement(sql);
 			
-//			pstmt.setInt(1, b.getNumGuests());
-//			pstmt.setInt(2, b.getNumNights());
-//			pstmt.setInt(3, b.getNumRooms());
-//			pstmt.setDouble(4, b.getTotalCost());
-//			pstmt.setDate(5, convertDate(day,month,year)); //arrival Date
-//			pstmt.setDate(6, convertDate(day2,month2,year2)); //departure Date
-//			pstmt.setString(7, b.getUserID());
 			pstmt.setInt(1, (b.getBookingID()+1));
 			pstmt.setInt(2, b.getNumGuests());
 			pstmt.setInt(3, b.getNumNights());
 			pstmt.setInt(4, b.getNumRooms());
 			pstmt.setDouble(5, b.getTotalCost());
-			pstmt.setDate(6, convertDate(day,month,year)); //arrival Date
-			pstmt.setDate(7, convertDate(day2,month2,year2)); //departure Date
+			pstmt.setDate(6, convertDate(day,month,year)); // Arrival Date
+			pstmt.setDate(7, convertDate(day2,month2,year2)); // Departure Date
 			pstmt.setInt(8, 2222);
 			pstmt.setString(9, b.getUserID());
 
 			pstmt.executeUpdate();
-			System.out.println("booking created for " + b.getUserID());
+			System.out.println("Booking created for: " + b.getUserID());
 			String sql2 = "INSERT INTO RoomBookings VALUES (?,?,?) ";
 			
 			pstmt = q.getConn().prepareStatement(sql2);
@@ -636,18 +611,14 @@ public class CreateTables {
 				pstmt.setInt(2, (b.getBookingID()+1));	
 				pstmt.setString(3, "01.04.2014");
 				pstmt.executeUpdate();
-				System.out.println("oo rah!");
+				System.out.println("Print statement to check if new bookings works");
 			}
-			
-			
-			
 		} catch (Exception se) {
 			System.out.println("Error creating a booking " + se);
 			se.printStackTrace();
 		}
 		q.close();
 	}
-	
 		/* 	
 		 * This method updates a particular users details in the users table
 		 * based on the id of the user 
@@ -655,7 +626,6 @@ public class CreateTables {
 		public void updateDeatils(String id,String fname,String lname,String add,String email,String phone) {
 			try {
 				q.open();
-//				
 				String sql = "UPDATE Users SET First_Name = '" + fname + "', Last_Name = '" + lname + "', HomeAddress = '"
 						+ add + "',Email_Address = '" + email + "',Phone_Number = " + phone + "WHERE User_ID = '" + id + "'";
 	
@@ -668,14 +638,12 @@ public class CreateTables {
 			}
 			q.close();
 		}
-		
 		/* 	
 		 * This method updates a particular users password in the database
-		*/
+		 */
 		public void updatePassword(String id,String password) {
 			try {
 				q.open();
-//				
 				String sql = "UPDATE Users SET UserPassword = '" + password + "' WHERE User_ID = '" + id + "'";
 	
 				stmt = q.getConn().createStatement();

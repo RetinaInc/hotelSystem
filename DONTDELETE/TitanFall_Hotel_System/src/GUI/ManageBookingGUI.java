@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import Database.Queries;
 import Database.ReportQueries;
 
-public class manageBooking extends JPanel implements ActionListener {
+public class ManageBookingGUI extends JPanel implements ActionListener {
 	//Gui Components 
 	private JLabel welcome,currentBookings;
 	private JButton manageBooking, saveChanges,saveReceipt,addSpecial;
@@ -31,7 +31,7 @@ public class manageBooking extends JPanel implements ActionListener {
 	private Color color = new Color(227,99,26);
 	
 	//Constructor for the tabbed pane class to utilze
-	public manageBooking(String usersID){
+	public ManageBookingGUI(String usersID){
 		
 	//Font Set	
 		this.usersID = usersID;
@@ -146,7 +146,7 @@ public class manageBooking extends JPanel implements ActionListener {
 			//column is always set to zero because we are looking for the booking id
 			int bookingid = Integer.parseInt(table.getValueAt(row, 0).toString());
 			
-			specials s = new specials(usersID,bookingid);
+			SpecialsGUI s = new SpecialsGUI(usersID,bookingid);
 			bookingPanel.setVisible(false);
 			s.setVisible(true);
 			s.setBounds(150, 300, 640, 300);

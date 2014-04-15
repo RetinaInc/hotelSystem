@@ -1,16 +1,12 @@
 package GUI;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 
 public class HelpGUI extends JPanel {
+	
 	private JPanel container;
+	
 	public HelpGUI(){
 	
 	this.setLayout(null);
@@ -43,20 +39,20 @@ public class HelpGUI extends JPanel {
 	lblBookingIssues.setBounds(295, 84, 147, 25);
 	container.add(lblBookingIssues);
 	
-	 JComboBox helpQscomboBox2 = new JComboBox();
-	 helpQscomboBox2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	JComboBox helpQscomboBox2 = new JComboBox();
+	helpQscomboBox2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 	helpQscomboBox2.setModel(new DefaultComboBoxModel(new String[] {"How do I make a booking?", "Can I change my booking details?", "Can I add extras to my booking?", "Deleting a booking", "Can I pay without using a credit card?"}));
 	helpQscomboBox2.setBounds(518, 87, 373, 31);
 	container.add(helpQscomboBox2);
 	
-	 JLabel helpLabel = new JLabel("If your question isn't answered in the above FAQs, please see our user manual for more answers");
-	 helpLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	JLabel helpLabel = new JLabel("If your question isn't answered in the above FAQs, please see our user manual for more answers");
+	helpLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
 	helpLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	helpLabel.setBounds(10, 138, 948, 27);
 	container.add(helpLabel);
 	
-	 JLabel lblOr = new JLabel("or");
-	 lblOr.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	JLabel lblOr = new JLabel("or");
+	lblOr.setFont(new Font("Tahoma", Font.PLAIN, 20));
 	lblOr.setHorizontalAlignment(SwingConstants.CENTER);
 	lblOr.setBounds(470, 178, 18, 25);
 	container.add(lblOr);

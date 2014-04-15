@@ -1,22 +1,13 @@
 package GUI;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-public class AdminManageAccount extends JPanel implements KeyListener, ActionListener {
+public class AdminManageAccountGUI extends JPanel implements KeyListener, ActionListener {
 	private JPanel container;
-	public AdminManageAccount(){
+	
+	public AdminManageAccountGUI(){
 
 		this.setLayout(null);
 		container = new JPanel();
@@ -29,7 +20,7 @@ public class AdminManageAccount extends JPanel implements KeyListener, ActionLis
 		options.setBounds(10,43,759,244);
 
 
-		//contains all the elements neccessary to change your details
+		// Contains all the elements necessary to change your personal details
 		JPanel updateDetailsOption = new JPanel(null);
 		updateDetailsOption.setBounds(52, 11, 276, 220);
 
@@ -79,7 +70,7 @@ public class AdminManageAccount extends JPanel implements KeyListener, ActionLis
 		options.add(updateDetailsOption);
 		container.add(options);
 
-		//contains all the elements neccessary to change your password
+		// Contains all the elements necessary to change your personal password
 		JPanel updatePassword = new JPanel(new GridLayout(2,0));
 		updatePassword.setBounds(395, 11, 318, 220);
 		options.add(updatePassword);
@@ -126,32 +117,13 @@ public class AdminManageAccount extends JPanel implements KeyListener, ActionLis
 		updatePasswordErrorMessage.setBounds(470, 290, 225, 23);
 		updatePasswordErrorMessage.setVisible(false);
 		container.add(updatePasswordErrorMessage);
-
-
 	}
-
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
-
-	@Override
 	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
-
-	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
-
-	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
-
 }

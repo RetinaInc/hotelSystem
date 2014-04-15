@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import Model.User;
 
-public class AdminTabbedScreen extends JFrame implements MouseListener{
+public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 	private JTabbedPane tabbedPane;
 	private JLabel welcome, welcomeUser, signOut;;
 	private JPanel panel1;
@@ -24,14 +24,14 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 	private Font font, fontRegular;
 	private Color color = new Color(227,99,26);
 
-	public AdminTabbedScreen(String user, ArrayList<User> users) {
+	public AdminTabbedScreenGUI(String user, ArrayList<User> users) {
 		super("Home");
 		fontRegular = new Font("Veranda", font.PLAIN, 16);
 		font = new Font("Veranda", font.ITALIC, 20);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000,600);
 		setLocationRelativeTo(null);
-		StartScreen.setLoggedIn(true);
+		StartScreenGUI.setLoggedIn(true);
 		this.usersID = user;
 		this.users = users;
 		ImageIcon icon = new ImageIcon("lib/TitanFallLogo.png");
@@ -61,12 +61,12 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 
 
 		// Create the tab pages
-		panel1 = new AdminManageBooking();
-		panel2 = new AdminManageRooms();
-		panel3 = new AdminAddSpecials();
-		panel4 = new AdminPrintReports(usersFirstName);
+		panel1 = new AdminManageBookingGUI();
+		panel2 = new AdminManageRoomsGUI();
+		panel3 = new AdminAddSpecialsGUI();
+		panel4 = new AdminPrintReportsGUI(usersFirstName);
 		panel5 = new AdminHelpGUI();
-		panel6 = new AdminManageAccount();
+		panel6 = new AdminManageAccountGUI();
 
 		// Create a tabbed pane
 		tabbedPane = new JTabbedPane();
@@ -93,7 +93,7 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		
-		StartScreen s = new StartScreen();
+		StartScreenGUI s = new StartScreenGUI();
 		setVisible(false);
 		s.setVisible(true);
 		s.setLoggedIn(false);

@@ -23,7 +23,7 @@ import Model.Hotel;
 import Model.User;
 import javax.swing.SwingConstants;
 
-public class manageAccount extends JPanel implements KeyListener,
+public class ManageAccountGUI extends JPanel implements KeyListener,
 		ActionListener {
 	private JPanel container;
 	private JTextField tfname,tlname, address, temail, tphone;
@@ -33,7 +33,7 @@ public class manageAccount extends JPanel implements KeyListener,
 	private JPasswordField toldPass,tnewPass,  tconfirmNewPass;
 	private JButton changeDetailsBtn,changePasswordBtn;
 	private Color color = new Color(227,99,26);
-	public manageAccount(String userID, ArrayList<User> users) {
+	public ManageAccountGUI(String userID, ArrayList<User> users) {
 		usersID = userID;
 		this.users = users;
 		container = new JPanel();

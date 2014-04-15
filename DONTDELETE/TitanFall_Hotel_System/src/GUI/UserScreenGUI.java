@@ -25,7 +25,7 @@ import java.util.Date;
 
 import javax.swing.table.DefaultTableModel;
 
-public class UserScreen extends JFrame implements ActionListener,
+public class UserScreenGUI extends JFrame implements ActionListener,
 		MouseListener, KeyListener {
 
 	private JComboBox numNights, numPeople, numRooms, helpQscomboBox,
@@ -66,7 +66,7 @@ public class UserScreen extends JFrame implements ActionListener,
 	private Object[][] array2d;
 	private DefaultTableModel model;
 
-	public UserScreen(String user, ArrayList<User> users) {
+	public UserScreenGUI(String user, ArrayList<User> users) {
 		super("Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 400);
@@ -78,7 +78,7 @@ public class UserScreen extends JFrame implements ActionListener,
 
 		// if the users log in was successful then they are brought to this page
 		// and LoggedIn is set to true
-		StartScreen.setLoggedIn(true);
+		StartScreenGUI.setLoggedIn(true);
 
 		font = new Font("Verdana", Font.ITALIC, 20);
 
@@ -516,7 +516,7 @@ public class UserScreen extends JFrame implements ActionListener,
 		if (calDate.compareTo(Calendar.getInstance()) >= 0) {
 			Booking b = new Booking(day.getYear(), month.getMonth(),
 					year.getYear(), (numNights.getSelectedIndex()) + 1);
-			Availability a = new Availability(usersID, users, calDate,
+			AvailabilityGUI a = new AvailabilityGUI(usersID, users, calDate,
 					((numNights.getSelectedIndex()) + 1),
 					numPeople.getSelectedIndex() + 1);
 			a.listContent(b.availability());
@@ -536,7 +536,7 @@ public class UserScreen extends JFrame implements ActionListener,
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getSource() == signOut && e.getKeyCode() == KeyEvent.VK_ENTER) {
-			StartScreen s = new StartScreen();
+			StartScreenGUI s = new StartScreenGUI();
 			this.setVisible(false);
 			s.setVisible(true);
 		}
@@ -654,7 +654,7 @@ public class UserScreen extends JFrame implements ActionListener,
 
 	public void mouseClicked(MouseEvent e) {
 
-		StartScreen s = new StartScreen();
+		StartScreenGUI s = new StartScreenGUI();
 		this.setVisible(false);
 		s.setVisible(true);
 

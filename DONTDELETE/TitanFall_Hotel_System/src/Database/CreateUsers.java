@@ -18,11 +18,9 @@ public class CreateUsers {
 		theUser = u;
 		try {
 			stmt = q.getConn().createStatement();
-			// Insert
-			stmt.execute("INSERT INTO users VALUES ('" + theUser.getUserID()
-					+ "','G', '" + theUser.getfName() + "','"
-					+ theUser.getlName() + "','" + theUser.getHomeaddress()
-					+ "','" + theUser.getPhoneNum() + "','"
+
+			stmt.execute("INSERT INTO users VALUES ('" + theUser.getUserID() + "','G', '" + theUser.getfName() + "','"
+					+ theUser.getlName() + "','" + theUser.getHomeaddress()  + "','" + theUser.getPhoneNum() + "','"
 					+ theUser.getEmail() + "','" + theUser.getPassword() + "')");
 
 			System.out.println("Users table populated.");

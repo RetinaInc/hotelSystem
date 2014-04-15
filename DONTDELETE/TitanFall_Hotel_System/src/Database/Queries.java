@@ -1,15 +1,12 @@
 package Database;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-
-import Model.Booking;
-import Model.Room;
+import java.util.*;
+import Model.*;
 import oracle.jdbc.pool.OracleDataSource;
 
 public class Queries {
+	
 	private Connection conn;
 	private Statement stmt;
 	private ResultSet rset;
@@ -17,23 +14,21 @@ public class Queries {
 	private int numSpecials = 0;
 
 	public void open() {
-
 			try {
 				// open local DB
 				OracleDataSource ods = new OracleDataSource();
 				//ods.setURL("jdbc:oracle:thin:@//10.10.2.7:1521/global1");
-				//ods.setUser("X00100551");
-				//ods.setPassword("db29Nov93");
+				//ods.setUser("X00106072");
+				//ods.setPassword("db29Mar93");
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("root");
-				ods.setPassword("root");
+				ods.setUser("Delboy");
+				ods.setPassword("7777");
 				conn = ods.getConnection();
 			}
 			 catch (Exception ex) {
 					System.out.println("Open Database Error, check Queries class");
 				}
 			}
-			
 
 	public void close() {
 		try {
@@ -47,6 +42,7 @@ public class Queries {
 	public Connection getConn() {
 		return conn;
 	}
+	
 	public ArrayList<Object[]> getBookings(String userID){
 		System.out.println(userID);
 		ArrayList<Object[]> resultList = new ArrayList<Object[]>();
@@ -73,7 +69,7 @@ public class Queries {
 	}
 
 	/* 	
-	 * availability query selects all rooms for DB, stores in arrayList of rooms
+	 * Availability query selects all rooms for DB, stores in arrayList of rooms
 	 * then selects all room numbers that have a booking for the date entered
 	 * (from start screen)
 	 * iterator is used to move through the array-list, if the room number is
@@ -125,10 +121,10 @@ public class Queries {
 			for (int i = 0; i < bookedRooms.length; i++) {
 				System.out.println(bookedRooms[i]);
 			}
-			// iterator to move through arraylist, loop checks every iteration of room
+			// We use the Iterator to move through the array-list, the loop checks every iteration of room
 			// numbers against each value of bookedRooms
 			Iterator<Room> it = roomList.iterator(); 
-			int loop =0;
+			int loop = 0 ;
 				while (it.hasNext()) {	
 					if (it.next().getRoomNumber() == bookedRooms[loop]) {
 						it.remove();
@@ -143,13 +139,12 @@ public class Queries {
 		for (int i = 0; i < roomList.size(); i++) {
 			System.out.println(roomList.get(i).getRoomNumber());
 		}
-		
 		close();
 		return roomList;  //passed back to model as an arrayList of Room objects
 		
 	}
 	
-	//method used to add a users special price to the total price in the bookings table
+	// This method is used to add a users special price to the total price in the bookings table
 	public void addSpecials(int golf,int spa,int breakfast,int karting,int bookingid,double price){
 		try
 		{
@@ -201,9 +196,6 @@ public class Queries {
 				pstmt.setInt(3,bookingid );
 				pstmt.executeUpdate();
 			}
-
-			
-			
 			System.out.println("Special cost added to booking ");
 		}
 		catch(Exception e){

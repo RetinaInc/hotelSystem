@@ -7,7 +7,7 @@ import javax.swing.border.TitledBorder;
 import Database.*;
 import Model.*;
 
-public class AdminManageRooms extends JPanel implements ActionListener {
+public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 	
 	private JComboBox comboBoxRoomType,update_typeCombo;
 	private String[] types = {"Single","Double","Suite"};
@@ -18,7 +18,7 @@ public class AdminManageRooms extends JPanel implements ActionListener {
 	private JLabel roomNumber_ADD, roomType, roomNumberLabel_DELETE, updateRoomNumberLabel, newTypeLabel_UPDATE;
 	private JPanel roomsDetails, addbuttonPanel, addRooms, container,deleteRooms, updateRooms;
 	
-	public AdminManageRooms() {
+	public AdminManageRoomsGUI() {
 		hotel = new Hotel();
 		ro = new RoomOperations();
 		this.setLayout(null);
@@ -101,6 +101,7 @@ public class AdminManageRooms extends JPanel implements ActionListener {
 		updateButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		updateButton.setBounds(90, 123, 118, 26);
 		updateRooms.add(updateButton);
+		updateButton.addActionListener(this);
 
 		updateRoomNumberLabel = new JLabel("Room Number");
 		updateRoomNumberLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -124,7 +125,7 @@ public class AdminManageRooms extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == addbutton){
+		if(e.getSource() == addbutton) {
 			int roomNumber = Integer.parseInt(roomNumberField_ADD.getText());
 			char roomAvailability = 'T';
 			int roomTypeID = comboBoxRoomType.getSelectedIndex();
@@ -133,6 +134,14 @@ public class AdminManageRooms extends JPanel implements ActionListener {
 			
 			ro.addRoom(r);
 			JOptionPane.showMessageDialog(null, "New Room added to the system");
+		}
+		else if(e.getSource() == updateButton) {
+			int roomNumber = Integer.parseInt(roomNumberField_UPDATE.getText());
+			char roomAvailability = 'T';
+			int roomTypeID = update_typeCombo.getSelectedIndex();
+			hotel.updateRoom(roomNumber, roomTypeID);
+			ro.updateRoom(roomNumber, roomTypeID);
+			JOptionPane.showMessageDialog(null, "Room updated");
 		}
 	}
 }

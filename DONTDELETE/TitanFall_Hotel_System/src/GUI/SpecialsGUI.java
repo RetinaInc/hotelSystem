@@ -25,7 +25,7 @@ import javax.swing.border.EtchedBorder;
 
 import Database.Queries;
 
-public class specials extends JPanel implements ActionListener{
+public class SpecialsGUI extends JPanel implements ActionListener{
 	
 	private JButton addSpecials,back;
 	private JCheckBox golf,spa,breaky,karting;
@@ -37,7 +37,7 @@ public class specials extends JPanel implements ActionListener{
 	private Queries q = new Queries();
 	private String usersID;
 	private JPanel specials;
-	public specials(String usersID,int bookingid){
+	public SpecialsGUI(String usersID,int bookingid){
 		setLayout(null);	
 		 specials = new JPanel();
 		specials.setBounds(125,210, 743, 288);
@@ -166,7 +166,7 @@ public class specials extends JPanel implements ActionListener{
 				JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
 						JOptionPane.INFORMATION_MESSAGE);
 				
-				manageBooking a = new manageBooking(usersID);
+				ManageBookingGUI a = new ManageBookingGUI(usersID);
 				specials.setVisible(false);
 				a.setVisible(true);
 				add(a);
@@ -174,7 +174,7 @@ public class specials extends JPanel implements ActionListener{
 		}
 		else
 		{
-			manageBooking a = new manageBooking(usersID);
+			ManageBookingGUI a = new ManageBookingGUI(usersID);
 			specials.setVisible(false);
 			a.setVisible(true);
 			add(a);

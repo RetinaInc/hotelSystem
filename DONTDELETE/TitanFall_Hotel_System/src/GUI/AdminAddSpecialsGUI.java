@@ -10,10 +10,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 
-public class AdminAddSpecials extends JPanel {
+public class AdminAddSpecialsGUI extends JPanel {
 	private JLabel lblDescriptionOfSpecial_1;
 	private JPanel container;
-	public AdminAddSpecials(){
+	public AdminAddSpecialsGUI(){
 		this.setLayout(null);
 		container = new JPanel();
 		container.setLayout(null);

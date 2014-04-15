@@ -1,6 +1,7 @@
 package Model;
 
 public class Room {
+	// Instance variables
 	private int roomNumber;
 	private char roomAvailability;
 	private String roomType;
@@ -16,12 +17,14 @@ public class Room {
 		this.roomType = roomType;
 		this.price = price;
 	}
-
+	// Room constructor for adding a room into the database
 	public Room(int roomNumber, char roomAvailability, int roomType) {
 		this.roomNumber = roomNumber;
 		this.roomAvailability = roomAvailability;
 		this.roomTypeID = roomType;
 	}
+	
+	//Getters and Setters
 	public String getRoomType() {
 		return roomType;
 	}
@@ -37,15 +40,12 @@ public class Room {
 	public int getRoomNumber() {
 		return roomNumber;
 	}
-
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-
 	public char isRoomAvailability() {
 		return roomAvailability;
 	}
-
 	public void setRoomAvailability(char roomAvailability) {
 		this.roomAvailability = roomAvailability;
 	}
@@ -55,6 +55,4 @@ public class Room {
 	public void setRoomTypeID(int roomTypeID) {
 		this.roomTypeID = roomTypeID;
 	}
-	
-	
 }

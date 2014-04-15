@@ -12,7 +12,7 @@ import javax.swing.*;
 import Model.*;
 import Database.*;
 
-public class CreditCard extends JPanel implements ActionListener,MouseListener {
+public class CreditCardGUI extends JPanel implements ActionListener,MouseListener {
 	
 	private JTextField cardNum, expiry, ccv;
 	private JComboBox<String> combo, expCombo1, expCombo2;
@@ -33,7 +33,7 @@ public class CreditCard extends JPanel implements ActionListener,MouseListener {
 	private JPanel panel_5;
 	private Color color = new Color(227,99,26);
 	
-	public CreditCard(Calendar dc,String user, ArrayList<User> users, double total, int numRooms, int numNights, int numGuests, String arrivalD, String departureD, ArrayList<Integer> roomChoice) {
+	public CreditCardGUI(Calendar dc,String user, ArrayList<User> users, double total, int numRooms, int numNights, int numGuests, String arrivalD, String departureD, ArrayList<Integer> roomChoice) {
 		setSize(575,600);
 		container = new JPanel();
 		container.setLocation(150, 11);
@@ -196,7 +196,7 @@ public class CreditCard extends JPanel implements ActionListener,MouseListener {
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == btnBack){
 			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel? Booking has not been saved","Cancel Booking",JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION) {
-					UserTabbedScreen uts = new UserTabbedScreen(userID, users);
+					UserTabbedScreenGUI uts = new UserTabbedScreenGUI(userID, users);
 					uts.setVisible(true);
 					getTopLevelAncestor().setVisible(false);
 
@@ -218,7 +218,7 @@ public class CreditCard extends JPanel implements ActionListener,MouseListener {
 				JOptionPane.showMessageDialog(null, "Booking successful","Booking successful",JOptionPane.INFORMATION_MESSAGE);
 				
 				
-				UserTabbedScreen us = new UserTabbedScreen(userID, users);
+				UserTabbedScreenGUI us = new UserTabbedScreenGUI(userID, users);
 				getTopLevelAncestor().setVisible(false);
 				us.setVisible(true);
 				}

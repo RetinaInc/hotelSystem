@@ -3,25 +3,23 @@ package GUI;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
-
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 public class Encryption {
 
-    private static final char[] PASSWORD = "enfldsgbnlsngdlksdsgm".toCharArray();
-    private static final byte[] SALT = {
-        (byte) 0xde, (byte) 0x33, (byte) 0x10, (byte) 0x12,
-        (byte) 0xde, (byte) 0x33, (byte) 0x10, (byte) 0x12,
-    };
+    private static final char [] PASSWORD = "enfldsgbnlsngdlksdsgm".toCharArray();
+    private static final byte [] SALT = {
+        								(byte) 0xde, (byte) 0x33, (byte) 0x10, (byte) 0x12,
+        								(byte) 0xde, (byte) 0x33, (byte) 0x10, (byte) 0x12,
+    								   };
 
-public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
        String originalPassword = "A1";
        System.out.println("Original password: " + originalPassword);
        String encryptedPassword = encrypt(originalPassword);
@@ -44,5 +42,4 @@ public static void main(String[] args) throws Exception {
         // NB: This class is internal, and you probably should use another impl
         return new BASE64Decoder().decodeBuffer(property);
     }
-
 }

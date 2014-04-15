@@ -5,15 +5,14 @@ import java.util.ArrayList;
 
 import Database.CreateTables;
 
-
 public class User {
-
+	// Instance variables
 	private String userType,fName,lName,homeaddress,email,phoneNum,userID,password;
 	private ArrayList<Booking> bookings;
 	private ResultSet rset;
 	private CreateTables c;
 
-
+	
 	public User(String userID,String userType,String fName, String lName,String homeaddress,
 			String phoneNum,String email, String password) {
 		this.userID = userID;
@@ -34,7 +33,6 @@ public class User {
 	
 	public void addBooking()
 	{
-		//rset = c.getLastRow();
 		try {
 			 {
 				Booking b = new Booking(rset.getInt(1), rset.getInt(2),
@@ -53,6 +51,7 @@ public class User {
 		}
 	}
 	
+	//Getters and Setters
 	public ArrayList<Booking> getBookings() {
 		return bookings;
 	}

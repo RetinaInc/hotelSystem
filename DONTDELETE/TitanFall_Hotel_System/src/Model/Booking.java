@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JList;
 
 import Database.Queries;
-import GUI.Availability;
+import GUI.AvailabilityGUI;
 
 public class Booking {
 

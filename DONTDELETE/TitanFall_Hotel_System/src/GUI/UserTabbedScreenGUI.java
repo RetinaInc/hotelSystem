@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import Model.User;
 
-public class UserTabbedScreen extends JFrame implements MouseListener {
+public class UserTabbedScreenGUI extends JFrame implements MouseListener {
 	private JTabbedPane tabbedPane;
 
 	private JPanel panel1;
@@ -25,7 +25,7 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 	private String usersFirstName;
 	private Color color = new Color(227,99,26);
 	
-	public UserTabbedScreen(String user, ArrayList<User> users) {
+	public UserTabbedScreenGUI(String user, ArrayList<User> users) {
 		
 		
 		super("Titanfall Towers-User Home Screen");
@@ -39,7 +39,7 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 		//if the users log in was successful then they are brought to this page and LoggedIn is set to true
 		this.setResizable(false);
 		this.setBackground(Color.gray);
-		StartScreen.setLoggedIn(true);
+		StartScreenGUI.setLoggedIn(true);
 		ImageIcon icon = new ImageIcon("lib/TitanFallLogo.png");
 		welcome = new JLabel(icon);
 		welcome.setBounds(150, 50, 700, 196);
@@ -59,10 +59,10 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 
 		// Create the tab pages
 		panel1 = new CreateBookingGUI(usersID, this.users);
-		panel2 = new manageBooking(this.usersID);
+		panel2 = new ManageBookingGUI(this.usersID);
 		panel3 = new CalendarGUI();
 		panel5 = new HelpGUI();
-		panel6 = new manageAccount(this.usersID, this.users);
+		panel6 = new ManageAccountGUI(this.usersID, this.users);
 		
 		// Create a tabbed pane
 		tabbedPane = new JTabbedPane();
@@ -85,7 +85,7 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 	}
 	public void mouseClicked(MouseEvent e) {
 
-		StartScreen s = new StartScreen();
+		StartScreenGUI s = new StartScreenGUI();
 		setVisible(false);
 		s.setVisible(true);
 		s.setLoggedIn(false);

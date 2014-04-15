@@ -1,6 +1,4 @@
 package Database;
-
-
 import java.sql.*;
 
 import oracle.jdbc.pool.OracleDataSource;
@@ -13,8 +11,7 @@ public class DropTables {
 	//The tables are dropped in sequence so there is no conflict between Primary Key and Foreign Key
 	public void dropTables() {
 		q.open();
-//		System.out.println("Checking for existing tables.\n");
-
+		System.out.println("Checking for existing TitanFall database tables.\n");
 		try {
 			stmt = q.getConn().createStatement();
 
@@ -40,6 +37,7 @@ public class DropTables {
 				stmt.execute("DROP TABLE specials");
 				stmt.execute("DROP SEQUENCE special_seq");
 				System.out.println("Specials table dropped.");
+				System.out.println("Special sequence dropped.");
 			}
 			catch (SQLException ex) {
 
@@ -57,6 +55,7 @@ public class DropTables {
 				stmt.execute("DROP TABLE bookings");
 				stmt.execute("DROP SEQUENCE booking_seq");
 				System.out.println("Bookings table dropped.");
+				System.out.println("Booking sequence dropped.");
 			}
 			catch (SQLException ex) {
 
@@ -74,6 +73,7 @@ public class DropTables {
 				stmt.execute("DROP TABLE hotels");
 				stmt.execute("DROP SEQUENCE hotel_seq");
 				System.out.println("Hotels table dropped.");
+				System.out.println("Hotel sequence dropped.");
 			}
 			catch (SQLException ex) {
 
@@ -83,24 +83,22 @@ public class DropTables {
 				stmt.execute("DROP TABLE rooms");
 				stmt.execute("DROP SEQUENCE room_seq");
 				System.out.println("Rooms table dropped.");
+				System.out.println("Room sequence dropped.");
 			}
 			catch (SQLException ex) {
-
 			}
 			try{
 				//Drop the Room Type table & RoomType Sequence
 				stmt.execute("DROP TABLE roomtypes");
 				stmt.execute("DROP SEQUENCE roomType_seq");
-				System.out.println("RoomTypes table dropped.\n");
+				System.out.println("RoomTypes table dropped.");
+				System.out.println("RoomType sequence dropped.\n");
 			}
 			catch (SQLException ex) {
-
 			}
-			
 		} catch (SQLException ex) {
-			System.out.println("ERROR: AHHH ERROR!!!!! " + ex.getMessage());
+			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
-			
 		}
 		q.close();
 	}

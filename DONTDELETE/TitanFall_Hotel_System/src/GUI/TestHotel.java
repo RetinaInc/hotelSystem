@@ -1,10 +1,8 @@
 package GUI;
-
-
 public class TestHotel {
 	public static void main(String[] args) {
 		
-		StartScreen s = new StartScreen();
+		StartScreenGUI s = new StartScreenGUI();
 		s.setVisible(true);
 	}
 }

@@ -187,7 +187,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 			catch(NumberFormatException ae){}
 			}
 		else if(e.getSource().equals(btnBack) && creatingBooking ==  false){
-			startPanel s = new startPanel();
+			StartPanelGUI s = new StartPanelGUI();
 			s.setVisible(true);
 			s.setSize(1000, 589);
 			container.setVisible(false);
@@ -196,7 +196,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		else if(e.getSource().equals(btnBack) && creatingBooking ==  true){
 			Booking b = new Booking(calDate.get(Calendar.DAY_OF_MONTH), calDate.get(Calendar.MONTH), calDate.get(Calendar.YEAR) ,numNights);
 			b.availability();
-			Availability a = new Availability(calDate,numNights,numGuests);
+			AvailabilityGUI a = new AvailabilityGUI(calDate,numNights,numGuests);
 			a.listContent(b.availability());
 			container.setVisible(false);
 			a.setVisible(true);
@@ -208,14 +208,14 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 
 	public void mouseClicked(MouseEvent e) {    
 		if(creatingBooking == true){
-			CreateAccount c = new CreateAccount(calDate,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+			CreateAccountGUI c = new CreateAccountGUI(calDate,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
         	container.setVisible(false);
         	c.setVisible(true);
         	add(c);
 		}
 		else
 		{
-			CreateAccount c = new CreateAccount();
+			CreateAccountGUI c = new CreateAccountGUI();
         	container.setVisible(false);
         	c.setVisible(true);
         	add(c);
@@ -267,12 +267,12 @@ public void mouseReleased(MouseEvent e) {
 			if(loginSuccessful()){
 				try{
 				if(type.equals("A")){
-					AdminTabbedScreen a = new AdminTabbedScreen(user,users);
+					AdminTabbedScreenGUI a = new AdminTabbedScreenGUI(user,users);
 					this.setVisible(false);
 					a.setVisible(true);
 				}
 				else if(loginSuccessful() == true && creatingBooking == true){
-					CreditCard c = new CreditCard(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+					CreditCardGUI c = new CreditCardGUI(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
 					container.setVisible(false);
 					c.setVisible(true);
 					c.setSize(1000, 400);
@@ -281,7 +281,7 @@ public void mouseReleased(MouseEvent e) {
 				}
 				else
 				{
-					UserTabbedScreen ab = new UserTabbedScreen(user,users);
+					UserTabbedScreenGUI ab = new UserTabbedScreenGUI(user,users);
 					getTopLevelAncestor().setVisible(false);
 					this.setVisible(false);
 					ab.setVisible(true);

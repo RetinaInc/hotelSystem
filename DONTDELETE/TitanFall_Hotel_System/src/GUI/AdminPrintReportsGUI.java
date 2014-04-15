@@ -24,14 +24,14 @@ import javax.swing.border.LineBorder;
 
 import Database.ReportQueries;
 
-public class AdminPrintReports extends JPanel implements ActionListener {
+public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 	private JPanel container;
 	private JComboBox reportOptions;
 	private JButton saveReportTo, openReport;
 	private JLabel selectReport;
 	private String usersFirstName;
 
-	public AdminPrintReports(String usersFirstName) {
+	public AdminPrintReportsGUI(String usersFirstName) {
 		setBorder(null);
 		this.setLayout(null);
 		this.usersFirstName = usersFirstName;

@@ -14,14 +14,14 @@ import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 import java.util.Date;
 
-public class StartScreen extends JFrame {
+public class StartScreenGUI extends JFrame {
 	private JLabel welcome, background;
 	private JPanel startPanel1;
 	private static boolean loggedIn;
 	private Font font;
 
 
-	public StartScreen() {
+	public StartScreenGUI() {
 		super("TitanFall Towers");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 600);
@@ -40,7 +40,7 @@ public class StartScreen extends JFrame {
 		background = new JLabel(backgroundImage);
 		background.setBounds(0, 280, 1000,300 );
 		getContentPane().add(background);
-		startPanel1 = new startPanel();
+		startPanel1 = new StartPanelGUI();
 		startPanel1.setBounds(150, 216, 1000, 384);
 		getContentPane().add(startPanel1);
 	}

@@ -47,7 +47,7 @@ public class AdminGUI extends JFrame implements ActionListener,MouseListener,Key
 		usersID = user;
 		
 		//If users login was successful then they are brought to this page and they are logged in
-		StartScreen.setLoggedIn(true);
+		StartScreenGUI.setLoggedIn(true);
 		
 		font = new Font("Veranda",font.ITALIC,20);
 		
@@ -519,7 +519,7 @@ public class AdminGUI extends JFrame implements ActionListener,MouseListener,Key
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getSource() == signOut && e.getKeyCode() == KeyEvent.VK_ENTER){
-			StartScreen s = new StartScreen();
+			StartScreenGUI s = new StartScreenGUI();
 			this.setVisible(false);
 			s.setVisible(true);
 		}
@@ -677,7 +677,7 @@ public class AdminGUI extends JFrame implements ActionListener,MouseListener,Key
 	
 	public void mouseClicked(MouseEvent e) {
 		
-		StartScreen s = new StartScreen();
+		StartScreenGUI s = new StartScreenGUI();
 		this.setVisible(false);
 		s.setVisible(true);
 		

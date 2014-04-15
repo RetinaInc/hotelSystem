@@ -15,7 +15,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class CreateAccount extends JPanel implements ActionListener,KeyListener {
+public class CreateAccountGUI extends JPanel implements ActionListener,KeyListener {
 	private JTextField fname, lname, email, address, phone, username;
 	private JPasswordField password;
 	private JButton btnLogin, btnContinue;
@@ -30,10 +30,10 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 	private Color color = new Color(227,99,26);
 	private JPanel container;
 	
-	public CreateAccount() {
+	public CreateAccountGUI() {
 		createCreateAccountScreen();
 	}
-	public CreateAccount(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
+	public CreateAccountGUI(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
 		this.roomChoice = roomChoice; //Possibly not working
 		this.calDate = dc;
 		creatingBooking = true;
@@ -211,7 +211,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 									"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
 					if(creatingBooking == true){
-						CreditCard cc = new CreditCard(calDate,username.getText(),users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+						CreditCardGUI cc = new CreditCardGUI(calDate,username.getText(),users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
 						container.setVisible(false);
 						cc.setVisible(true);
 						cc.setSize(1000, 400);
@@ -220,7 +220,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 					else
 					{
 						getTopLevelAncestor().setVisible(false);
-						UserTabbedScreen us = new UserTabbedScreen(username.getText(),users);
+						UserTabbedScreenGUI us = new UserTabbedScreenGUI(username.getText(),users);
 						us.setVisible(true);
 					}
 				}
@@ -287,7 +287,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 									"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
 					this.setVisible(false);
-					UserScreen us = new UserScreen(username.getText(),users);
+					UserScreenGUI us = new UserScreenGUI(username.getText(),users);
 					us.setVisible(true);
 				}
 

@@ -25,7 +25,7 @@ import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 import java.awt.BorderLayout;
 
-public class startPanel extends JPanel implements ActionListener, ItemListener,KeyListener{
+public class StartPanelGUI extends JPanel implements ActionListener, ItemListener,KeyListener{
 	private String[] nights = { "1", "2", "3", "4", "5", "6", "7" };
 	private String[] rooms = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
 			"10" };
@@ -44,7 +44,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 	private Calendar cal = Calendar.getInstance();
 	private Color color = new Color(227,99,26);
 	
-	public startPanel(){
+	public StartPanelGUI(){
 		font = new Font("Veranda", font.ITALIC, 20);
 		setLayout(null);
 		setSize(1000, 600);
@@ -195,7 +195,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 		}
 		else{
 			Booking b = new Booking(day.getYear(), month.getMonth(), year.getYear() ,(numNights.getSelectedIndex()) + 1);
-			Availability a = new Availability(calDate,((numNights.getSelectedIndex()) + 1),
+			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1),
 					numPeople.getSelectedIndex() + 1);
 			a.listContent(b.availability());
 			userInteraction.setVisible(false);
@@ -229,7 +229,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 		else if(calDate.compareTo(Calendar.getInstance()) >= 0 && e.getKeyCode() == KeyEvent.VK_ENTER){
 			Booking b = new Booking(day.getYear(), (month.getMonth()), year.getYear() ,(numNights.getSelectedIndex()) + 1);
 			b.availability();
-			Availability a = new Availability(calDate,((numNights.getSelectedIndex()) + 1),
+			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1),
 					numPeople.getSelectedIndex() + 1);
 			a.listContent(b.availability());
 			this.setVisible(false);
