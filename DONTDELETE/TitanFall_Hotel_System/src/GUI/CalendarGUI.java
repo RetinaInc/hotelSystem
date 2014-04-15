@@ -6,11 +6,11 @@ import javax.swing.*;
 
 import com.toedter.calendar.JCalendar;
 
-public class calendar extends JPanel {
+public class CalendarGUI extends JPanel {
 	JLabel welcome,infoText;
 	JPanel container;
 	Font font = new Font("Verdana", Font.ITALIC, 20);
-	public calendar(){
+	public CalendarGUI(){
 		container = new JPanel(null);
 		container.setBounds(225, 200,800, 300);
 		add(container);

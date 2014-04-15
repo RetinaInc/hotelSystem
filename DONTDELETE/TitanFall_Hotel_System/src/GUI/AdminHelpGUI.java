@@ -7,9 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
-public class AdminHelp extends JPanel {
+public class AdminHelpGUI extends JPanel {
 	private JPanel container;
-	public AdminHelp(){
+	public AdminHelpGUI(){
 		this.setLayout(null);
 
 		this.setLayout(null);

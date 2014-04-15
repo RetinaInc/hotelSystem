@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-public class Admin extends JFrame implements ActionListener,MouseListener,KeyListener{
+public class AdminGUI extends JFrame implements ActionListener,MouseListener,KeyListener{
 
 	private String[] types = {"Single","Double","Suite"};
 	
@@ -37,7 +37,7 @@ public class Admin extends JFrame implements ActionListener,MouseListener,KeyLis
 	private String usersID = "";
 	private String usersFirstName; 
 	
-	public Admin(String user, ArrayList<User> users) {
+	public AdminGUI(String user, ArrayList<User> users) {
 		super("Home");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,400);

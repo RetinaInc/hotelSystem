@@ -9,9 +9,9 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
 
-public class help extends JPanel {
+public class HelpGUI extends JPanel {
 	private JPanel container;
-	public help(){
+	public HelpGUI(){
 	
 	this.setLayout(null);
 	container = new JPanel();

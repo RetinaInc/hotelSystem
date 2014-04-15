@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class Login extends JPanel implements ActionListener,MouseListener,KeyListener{
+public class LoginGUI extends JPanel implements ActionListener,MouseListener,KeyListener{
 	private JTextField username;
 	private JPasswordField password;
 	private JButton btnLogin, btnBack;
@@ -33,11 +33,11 @@ public class Login extends JPanel implements ActionListener,MouseListener,KeyLis
 	private Calendar calDate;
 	private ArrayList<Integer> roomChoice;
 	private Color color = new Color(227,99,26);
-	public Login(){
+	public LoginGUI(){
 		createLoginScreen();
 	}
 	
-	public Login(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
+	public LoginGUI(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
 		this.roomChoice = roomChoice; //Possibly not working
 		this.calDate = dc;
 		creatingBooking = true;

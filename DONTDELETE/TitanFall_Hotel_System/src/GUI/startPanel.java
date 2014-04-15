@@ -184,7 +184,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
 		if (e.getSource() == login) {
-			Login l = new Login();
+			LoginGUI l = new LoginGUI();
 			userInteraction.setVisible(false);
 			l.setVisible(true);
 			this.add(l);
@@ -222,7 +222,7 @@ public class startPanel extends JPanel implements ActionListener, ItemListener,K
 		calDate.set(year.getYear(), (month.getMonth()), day.getYear());
 		if(e.getSource() == login && e.getKeyCode() == KeyEvent.VK_ENTER){
 			
-			Login l = new Login();
+			LoginGUI l = new LoginGUI();
 			this.setVisible(false);
 			l.setVisible(true);
 		}

@@ -58,10 +58,10 @@ public class UserTabbedScreen extends JFrame implements MouseListener {
 		this.add(signOut);
 
 		// Create the tab pages
-		panel1 = new createBooking(usersID, this.users);
+		panel1 = new CreateBookingGUI(usersID, this.users);
 		panel2 = new manageBooking(this.usersID);
-		panel3 = new calendar();
-		panel5 = new help();
+		panel3 = new CalendarGUI();
+		panel5 = new HelpGUI();
 		panel6 = new manageAccount(this.usersID, this.users);
 		
 		// Create a tabbed pane

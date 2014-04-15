@@ -169,7 +169,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnLogin) {
-			Login l = new Login();
+			LoginGUI l = new LoginGUI();
 			container.setVisible(false);
 			l.setVisible(true);
 			add(l);
@@ -251,7 +251,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getSource() == btnLogin && e.getKeyCode() == KeyEvent.VK_ENTER){
-			Login l = new Login();
+			LoginGUI l = new LoginGUI();
 			this.setVisible(false);
 			l.setVisible(true);
 		}

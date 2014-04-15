@@ -65,7 +65,7 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 		panel2 = new AdminManageRooms();
 		panel3 = new AdminAddSpecials();
 		panel4 = new AdminPrintReports(usersFirstName);
-		panel5 = new AdminHelp();
+		panel5 = new AdminHelpGUI();
 		panel6 = new AdminManageAccount();
 
 		// Create a tabbed pane

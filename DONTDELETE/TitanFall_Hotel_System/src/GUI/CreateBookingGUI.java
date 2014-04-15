@@ -26,7 +26,7 @@ import java.util.Date;
 
 import javax.swing.border.BevelBorder;
 
-public class createBooking extends JPanel implements ActionListener {
+public class CreateBookingGUI extends JPanel implements ActionListener {
 	private String[] nights = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
 			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 	"21" };
@@ -48,7 +48,7 @@ public class createBooking extends JPanel implements ActionListener {
 	private Color color = new Color(227,99,26);
 
 
-	public createBooking(String user, ArrayList<User> users) {
+	public CreateBookingGUI(String user, ArrayList<User> users) {
 		Calendar cal = Calendar.getInstance();
 		font = new Font("Veranda", font.ITALIC, 24);
 

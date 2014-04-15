@@ -226,7 +226,7 @@ public class Availability extends JPanel implements ActionListener {
 					c.setVisible(true);
 					add(c);
 				} else {
-					Login l = new Login(calDate, total, numberOfRooms,
+					LoginGUI l = new LoginGUI(calDate, total, numberOfRooms,
 							numNights, numberOfGuests, arrivalDate,
 							departureDate, roomChoice);
 					container.setVisible(false);
