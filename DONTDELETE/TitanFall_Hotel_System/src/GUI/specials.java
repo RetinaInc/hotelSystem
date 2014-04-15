@@ -27,7 +27,7 @@ import Database.Queries;
 
 public class specials extends JPanel implements ActionListener{
 	
-	private JButton addSpecials;
+	private JButton addSpecials,back;
 	private JCheckBox golf,spa,breaky,karting;
 	private Color color = new Color(227,99,26);
 	private Font font;
@@ -135,25 +135,45 @@ public class specials extends JPanel implements ActionListener{
 		 
 		 price = new JLabel("Price: €" + priceField);
 		 price.setFont(font);
-		price.setBounds(317, 225, 140, 14);
+		price.setBounds(317, 205, 140, 14);
 		specials.add(price);
-		
 		
 		 addSpecials = new JButton("Add Specials");
 		 addSpecials.setFont(font);
 		addSpecials.setBackground(color);
 		addSpecials.addActionListener(this);
-		addSpecials.setBounds(296, 250, 150, 23);
+		addSpecials.setBounds(206, 230, 150, 23);
 		specials.add(addSpecials);
+		
+		back = new JButton("Back");
+		 back.setFont(font);
+		back.setBackground(color);
+		back.addActionListener(this);
+		back.setBounds(386, 230, 150, 23);
+		specials.add(back);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addSpecials){
-			q.addSpecials(numGolf,numSpa,numBreaky,numKarting,bookingid,priceField);
-			JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
-					JOptionPane.INFORMATION_MESSAGE);
-			
+			if(numGolf == 0 && numSpa == 0 && numBreaky == 0 && numKarting == 0){
+				JOptionPane.showMessageDialog(null, "Please select a special","Select a special",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				q.addSpecials(numGolf,numSpa,numBreaky,numKarting,bookingid,priceField);
+				JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
+						JOptionPane.INFORMATION_MESSAGE);
+				
+				manageBooking a = new manageBooking(usersID);
+				specials.setVisible(false);
+				a.setVisible(true);
+				add(a);
+			}
+		}
+		else
+		{
 			manageBooking a = new manageBooking(usersID);
 			specials.setVisible(false);
 			a.setVisible(true);

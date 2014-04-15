@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CreateAccount extends JPanel implements ActionListener,KeyListener {
 	private JTextField fname, lname, email, address, phone, username;
@@ -20,9 +21,32 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 	private JButton btnLogin, btnContinue;
 	private JLabel lblFirstName, lblLastName, lblEmailAddress, lblHomeAddress,
 			lblTelephone, lblUsername, lblPassword;
+	private boolean creatingBooking = false;
+	private double total;
+	private int numRooms,numNights,numGuests;
+	private String arrivalD,departureD;
+	private Calendar calDate;
+	private ArrayList<Integer> roomChoice;
+	private Color color = new Color(227,99,26);
 	private JPanel container;
 	
 	public CreateAccount() {
+		createCreateAccountScreen();
+	}
+	public CreateAccount(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
+		this.roomChoice = roomChoice; //Possibly not working
+		this.calDate = dc;
+		creatingBooking = true;
+		this.total = total;
+		numRooms = numberOfRooms;
+		this.numNights = numNights;
+		numGuests = numberOfGuests;
+		arrivalD = arrivalDate;
+		departureD = departureDate;
+		createCreateAccountScreen();
+
+	}
+	public void createCreateAccountScreen(){
 		setSize(600,600);
 		setLayout(null);
 		container = new JPanel();
@@ -54,7 +78,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 		lname = new JTextField();
 		lname.setToolTipText("Enter your last name");
 		account_details.add(lname);
-		lname.setColumns(10);                                                     
+		lname.setColumns(10);
 
 		lblHomeAddress = new JLabel("Home Address");
 		account_details.add(lblHomeAddress);
@@ -96,6 +120,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 		account_details.add(password);
 
 		btnLogin = new JButton("Login");
+		btnLogin.setBackground(color);
 		btnLogin.setToolTipText("Login to your account");
 		btnLogin.isFocusable();
 		btnLogin.addKeyListener(this);
@@ -104,6 +129,7 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 		container.add(btnLogin);
 
 		btnContinue = new JButton("Continue");
+		btnContinue.setBackground(color);
 		btnContinue.setToolTipText("Create your account");
 		btnContinue.isFocusable();
 		btnContinue.addKeyListener(this);
@@ -184,9 +210,19 @@ public class CreateAccount extends JPanel implements ActionListener,KeyListener 
 					JOptionPane.showMessageDialog(null,"Sorry, this username is already taken, please try a different username",
 									"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
-					getTopLevelAncestor().setVisible(false);
-					UserTabbedScreen us = new UserTabbedScreen(username.getText(),users);
-					us.setVisible(true);
+					if(creatingBooking == true){
+						CreditCard cc = new CreditCard(calDate,username.getText(),users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+						container.setVisible(false);
+						cc.setVisible(true);
+						cc.setSize(1000, 400);
+						add(cc);
+					}
+					else
+					{
+						getTopLevelAncestor().setVisible(false);
+						UserTabbedScreen us = new UserTabbedScreen(username.getText(),users);
+						us.setVisible(true);
+					}
 				}
 
 			} else {

@@ -178,7 +178,6 @@ public class Queries {
 				pstmt.setInt(2, 22);
 				pstmt.setInt(3,bookingid );
 				pstmt.executeUpdate();
-				pstmt.executeUpdate();
 			}
 
 			if(breakfast > 0){
@@ -190,7 +189,6 @@ public class Queries {
 				pstmt.setInt(2, 33);
 				pstmt.setInt(3,bookingid );
 				pstmt.executeUpdate();
-				pstmt.executeUpdate();
 			}
 
 			if(karting > 0){
@@ -201,7 +199,6 @@ public class Queries {
 				pstmt.setInt(1, numSpecials);
 				pstmt.setInt(2, 44);
 				pstmt.setInt(3,bookingid );
-				pstmt.executeUpdate();
 				pstmt.executeUpdate();
 			}
 

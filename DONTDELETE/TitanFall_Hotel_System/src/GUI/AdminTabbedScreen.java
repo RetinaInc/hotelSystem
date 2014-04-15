@@ -22,7 +22,7 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 	private ArrayList<User> users;
 	private String usersID, usersFirstName;
 	private Font font, fontRegular;
-
+	private Color color = new Color(227,99,26);
 
 	public AdminTabbedScreen(String user, ArrayList<User> users) {
 		super("Home");
@@ -40,14 +40,13 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 		add(welcome);
 		
 		welcomeUser = new JLabel("Welcome, " + getUsersFirstName());
-		welcomeUser.setBounds(760, 30, 127, 23);
+		welcomeUser.setBounds(740, 30, 140, 23);
 		welcomeUser.setFont(fontRegular);
 		add(welcomeUser);
 		
 		signOut = new JLabel("Sign Out");
 		signOut.setFocusable(true);
 		signOut.addMouseListener(this);
-		signOut.setForeground(new Color(0, 160, 255));
 		signOut.setBounds(920, 30, 127, 23);
 		signOut.setFont(new Font("Veranda", font.PLAIN, 16));
 		this.add(signOut);
@@ -104,12 +103,12 @@ public class AdminTabbedScreen extends JFrame implements MouseListener{
 
 	public void mouseEntered(MouseEvent e) {
 
-		signOut.setForeground(Color.GREEN);
+		signOut.setForeground(color);
 	}
 
 	public void mouseExited(MouseEvent e) {
 
-		signOut.setForeground(new Color(0, 160, 255));
+		signOut.setForeground(color.BLACK);
 	}
 
 	public void mousePressed(MouseEvent e) {

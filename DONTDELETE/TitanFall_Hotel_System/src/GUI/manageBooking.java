@@ -66,19 +66,19 @@ public class manageBooking extends JPanel implements ActionListener {
 
 		JButton editBooking = new JButton("Edit booking");
 		editBooking.setBackground(color);
-		editBooking.setBounds(751, 252, 150, 23);
+		editBooking.setBounds(751, 265, 150, 23);
 		bookingPanel.add(editBooking);
 		saveChanges = new JButton("Save Changes");
 		saveChanges.setBackground(color);
 		saveChanges.addActionListener(this);
-		saveChanges.setBounds(751, 307, 150, 23);
+		saveChanges.setBounds(751, 315, 150, 23);
 		bookingPanel.add(saveChanges);
 		
 		saveReceipt = new JButton("Save Receipt");
 		saveReceipt.addActionListener(this);
 		saveReceipt.setToolTipText("Save selected booking to a file");
 		saveReceipt.setBackground(color);
-		saveReceipt.setBounds(751, 362, 150, 23);
+		saveReceipt.setBounds(751, 365, 150, 23);
 		bookingPanel.add(saveReceipt);
 		
 		addSpecial = new JButton("Add Specials");
@@ -111,6 +111,8 @@ public class manageBooking extends JPanel implements ActionListener {
 		 * **/
 		//code used to save the receipt of a selected booking
 		if(ae.getSource() == saveReceipt){
+			try
+			{
 			//get the number of row the user selects 
 			int row = table.getSelectedRow();
 			//column is always set to zero because we are looking for the booking id
@@ -128,8 +130,12 @@ public class manageBooking extends JPanel implements ActionListener {
 		            } catch (Exception ex) {
 		                ex.printStackTrace();
 		            }
-			 }	
-			
+			 }
+			}
+			catch(Exception e){
+				JOptionPane.showMessageDialog(null, "Please select a booking you wish to save a receipt on","Save receipt",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		
 		else if(ae.getSource() == addSpecial){

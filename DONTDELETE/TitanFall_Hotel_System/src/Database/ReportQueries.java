@@ -22,11 +22,12 @@ public class ReportQueries {
 	,janCost3,febCost3,marCost3,aprCost3,mayCost3,junCost3,julCost3,augCost3,sepCost3,octCost3,novCost3,decCost3;
 	
 	private int numGolf,numSpa,numBreaky,numKarting;
+	private String golf = "",spa = "",breaky = "",karting = "";
 	
 	private int numSingles = 0,numDoubles = 0,numTwins = 0;
 	private int cost4Single = 0,cost4Double = 0,cost4Twin = 0;
 	private int total;
-	private int specialsCost;
+	private double specialsCost;
 	
 	private Date today = new Date();
 	private Date arrivalDate,departureDate;
@@ -942,11 +943,39 @@ public class ReportQueries {
 				arrivalDate = rset.getDate("arrivalD");
 				departureDate = rset.getDate("departureD");
 			}
+			sql = "select SPECIALS.SPECIAL_NAME as Name,SPECIALS.SPECIAL_COST as Cost from SPECIALBOOKINGS,SPECIALS "
+					+ "where SPECIALS.SPECIAL_ID = SPECIALBOOKINGS.SPECIAL_ID "
+					+ "and BOOKING_ID = " + id;
+
+			pstmt = q.getConn().prepareStatement(sql);
+			rset = pstmt.executeQuery(); //if a result set is returned it means the user has specials
+			while(rset.next()){
+				if(rset.getString("Name").equals("Golf")){
+					numGolf++;
+					specialsCost = specialsCost + rset.getDouble("Cost");
+					golf = "\r\n\t\t1\t\t\tGolf\t\t\t\t\t€" + rset.getDouble("Cost");
+				}
+				else if(rset.getString("Name").equals("Spa Treatment")){
+					numSpa++;
+					specialsCost = specialsCost + rset.getDouble("Cost");
+					spa = "\r\n\t\t1\t\t\tSpa\t\t\t\t\t€" + rset.getDouble("Cost");
+				}
+				else if(rset.getString("Name").equals("Breakfast")){
+					numBreaky++;
+					specialsCost = specialsCost + rset.getDouble("Cost");
+					breaky = "\r\n\t\t1\t\t\tBreakfast\t\t\t\t€" + rset.getDouble("Cost");
+				}
+				else if(rset.getString("Name").equals("Go-karting")){
+					numKarting++;
+					specialsCost = specialsCost + rset.getDouble("Cost");
+					karting = "\r\n\t\t1\t\t\tGo-karting\t\t\t\t€" + rset.getDouble("Cost");
+				}
+			}
 		}
 		catch(Exception e){
 			System.out.println("could not make users receipt " + e);
 		}
-		String single = "",doubles = "",twin = "";
+		String single = "",doubles = "",twin = "",specials = "";
 		if(numSingles > 0){
 			 single = "\r\n\t\t" + numSingles + "\t\t\tSingle Room\t\t\t\t€59.00\t\t\t\t\t€" + cost4Single;
 		}
@@ -956,11 +985,15 @@ public class ReportQueries {
 		 if(numTwins > 0){
 			 twin = "\r\n\t\t" + numTwins + "\t\t\tTwin Room\t\t\t\t€199.00\t\t\t\t\t€" + cost4Twin;
 		}
+		 if(numGolf > 0 || numSpa > 0 || numBreaky > 0 || numKarting > 0){
+			 specials = "\r\n\r\n\r\n\t\t\t\t\t\t\t\t\tSPECIALS YOU HAVE CHOSEN\r\n";
+		 }
 		String receipt2 = "\t\t\t\t\t\t\t\t\tTITANFALL TOWERS HOTEL\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tArrival Date\t" + f.format(arrivalDate) + "\r\n"
 				+ "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeparture Date\t" + f.format(departureDate) + "\r\n\r\n"
-		+ "\t\tQuantity\t\tDescription\t\t\t\tUnit Price\t\t\t\tAmount" + single + doubles + twin
-		 + "\r\n\r\n\t\t\t\t\t\t\t\t\t\tSubtotal\t\t\t\t€" +
-		total;
+		+ "\t\tQuantity\t\tDescription\t\t\t\tUnit Price\t\t\t\tAmount" + single + doubles + twin + specials + golf + spa
+		+ breaky + karting + "\r\n\r\n\t\t\t\t\t\t\t\t\t\tTotal\t\t\t\t\t€" + (total + specialsCost)
+		+"\r\n\r\n\t\t\t\t\t\t\t\t\t\tVAT\t\t\t\t\t€" + (total * 21 / 100) + "\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t---------\r\n"
+		+ "\r\n\t\t\t\t\t\t\t\t\t\tSubtotal\t\t\t\t€" + (total + (total * 21 / 100) + specialsCost);
 		q.close();
 		return receipt2;
 	}

@@ -5,6 +5,7 @@ import java.util.*;
 
 import Model.*;
 import oracle.jdbc.pool.OracleDataSource;
+
 public class CreateTables {
 	
 	private Statement stmt;
@@ -40,59 +41,59 @@ public class CreateTables {
 			pstmt = q.getConn().prepareStatement(sqlInsert);
 			
 			// USERS Insert row #1.
-			pstmt.setString(1,"01");
-			pstmt.setString(2,"G");
-			pstmt.setString(3,"Derek");
-			pstmt.setString(4,"Mulhern");
-			pstmt.setString(5,"Celbridge");
-			pstmt.setString(6,"088123456");
-			pstmt.setString(7,"delpeter@gmail.com");
-			pstmt.setString(8,"9zFn82OjhKk=");
-			pstmt.executeUpdate();
-			
-			// USERS Insert row #2.
-			pstmt.setString(1,"02");
-			pstmt.setString(2,"G");
-			pstmt.setString(3,"Robert");
-			pstmt.setString(4,"Kenny");
-			pstmt.setString(5,"101 The Jacks");
-			pstmt.setString(6,"088123457");
-			pstmt.setString(7,"robertkenny@gmail.com");
-			pstmt.setString(8,"0+nu06G9r0o=");
-			pstmt.executeUpdate();
-			
-			// USERS Insert row #3.
-			pstmt.setString(1,"03");
-			pstmt.setString(2,"G");
-			pstmt.setString(3,"Mark");
-			pstmt.setString(4,"Lordan");
-			pstmt.setString(5,"121 The Whatever");
-			pstmt.setString(6,"088123458");
-			pstmt.setString(7,"marklordan@gmail.com");
-			pstmt.setString(8,"GVb3hMSMrVM=");
-			pstmt.executeUpdate();
-			
-			// USERS Insert row #4.
-			pstmt.setString(1,"04");
-			pstmt.setString(2,"G");
-			pstmt.setString(3,"Thomas");
-			pstmt.setString(4,"Murphy");
-			pstmt.setString(5,"7 The Pub");
-			pstmt.setString(6,"088123459");
-			pstmt.setString(7,"thomasmurphy@gmail.com");
-			pstmt.setString(8,"bua6oR4xy/M=");
-			pstmt.executeUpdate();
-			
-			// USERS Insert row #4.
-			pstmt.setString(1,"05");
-			pstmt.setString(2,"A");
-			pstmt.setString(3,"Eileen");
-			pstmt.setString(4,"Costello");
-			pstmt.setString(5,"88 The Titanfall");
-			pstmt.setString(6,"088123460");
-			pstmt.setString(7,"eileencostello@gmail.com");
-			pstmt.setString(8,"cz/uuFILsAU=");
-			pstmt.executeUpdate();
+						pstmt.setString(1,"01");
+						pstmt.setString(2,"G");
+						pstmt.setString(3,"Derek");
+						pstmt.setString(4,"Mulhern");
+						pstmt.setString(5,"Celbridge");
+						pstmt.setString(6,"088123456");
+						pstmt.setString(7,"delpeter@gmail.com");
+						pstmt.setString(8,"9zFn82OjhKk=");
+						pstmt.executeUpdate();
+						
+						// USERS Insert row #2.
+						pstmt.setString(1,"02");
+						pstmt.setString(2,"G");
+						pstmt.setString(3,"Robert");
+						pstmt.setString(4,"Kenny");
+						pstmt.setString(5,"101 The Jacks");
+						pstmt.setString(6,"088123457");
+						pstmt.setString(7,"robertkenny@gmail.com");
+						pstmt.setString(8,"0+nu06G9r0o=");
+						pstmt.executeUpdate();
+						
+						// USERS Insert row #3.
+						pstmt.setString(1,"03");
+						pstmt.setString(2,"G");
+						pstmt.setString(3,"Mark");
+						pstmt.setString(4,"Lordan");
+						pstmt.setString(5,"121 The Whatever");
+						pstmt.setString(6,"088123458");
+						pstmt.setString(7,"marklordan@gmail.com");
+						pstmt.setString(8,"GVb3hMSMrVM=");
+						pstmt.executeUpdate();
+						
+						// USERS Insert row #4.
+						pstmt.setString(1,"04");
+						pstmt.setString(2,"G");
+						pstmt.setString(3,"Thomas");
+						pstmt.setString(4,"Murphy");
+						pstmt.setString(5,"7 The Pub");
+						pstmt.setString(6,"088123459");
+						pstmt.setString(7,"thomasmurphy@gmail.com");
+						pstmt.setString(8,"bua6oR4xy/M=");
+						pstmt.executeUpdate();
+						
+						// USERS Insert row #5.
+						pstmt.setString(1,"05");
+						pstmt.setString(2,"A");
+						pstmt.setString(3,"Eileen");
+						pstmt.setString(4,"Costello");
+						pstmt.setString(5,"88 The Titanfall");
+						pstmt.setString(6,"088123460");
+						pstmt.setString(7,"eileencostello@gmail.com");
+						pstmt.setString(8,"cz/uuFILsAU=");
+						pstmt.executeUpdate();
 			
 // HOTELS TABLE
 			stmt.executeUpdate("CREATE TABLE Hotels "
@@ -107,7 +108,7 @@ public class CreateTables {
 			pstmt.setString(1, "TitanFall Tower Hotel");
 			pstmt.setString(2,"087998877");
 			pstmt.setString(3, "100 Star Living Street");
-			pstmt.setInt(4, 10);
+			pstmt.setInt(4, 15);
 			pstmt.setInt(5,5);
 			pstmt.executeUpdate();
 
@@ -175,12 +176,12 @@ public class CreateTables {
 			
 // SPECIALS TABLE
 			stmt.executeUpdate("CREATE TABLE Specials "
-					+ "(Special_ID varchar2(50) NOT NULL PRIMARY KEY, Special_Name varchar2(50), Special_Cost number(5,2), Booking_ID number, FOREIGN KEY(Booking_ID) REFERENCES bookings (Booking_ID) ON DELETE CASCADE)");
+					+ "(Special_ID number NOT NULL PRIMARY KEY, Special_Name varchar2(50), Special_Cost number(5,2))");
 			
 			stmt.executeUpdate("CREATE SEQUENCE special_seq start with 11 increment by 11");
 			
 			
-			String specialInsert = "INSERT INTO specials VALUES(special_seq.nextval,?,?,booking_seq.currval)";
+			String specialInsert = "INSERT INTO specials VALUES(special_seq.nextval,?,?)";
 			pstmt = q.getConn().prepareStatement(specialInsert);
 			
 			// SPECIALS Insert row #1.
@@ -238,11 +239,11 @@ public class CreateTables {
 			pstmt.setString(1,"1.1.16");
 			pstmt.executeUpdate();
 			
-			String specialInsert2 = "INSERT INTO specials VALUES(special_seq.nextval,?,?,booking_seq.currval)";
+			String specialInsert2 = "INSERT INTO specials VALUES(special_seq.nextval,?,?)";
 			pstmt = q.getConn().prepareStatement(specialInsert2);
 			
 			// SPECIALS Insert row #2.
-			pstmt.setString(1, "Spa");
+			pstmt.setString(1, "Spa Treatment");
 			pstmt.setDouble(2,150);
 			pstmt.executeUpdate();
 			
@@ -284,7 +285,7 @@ public class CreateTables {
 			pstmt.setString(1,"25.7.16");
 			pstmt.executeUpdate();
 			
-			String specialInsert3 = "INSERT INTO specials VALUES(special_seq.nextval,?,?,booking_seq.currval)";
+			String specialInsert3 = "INSERT INTO specials VALUES(special_seq.nextval,?,?)";
 			pstmt = q.getConn().prepareStatement(specialInsert3);
 			
 			// SPECIALS Insert row #3.
@@ -322,11 +323,11 @@ public class CreateTables {
 			pstmt.setString(1,"31.1.15");
 			pstmt.executeUpdate();
 			
-			String specialInsert4 = "INSERT INTO specials VALUES(special_seq.nextval,?,?,booking_seq.currval)";
+			String specialInsert4 = "INSERT INTO specials VALUES(special_seq.nextval,?,?)";
 			pstmt = q.getConn().prepareStatement(specialInsert4);
 			
 			// SPECIALS Insert row #4.
-			pstmt.setString(1, "Valentines Day");
+			pstmt.setString(1, "Go-karting");
 			pstmt.setDouble(2,50);
 			pstmt.executeUpdate();
 			
@@ -451,6 +452,13 @@ public class CreateTables {
 			pstmt.setString(6,"04");
 			pstmt.executeUpdate();
 			
+			//CREATE SPECIALBOOKINGS TABLE
+			stmt.executeUpdate("CREATE TABLE SpecialBookings " + "(Special_Number number,Special_ID number NOT NULL,"
+					+ "Booking_ID number NOT NULL,"
+					+ "PRIMARY KEY(Special_ID, Booking_ID),"
+					+ " FOREIGN KEY (Special_ID) REFERENCES Specials (Special_ID) ON DELETE CASCADE,"
+					+ " FOREIGN KEY (Booking_ID) REFERENCES Bookings (Booking_ID) ON DELETE CASCADE)");
+			
 			System.out.println("Hotels table created.");
 			System.out.println("Bookings table created.");	
 			System.out.println("Users table created.");			
@@ -458,7 +466,8 @@ public class CreateTables {
 			System.out.println("Roomtypes table created.");
 			System.out.println("RoomBookings table created.");
 			System.out.println("Credit Card table created.");
-			System.out.println("Specials table created.\n");
+			System.out.println("Specials table created.");
+			System.out.println("SpecialBookings table created.\n");
 			
 		} 
 		catch (SQLException ex) {
