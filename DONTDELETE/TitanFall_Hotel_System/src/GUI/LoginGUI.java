@@ -160,10 +160,8 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 			try {
 				passDe = Encryption.encrypt(password.getText());
 			} catch (GeneralSecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(users.get(i).getUserID().equals(username.getText()) && users.get(i).getPassword().equals(passDe)){
@@ -268,7 +266,7 @@ public void mouseReleased(MouseEvent e) {
 				try{
 				if(type.equals("A")){
 					AdminTabbedScreenGUI a = new AdminTabbedScreenGUI(user,users);
-					this.setVisible(false);
+					getTopLevelAncestor().setVisible(false);
 					a.setVisible(true);
 				}
 				else if(loginSuccessful() == true && creatingBooking == true){

@@ -1,7 +1,9 @@
 package Database;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
+
 import Model.*;
 import oracle.jdbc.pool.OracleDataSource;
 
@@ -21,8 +23,8 @@ public class Queries {
 				//ods.setUser("X00106072");
 				//ods.setPassword("db29Mar93");
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("Delboy");
-				ods.setPassword("7777");
+				ods.setUser("root");
+				ods.setPassword("root");
 				conn = ods.getConnection();
 			}
 			 catch (Exception ex) {
@@ -46,7 +48,7 @@ public class Queries {
 	public ArrayList<Object[]> getBookings(String userID){
 		System.out.println(userID);
 		ArrayList<Object[]> resultList = new ArrayList<Object[]>();
-		String query = "SELECT booking_id, number_of_guests, number_of_rooms, total_cost, arrivaldate, departuredate FROM bookings WHERE USER_ID = '"+ userID + "'";
+		String query = "SELECT booking_id, number_of_guests, number_of_rooms,number_of_nights, total_cost, arrivaldate, departuredate FROM bookings WHERE USER_ID = '"+ userID + "'";
 		try{
 			open();
 			stmt = getConn().createStatement();
@@ -55,6 +57,7 @@ public class Queries {
 				Object[] b = {rset.getInt("booking_id"),
 						rset.getInt("number_of_guests"),
 						rset.getInt("number_of_rooms"),
+						rset.getInt("number_of_nights"),
 						rset.getDouble("total_cost"),
 						rset.getDate("arrivaldate"),
 						rset.getDate("departuredate")};
@@ -83,8 +86,8 @@ public class Queries {
 		Calendar arrivalQ = Calendar.getInstance();
 		arrivalQ.set(year, month, day);
 		
-		System.out.println(day + " " +  month + " " +year);
-		String firstRoomQuery = "SELECT r.room_number, rt.type_name, rt.roomtype_price FROM rooms r, roomtypes rt WHERE r.type_id = rt.type_id";
+//		System.out.println(day + " " +  month + " " +year);
+		String firstRoomQuery = "SELECT r.room_number, rt.type_name, rt.roomtype_price FROM rooms r, roomtypes rt WHERE r.type_id = rt.type_id ORDER BY r.room_number";
 		
 		String secondRoomQuery = "SELECT r.ROOM_NUMBER FROM BOOKINGS b, roombookings rb, rooms r WHERE rb.BOOKING_ID = b.BOOKING_ID AND rb.room_number = r.room_number AND"
 			+ "((TO_DATE('" + arrivalQ.get(Calendar.YEAR) + "/" + (arrivalQ.get(Calendar.MONTH)+1) + "/" + arrivalQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') >= ARRIVALDATE "
@@ -97,8 +100,8 @@ public class Queries {
 		int[] bookedRooms;
 		try {
 			open();
-			System.out.println(arrivalQ.get(Calendar.MONTH)+1);
-			System.out.println(cal.getTime());
+//			System.out.println(arrivalQ.get(Calendar.MONTH)+1);
+//			System.out.println(cal.getTime());
 			stmt = getConn().createStatement();
 			rset = stmt.executeQuery(firstRoomQuery); // first query, selects
 														// all rooms
@@ -108,9 +111,9 @@ public class Queries {
 						rset.getDouble("ROOMTYPE_PRICE"));
 				roomList.add(r); // add room object to arraylist
 			}
-			for (int i = 0; i < roomList.size(); i++) {
-				System.out.println(roomList.get(i).getRoomNumber());
-			}
+//			for (int i = 0; i < roomList.size(); i++) {
+//				System.out.println(roomList.get(i).getRoomNumber());
+//			}
 			rset = stmt.executeQuery(secondRoomQuery);
 			int counter = 0;
 			bookedRooms = new int[roomList.size()];
@@ -118,9 +121,9 @@ public class Queries {
 				bookedRooms[counter] = rset.getInt("ROOM_NUMBER");
 				counter++;
 			}
-			for (int i = 0; i < bookedRooms.length; i++) {
-				System.out.println(bookedRooms[i]);
-			}
+//			for (int i = 0; i < bookedRooms.length; i++) {
+//				System.out.println(bookedRooms[i]);
+//			}
 			// We use the Iterator to move through the array-list, the loop checks every iteration of room
 			// numbers against each value of bookedRooms
 			Iterator<Room> it = roomList.iterator(); 
@@ -136,9 +139,9 @@ public class Queries {
 			System.out.println("ERROR: " + ex.getMessage());
 			ex.printStackTrace();
 		}
-		for (int i = 0; i < roomList.size(); i++) {
-			System.out.println(roomList.get(i).getRoomNumber());
-		}
+//		for (int i = 0; i < roomList.size(); i++) {
+//			System.out.println(roomList.get(i).getRoomNumber());
+//		}
 		close();
 		return roomList;  //passed back to model as an arrayList of Room objects
 		
@@ -203,4 +206,7 @@ public class Queries {
 		}
 		close();
 	}
+
 }
+
+

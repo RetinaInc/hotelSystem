@@ -21,9 +21,7 @@ public class RoomOperations {
 	 * to add the room to the Rooms table in the database
 	 */
 	public void addRoom(Room r) {
-		try {
-			System.out.println(r.getRoomNumber() + " " + r.isRoomAvailability() + " " + r.getRoomTypeID());
-			
+		try {			
 			String addRoomSQL = "INSERT INTO Rooms (Room_Number, Room_Availability, Type_ID) VALUES (?,?,?)";
 			
 			pstmt = connection.prepareStatement(addRoomSQL);
@@ -71,7 +69,6 @@ public class RoomOperations {
 			pstmt = connection.prepareStatement(addRoomSQL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rset = pstmt.executeQuery();
 			rset.last();
-			System.out.println(rset.getInt(1) + "," + rset.getString(2) + "," + rset.getInt(3));
 		}catch(Exception exc){
 			System.out.println("ERROR:  " + exc.getMessage());
 		}

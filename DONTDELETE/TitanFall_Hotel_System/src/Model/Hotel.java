@@ -154,14 +154,10 @@ public class Hotel {
 		rset = roomOp.getLastRow();
 		try{
 			Room r = new Room(rset.getInt(1),rset.getString(2), rset.getInt(3));
-			
-			System.out.println(r.getRoomNumber());
 			roomList = new ArrayList<Room>();
 			refreshList();
 			totalNumberRooms++;
 			roomList.add(r);
-			
-			System.out.println(rset.getInt(1) +  rset.getString(2)  +  rset.getInt(3));
 		}catch(Exception e){
 			System.out.println(e);
 		}

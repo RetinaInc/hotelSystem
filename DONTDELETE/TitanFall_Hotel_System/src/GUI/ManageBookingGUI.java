@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,8 +22,8 @@ import Database.ReportQueries;
 
 public class ManageBookingGUI extends JPanel implements ActionListener {
 	//Gui Components 
-	private JLabel welcome,currentBookings;
-	private JButton manageBooking, saveChanges,saveReceipt,addSpecial;
+	private JLabel currentBookings;
+	private JButton editBooking, saveChanges,saveReceipt,addSpecial;
 	private Object[][] array2d;
 	private DefaultTableModel model;
 	private JTable table;
@@ -51,10 +53,10 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 		bookingPanel.add(currentBookings);
 	
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(70, 265, 650, 170);
+		scrollPane.setBounds(33, 265, 750, 170);
 		bookingPanel.add(scrollPane);
 		Object[] columnNames = { "Booking ID", "Number of Guests",
-				"Number of Rooms", "Total Cost", "Arrival", "Departure"};
+				"Number of Rooms","Number of Nights", "Total Cost", "Arrival", "Departure"};
 		testBookings(usersID);
 		model = new DefaultTableModel(array2d, columnNames);
 
@@ -64,28 +66,29 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane.setViewportView(table);
 
-		JButton editBooking = new JButton("Edit booking");
+		editBooking = new JButton("Edit booking");
 		editBooking.setBackground(color);
-		editBooking.setBounds(751, 265, 150, 23);
+		editBooking.addActionListener(this);
+		editBooking.setBounds(810, 265, 150, 23);
 		bookingPanel.add(editBooking);
 		saveChanges = new JButton("Save Changes");
 		saveChanges.setBackground(color);
 		saveChanges.addActionListener(this);
-		saveChanges.setBounds(751, 315, 150, 23);
+		saveChanges.setBounds(810, 315, 150, 23);
 		bookingPanel.add(saveChanges);
 		
 		saveReceipt = new JButton("Save Receipt");
 		saveReceipt.addActionListener(this);
 		saveReceipt.setToolTipText("Save selected booking to a file");
 		saveReceipt.setBackground(color);
-		saveReceipt.setBounds(751, 365, 150, 23);
+		saveReceipt.setBounds(810, 365, 150, 23);
 		bookingPanel.add(saveReceipt);
 		
 		addSpecial = new JButton("Add Specials");
 		addSpecial.addActionListener(this);
 		addSpecial.setToolTipText("Add a special to a specific booking");
 		addSpecial.setBackground(color);
-		addSpecial.setBounds(751, 412, 150, 23);
+		addSpecial.setBounds(810, 412, 150, 23);
 		bookingPanel.add(addSpecial);
 
 	//add the Booking container
@@ -99,9 +102,8 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 			for (int i = 0; i < array2d.length; i++) {
 				System.out.println(array2d[i][0] + " " + array2d[i][1] + " "
 						+ array2d[i][2] + " " + array2d[i][3] + " " + array2d[i][4]
-						+ " " + array2d[i][5]);
+						+ " " + array2d[i][5] + " " +array2d[i][6]);
 			}
-
 		}
 
 	@Override
@@ -154,6 +156,27 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 			}
 			catch(Exception e){
 				JOptionPane.showMessageDialog(null, "Please select a booking you want to add a special to","Add special",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else if(ae.getSource() == editBooking){
+			try
+			{
+			//get the number of row the user selects 
+			int row = table.getSelectedRow();
+			//column is always set to zero because we are looking for the booking id
+			int bookingid = Integer.parseInt(table.getValueAt(row, 0).toString());
+			
+			EditBookingGUI e = new EditBookingGUI(usersID, bookingid, (int) array2d[row][1],(int)array2d[row][2], (int) array2d[row][3] ,(double) array2d[row][4],(Date) array2d[row][5],(Date) array2d[row][6]);
+			bookingPanel.setVisible(false);
+			e.setVisible(true);
+			e.setBounds(150, 300, 640, 300);
+			add(e);
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Please select a booking you wish to edit","Edit Booking",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}

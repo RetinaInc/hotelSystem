@@ -111,16 +111,8 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		year.setYear(cal.get(Calendar.YEAR));
 		year.setMaximum(2016);
 		year.setMinimum(2014);
-
 		search.add(year);
 
-		// ////////////////////////////////////////////////////////////////////////////////////////////////////
-		// JDateChooser //
-		// Sets date of comboBoxes to selected date //
-		// for-loop needed, otherwise it looks for position 2014,2015 etc //
-		// //
-		// //
-		// ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		dateChooser = new JDateChooser();
 		dateChooser.setMinSelectableDate(cal.getTime());
@@ -229,8 +221,7 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		else if(calDate.compareTo(Calendar.getInstance()) >= 0 && e.getKeyCode() == KeyEvent.VK_ENTER){
 			Booking b = new Booking(day.getYear(), (month.getMonth()), year.getYear() ,(numNights.getSelectedIndex()) + 1);
 			b.availability();
-			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1),
-					numPeople.getSelectedIndex() + 1);
+			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1), numPeople.getSelectedIndex() + 1);
 			a.listContent(b.availability());
 			this.setVisible(false);
 			a.setVisible(true);

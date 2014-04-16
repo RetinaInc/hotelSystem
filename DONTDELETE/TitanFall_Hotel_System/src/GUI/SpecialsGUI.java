@@ -39,7 +39,7 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 	private JPanel specials;
 	public SpecialsGUI(String usersID,int bookingid){
 		setLayout(null);	
-		 specials = new JPanel();
+		specials = new JPanel();
 		specials.setBounds(125,210, 743, 288);
 		add(specials);
 		specials.setLayout(null);
