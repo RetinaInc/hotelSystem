@@ -285,7 +285,10 @@ public void mouseReleased(MouseEvent e) {
 					ab.setVisible(true);
 				}
 				}
-				catch(Exception ae){}
+				catch(Exception ae){
+					System.out.println(ae);
+					ae.printStackTrace();
+				}
 				
 			
 			}

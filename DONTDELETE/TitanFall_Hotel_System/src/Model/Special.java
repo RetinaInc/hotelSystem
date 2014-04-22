@@ -1,24 +1,22 @@
 package Model;
 
 public class Special {
-	
-	// Instance variables
-	private String speicalID,specialName;
+
+	private String specialName;
 	private double specialsCost;
+	private int speicalID;
 	
-	// Special constructor
-	public Special(String specialID, String specialName, double specialCost){
+	public Special(int specialID, String specialName, double specialCost){
 		this.speicalID = specialID;
 		this.specialName = specialName;
 		this.specialsCost = specialCost;
 	}
 
-	// Getters and Setters
-	public String getSpeicalID() {
+	public int getSpeicalID() {
 		return speicalID;
 	}
 
-	public void setSpeicalID(String speicalID) {
+	public void setSpeicalID(int speicalID) {
 		this.speicalID = speicalID;
 	}
 

@@ -7,6 +7,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,26 +23,35 @@ import javax.swing.border.BevelBorder;
 import javax.swing.UIManager;
 
 import java.awt.SystemColor;
+import java.util.ArrayList;
 
 import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
 
 import Database.Queries;
+import Database.specialsOperations;
+import Model.Special;
 
 public class SpecialsGUI extends JPanel implements ActionListener{
 	
 	private JButton addSpecials,back;
-	private JCheckBox golf,spa,breaky,karting;
 	private Color color = new Color(227,99,26);
 	private Font font;
 	private JLabel addSomething,price;
 	private Double priceField = 0.0;
-	private int bookingid,numGolf,numBreaky,numSpa,numKarting;
-	private Queries q = new Queries();
+	private int bookingid;
+	private DefaultTableModel model;
+	private ArrayList<Object[]> specialList;
+	private Object[][] array2d;
+	private Object[] columnNames = { "Name", "Cost"};
+	private JTable specialsList;
+	private specialsOperations s = new specialsOperations();
 	private String usersID;
 	private JPanel specials;
+	private int[] selection;
 	public SpecialsGUI(String usersID,int bookingid){
 		setLayout(null);	
-		specials = new JPanel();
+		 specials = new JPanel();
 		specials.setBounds(125,210, 743, 288);
 		add(specials);
 		specials.setLayout(null);
@@ -53,89 +65,33 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 	 addSomething.setBounds(10, 0, 760, 36);
 	 specials.add(addSomething);
 		
-		 golf = new JCheckBox("Golf");
-		 golf.setFont(font);
-		golf.setBounds(323, 165, 160, 23);
-		golf.addMouseListener(new MouseAdapter() {
+	 	JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(200, 50, 350, 120);
+		specials.add(scrollPane);
+		fillTable();
+		model = new DefaultTableModel(array2d, columnNames);
+
+		specialsList = new JTable(model);
+		specialsList.getTableHeader().setBackground(color);
+		specialsList.setBorder(null);
+		specialsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		specialsList.getTableHeader().setReorderingAllowed(false);
+		scrollPane.setViewportView(specialsList);
+		specialsList.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				if(golf.isSelected()){
-					priceField = priceField + 100;
+				priceField = 0.0;
+				selection = specialsList.getSelectedRows();
+				
+				for (int i = 0; i < selection.length; i++) {
+					priceField = priceField + Double.parseDouble(specialsList.getValueAt(selection[i], 1).toString());
 					price.setText("Price: €" + priceField);
-					numGolf++;
-				}
-				else
-				{
-					priceField = priceField - 100;
-					price.setText("Price: €" + priceField);
-					numGolf--;
 				}
 			}
-			});
-		specials.add(golf);
-		
-		  spa = new JCheckBox("Spa Treatment");
-		  spa.setFont(font);
-		  spa.setBounds(323, 87, 160, 23);
-		  spa.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					if(spa.isSelected()){
-						priceField = priceField + 150;
-						price.setText("Price: €" + priceField);
-						numSpa++;
-					}
-					else
-					{
-						priceField = priceField - 150;
-						price.setText("Price: €" + priceField);
-						numSpa--;
-					}
-				}
-				});
-		  specials.add(spa);
-		
-		  breaky = new JCheckBox("Breakfast");
-		  breaky.setFont(font);
-		  breaky.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					if(breaky.isSelected()){
-						priceField = priceField + 20;
-						price.setText("Price: €" + priceField);
-						numBreaky++;
-					}
-					else
-					{
-						priceField = priceField - 20;
-						price.setText("Price: €" + priceField);
-						numBreaky--;
-					}
-				}
-				});
-		  breaky.setBounds(323, 139, 160, 23);
-		  specials.add(breaky);
-		
-		  karting = new JCheckBox("Go-karting");
-		  karting.setFont(font);
-		  karting.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					if(karting.isSelected()){
-						priceField = priceField + 50;
-						price.setText("Price: €" + priceField);
-						numKarting++;
-					}
-					else
-					{
-						priceField = priceField - 50;
-						price.setText("Price: €" + priceField);
-						numKarting--;
-					}
-				}
-				});
-		  karting.setBounds(323, 113, 160, 23);
-		  specials.add(karting);
+		});
 		 
 		 price = new JLabel("Price: €" + priceField);
 		 price.setFont(font);
-		price.setBounds(317, 205, 140, 14);
+		price.setBounds(317, 190, 140, 14);
 		specials.add(price);
 		
 		 addSpecials = new JButton("Add Specials");
@@ -152,17 +108,29 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 		back.setBounds(386, 230, 150, 23);
 		specials.add(back);
 	}
+	
+	private void fillTable() {
+		// gets the specials in the system
+			specialsOperations s = new specialsOperations();
+			specialList = new ArrayList<Object[]>(s.getSpecials());
+			array2d = specialList.toArray(new Object[specialList.size()][]);
+		}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addSpecials){
-			if(numGolf == 0 && numSpa == 0 && numBreaky == 0 && numKarting == 0){
+			if(selection.length == 0){
 				JOptionPane.showMessageDialog(null, "Please select a special","Select a special",
 						JOptionPane.ERROR_MESSAGE);
 			}
 			else
 			{
-				q.addSpecials(numGolf,numSpa,numBreaky,numKarting,bookingid,priceField);
+				String[] names = new String[selection.length];
+				for (int i = 0; i < selection.length; i++) {
+					names[i] = specialsList.getValueAt(selection[i], 0).toString();
+				}
+				
+				s.addSpecials(names,bookingid,priceField);
 				JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
 						JOptionPane.INFORMATION_MESSAGE);
 				

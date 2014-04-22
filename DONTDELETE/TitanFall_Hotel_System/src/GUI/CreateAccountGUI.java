@@ -287,7 +287,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 									"Warning", JOptionPane.WARNING_MESSAGE);
 				} else {
 					this.setVisible(false);
-					UserScreenGUI us = new UserScreenGUI(username.getText(),users);
+					UserTabbedScreenGUI us = new UserTabbedScreenGUI(username.getText(),users);
 					us.setVisible(true);
 				}
 

@@ -40,7 +40,7 @@ public class UserTabbedScreenGUI extends JFrame implements MouseListener {
 		this.setResizable(false);
 		this.setBackground(Color.gray);
 		StartScreenGUI.setLoggedIn(true);
-		ImageIcon icon = new ImageIcon("lib/TitanFallLogo.png");
+		ImageIcon icon = new ImageIcon("TitanfallImages/TitanFallLogo.png");
 		welcome = new JLabel(icon);
 		welcome.setBounds(150, 50, 700, 196);
 		add(welcome);

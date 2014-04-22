@@ -1,129 +1,98 @@
 package GUI;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-public class AdminManageBookingGUI extends JPanel implements KeyListener, MouseListener {
-	private String[] columnNames = {"Booking ID", "Room Number", "User ID"};
+import Database.Queries;
+import Database.manageBookingOperations;
+
+public class AdminManageBookingGUI extends JPanel implements ActionListener{
 	private JPanel container;
+	private JLabel currentList;
+	private JButton deleteBooking;
+	private Font fontBigger;
+	private Color color = new Color(227,99,26);
+	private DefaultTableModel model;
+	private JTable table;
+	private ArrayList<Object[]> bookingList;
+	private Object[][] array2d;
+	
 	public AdminManageBookingGUI(){
 		this.setLayout(null);
 		container = new JPanel();
 		container.setLayout(null);
 		container.setVisible(true);
-		container.setBounds(150,100,675,420);
+		container.setBounds(150,100,800,420);
 		add(container);
+		
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
+		
 		//Panel used to welcome the user
 		JPanel greeting = new JPanel();
 		greeting.setBounds(161, 77, 391, 44);
 		container.add(greeting);
 
-		JLabel lblCurrentListOf = new JLabel("Current List of Bookings on File:");
-		lblCurrentListOf.setFont(new Font("Tahoma", Font.BOLD, 16));
-		greeting.add(lblCurrentListOf);
+		 currentList = new JLabel("Current List of Bookings on File:");
+		currentList.setFont(fontBigger);
+		greeting.add(currentList);
 
-		Object[][] data = {
-				{1,127,"Robert"},
-				{2,28,"Robert"},
-				{3,200,"Mark"},
-				{4,12,"Dell"},
-				{5,15,"Thomas"}
-		};
-
-		JTable bookings = new JTable(data,columnNames);
-		bookings.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-		bookings.setPreferredScrollableViewportSize(new Dimension(200,200));
-		bookings.setFillsViewportHeight(true);
-		bookings.setEnabled(false);
-		bookings.getTableHeader().setReorderingAllowed(false);
-
-		JScrollPane scrollPane = new JScrollPane(bookings);
-		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		scrollPane.setBounds(157, 132, 395, 132);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 132, 700, 130);
 		container.add(scrollPane);
+		Object[] columnNames = { "Booking ID", "First Name",
+				"Last Name", "Number of Guests", "Number of Nights", "Arrival Date"};
+		fillTable();
+		model = new DefaultTableModel(array2d, columnNames);
 
-		JButton deleteBookingButton = new JButton("Delete");
-		deleteBookingButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		deleteBookingButton.setForeground(Color.RED);
-		deleteBookingButton.setBounds(425, 269, 102, 23);
-		container.add(deleteBookingButton);
+		table = new JTable(model);
+		table.getTableHeader().setBackground(color);
+		table.setBorder(null);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false);
+		scrollPane.setViewportView(table);
 
-		JLabel bookingId = new JLabel("Booking ID");
-		bookingId.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		bookingId.setBounds(161, 269, 127, 23);
-		container.add(bookingId);
-
-		JTextField deleteBooking = new JTextField();
-		deleteBooking.setBounds(275, 269, 140, 21);
+		 deleteBooking = new JButton("Delete");
+		deleteBooking.addActionListener(this);
+		deleteBooking.setFont(fontBigger);
+		deleteBooking.setBackground(color);
+		deleteBooking.setBounds(290, 290, 102, 23);
 		container.add(deleteBooking);
-		deleteBooking.setColumns(10);
-
-
-		JLabel lblPleaseEnterThe = new JLabel("Please Enter the booking Id of the  Booking you would like to Remove in the box above");
-		lblPleaseEnterThe.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPleaseEnterThe.setBounds(21, 334, 640, 23);
-		container.add(lblPleaseEnterThe);
-
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+	private void fillTable() {
+		// gets the bookings in the system where the departure date is not passed todays date
+					manageBookingOperations m = new manageBookingOperations();
+					bookingList = new ArrayList<Object[]>(m.getBookingsAdmin());
+					array2d = bookingList.toArray(new Object[bookingList.size()][]);
 	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() == deleteBooking){
+			try
+			{
+			//get the number of row the user selects 
+			int row = table.getSelectedRow();
+			//column is always set to zero because we are looking for the booking id
+			int id = Integer.parseInt(table.getValueAt(row, 0).toString());
+			
+			manageBookingOperations m = new manageBookingOperations();
+			m.removeBooking(id);
+			JOptionPane.showMessageDialog(null, "Booking " + id + " was removed","Booking Removed",
+					JOptionPane.INFORMATION_MESSAGE);
+			AdminManageBookingGUI a = new AdminManageBookingGUI();
+			container.setVisible(false);
+			a.setBounds(0, 0, 850,420);
+			a.setVisible(true);
+			add(a);
+			}
+			catch(Exception me){
+				JOptionPane.showMessageDialog(null, "Please select a booking you wish to remove","Remove Booking",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		}
 	}
 }

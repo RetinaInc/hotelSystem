@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Database.Queries;
 import Database.ReportQueries;
+import Database.manageBookingOperations;
 
 public class ManageBookingGUI extends JPanel implements ActionListener {
 	//Gui Components 
@@ -61,6 +62,7 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 		model = new DefaultTableModel(array2d, columnNames);
 
 		table = new JTable(model);
+		table.getTableHeader().setBackground(color);
 		table.setBorder(null);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false);
@@ -96,14 +98,14 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 	// gets the users first name using the array of users passed in
 		// by matching it against the user id of the user logged in
 		public void testBookings(String userSearch) {
-			Queries q = new Queries();
-			bookingList = new ArrayList<Object[]>(q.getBookings(userSearch));
+			manageBookingOperations m = new manageBookingOperations();
+			bookingList = new ArrayList<Object[]>(m.getBookings(userSearch));
 			array2d = bookingList.toArray(new Object[bookingList.size()][]);
-			for (int i = 0; i < array2d.length; i++) {
-				System.out.println(array2d[i][0] + " " + array2d[i][1] + " "
-						+ array2d[i][2] + " " + array2d[i][3] + " " + array2d[i][4]
-						+ " " + array2d[i][5] + " " +array2d[i][6]);
-			}
+//			for (int i = 0; i < array2d.length; i++) {
+//				System.out.println(array2d[i][0] + " " + array2d[i][1] + " "
+//						+ array2d[i][2] + " " + array2d[i][3] + " " + array2d[i][4]
+//						+ " " + array2d[i][5] + " " +array2d[i][6]);
+//			}
 		}
 
 	@Override

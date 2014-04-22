@@ -31,12 +31,12 @@ public class StartScreenGUI extends JFrame {
 		this.setBackground(Color.gray);
 		setLoggedIn(false); // user is not logged in
 		
-		ImageIcon icon = new ImageIcon("lib/TitanFallLogo.png");  //welcome to titanfall header logo
+		ImageIcon icon = new ImageIcon("TitanfallImages/TitanFallLogo.png");  //welcome to titanfall header logo
 		welcome = new JLabel(icon);
 		welcome.setBounds(150, 11, 700, 196);
 		getContentPane().add(welcome);
 		font = new Font("Veranda", font.ITALIC, 20);
-		ImageIcon backgroundImage = new ImageIcon("lib/titanfallBackground.png");
+		ImageIcon backgroundImage = new ImageIcon("TitanfallImages/titanfallBackground.png");
 		background = new JLabel(backgroundImage);
 		background.setBounds(0, 280, 1000,300 );
 		getContentPane().add(background);

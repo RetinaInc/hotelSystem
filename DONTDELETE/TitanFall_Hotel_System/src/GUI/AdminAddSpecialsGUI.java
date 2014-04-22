@@ -4,15 +4,35 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Color;
 
-public class AdminAddSpecialsGUI extends JPanel {
-	private JLabel lblDescriptionOfSpecial_1;
+import Database.manageBookingOperations;
+import Database.specialsOperations;
+import Model.Special;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+public class AdminAddSpecialsGUI extends JPanel implements ActionListener{
+	private JLabel specialName,priceOfSpecial,currentSpecials;
+	private JTextField specialsName,specialPrice;
+	private DefaultTableModel model;
+	private ArrayList<Object[]> specialList;
+	private Object[][] array2d;
+	private Object[] columnNames = { "Name", "Cost"};
+	private JButton add,remove;
+	private JTable specialsList;
 	private JPanel container;
+	private Font fontBigger;
+	private Color color = new Color(227,99,26);
 	public AdminAddSpecialsGUI(){
 		this.setLayout(null);
 		container = new JPanel();
@@ -20,84 +40,136 @@ public class AdminAddSpecialsGUI extends JPanel {
 		container.setVisible(true);
 		container.setBounds(20,120,798,420);
 		add(container);
+		
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 
-		JLabel specialName = new JLabel("Name of Special: ");
-		specialName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		 specialName = new JLabel("Name of Special: ");
+		specialName.setFont(fontBigger);
 		specialName.setBounds(284, 69, 161, 23);
 		container.add(specialName);
 
-		JTextField specialNameT = new JTextField();
-		specialNameT.setBounds(455, 72, 126, 23);
-		container.add(specialNameT);
-		specialNameT.setColumns(10);
+		 specialsName = new JTextField();
+		specialsName.setBounds(455, 72, 126, 23);
+		container.add(specialsName);
+		specialsName.setColumns(10);
 
-		JLabel lblPriceOfSpecial = new JLabel("Price of Special:    \u20AC");
-		lblPriceOfSpecial.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPriceOfSpecial.setBounds(284, 105, 170, 23);
-		container.add(lblPriceOfSpecial);
+		 priceOfSpecial = new JLabel("Price of Special:    €");
+		priceOfSpecial.setFont(fontBigger);
+		priceOfSpecial.setBounds(284, 105, 170, 23);
+		container.add(priceOfSpecial);
 
-		JTextField specialPrice = new JTextField();
-		specialPrice.setBounds(455, 109, 126, 20);
+		 specialPrice = new JTextField();
+		specialPrice.setBounds(455, 105, 126, 23);
 		container.add(specialPrice);
 		specialPrice.setColumns(10);
 
+		 add = new JButton("Add to specials");
+		 add.addActionListener(this);
+		 add.setBackground(color);
+		add.setFont(fontBigger);
+		add.setBounds(284, 168, 190, 23);
+		container.add(add);
 
-		JLabel lblDescriptionOfSpecial = new JLabel("Description: ");
-		lblDescriptionOfSpecial.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDescriptionOfSpecial.setBounds(284, 134, 126, 23);
-		container.add(lblDescriptionOfSpecial);
+		 remove = new JButton("Remove special");
+		 remove.addActionListener(this);
+		 remove.setBackground(color);
+		 remove.setFont(fontBigger);
+		 remove.setBounds(500, 168, 190, 23);
+		container.add(remove);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(300, 230, 350, 120);
+		container.add(scrollPane);
+		fillTable();
+		model = new DefaultTableModel(array2d, columnNames);
 
-		JButton btnAddToSpecials = new JButton("Add to specials");
-		btnAddToSpecials.setForeground(Color.GREEN);
-		btnAddToSpecials.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnAddToSpecials.setBounds(353, 168, 154, 23);
-		container.add(btnAddToSpecials);
+		specialsList = new JTable(model);
+		specialsList.getTableHeader().setBackground(color);
+		specialsList.setBorder(null);
+		specialsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		specialsList.getTableHeader().setReorderingAllowed(false);
+		scrollPane.setViewportView(specialsList);
+		//specialsList.setEnabled(false);
 
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setForeground(Color.RED);
-		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnCancel.setBounds(517, 168, 156, 23);
-		container.add(btnCancel);
+		currentSpecials = new JLabel("Current specials:");
+		currentSpecials.setFont(fontBigger);
+		currentSpecials.setBounds(147, 200, 154, 23);
+		container.add(currentSpecials);
 
-		JTable specialsList = new JTable();
-		specialsList.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		specialsList.setModel(new DefaultTableModel(
-				new Object[][] {
-						{"Golf", "1 round of an 18 hole golf course", "40"},
-						{"Dinner for 2", "3 course dinner for 2 in our 4 star restaurant", "29.99"},
-						{"Beauty Treatment", "2 hour session in our spa", "15"},
-						{"Go-Karting for 4", "1 hour session for the whole family", "30"},
-				},
-				new String[] {
-						"Name", "Description", "Price (\u20AC)"
+	}
+	
+	public boolean emptyFields(String e) {
+		boolean valid = false;
+		if (e.isEmpty() == true) {
+			valid = false;
+		} else {
+			valid = true;
+		}
+		return valid;
+	}
+	
+	private void fillTable() {
+	// gets the specials in the system
+		specialsOperations s = new specialsOperations();
+		specialList = new ArrayList<Object[]>(s.getSpecials());
+		array2d = specialList.toArray(new Object[specialList.size()][]);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == add){
+			try
+			{
+				double price = Double.parseDouble(specialPrice.getText());
+				specialsOperations s = new specialsOperations();
+				int id = s.getLastRow();
+				
+				if(emptyFields(specialsName.getText()) == true){
+					Special special = new Special((id + 11),specialsName.getText(),price);
+					s.addSpecialsAdmin(special);
+					JOptionPane.showMessageDialog(null, specialsName.getText() + " is now a special","Special added",
+							JOptionPane.INFORMATION_MESSAGE);
+					AdminAddSpecialsGUI a = new AdminAddSpecialsGUI();
+					container.setVisible(false);
+					a.setVisible(true);
+					a.setBounds(0,0,798,500);
+					add(a);
 				}
-				));
-		specialsList.getColumnModel().getColumn(0).setPreferredWidth(101);
-		specialsList.getColumnModel().getColumn(1).setPreferredWidth(227);
-		specialsList.setBounds(136, 240, 602, 64);
-		container.add(specialsList);
-
-		lblDescriptionOfSpecial_1 = new JLabel("Current specials:");
-		lblDescriptionOfSpecial_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDescriptionOfSpecial_1.setBounds(147, 168, 154, 23);
-		container.add(lblDescriptionOfSpecial_1);
-
-		lblDescriptionOfSpecial = new JLabel("Name");
-		lblDescriptionOfSpecial.setBounds(147, 215, 46, 23);
-		container.add(lblDescriptionOfSpecial);
-
-		JLabel lblDescription = new JLabel("Description");
-		lblDescription.setBounds(316, 215, 89, 23);
-		container.add(lblDescription);
-
-		JLabel lblPrice = new JLabel("Price (\u20AC)");
-		lblPrice.setBounds(608, 215, 65, 23);
-		container.add(lblPrice);
-
-		JTextField priceField = new JTextField();
-		priceField.setBounds(455, 139, 267, 23);
-		container.add(priceField);
-		priceField.setColumns(10);
-
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Name cannot be empty","Add special error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			catch(Exception me){
+				JOptionPane.showMessageDialog(null, "Please enter a number for the price field","Add special error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		else
+		{
+			try
+			{
+			//get the number of row the user selects 
+			int row = specialsList.getSelectedRow();
+			//column is always set to zero because we are looking for the special name
+			String name = specialsList.getValueAt(row, 0).toString();
+			
+			specialsOperations s = new specialsOperations();
+			s.removeSpecial(name);
+			
+			AdminAddSpecialsGUI a = new AdminAddSpecialsGUI();
+			container.setVisible(false);
+			a.setVisible(true);
+			a.setBounds(0,0,798,500);
+			add(a);
+			}
+			catch(Exception me){
+				JOptionPane.showMessageDialog(null, "Please select a special you wish to remove","Remove Special",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		
 	}
 }

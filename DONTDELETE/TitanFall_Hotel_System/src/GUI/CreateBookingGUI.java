@@ -123,6 +123,7 @@ public class CreateBookingGUI extends JPanel implements ActionListener {
 		dateChooser.setBounds(333, 65, 194, 26);
 		panel.add(dateChooser);
 		dateChooser.setMinSelectableDate(cal.getTime());
+		dateChooser.setIcon(new ImageIcon("TitanfallImages/cal.jpg"));
 		cal.add(Calendar.YEAR, 2);
 		dateChooser.setMaxSelectableDate(cal.getTime());
 		

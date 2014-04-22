@@ -45,32 +45,6 @@ public class Queries {
 		return conn;
 	}
 	
-	public ArrayList<Object[]> getBookings(String userID){
-		System.out.println(userID);
-		ArrayList<Object[]> resultList = new ArrayList<Object[]>();
-		String query = "SELECT booking_id, number_of_guests, number_of_rooms,number_of_nights, total_cost, arrivaldate, departuredate FROM bookings WHERE USER_ID = '"+ userID + "'";
-		try{
-			open();
-			stmt = getConn().createStatement();
-			rset = stmt.executeQuery(query);
-			while(rset.next()){
-				Object[] b = {rset.getInt("booking_id"),
-						rset.getInt("number_of_guests"),
-						rset.getInt("number_of_rooms"),
-						rset.getInt("number_of_nights"),
-						rset.getDouble("total_cost"),
-						rset.getDate("arrivaldate"),
-						rset.getDate("departuredate")};
-				resultList.add(b);
-			}
-		}
-		catch(SQLException se){
-			System.out.println("Get bookings error");
-			se.printStackTrace();
-		}
-		return resultList;
-	}
-
 	/* 	
 	 * Availability query selects all rooms for DB, stores in arrayList of rooms
 	 * then selects all room numbers that have a booking for the date entered
@@ -146,67 +120,6 @@ public class Queries {
 		return roomList;  //passed back to model as an arrayList of Room objects
 		
 	}
-	
-	// This method is used to add a users special price to the total price in the bookings table
-	public void addSpecials(int golf,int spa,int breakfast,int karting,int bookingid,double price){
-		try
-		{
-			open();
-			
-			String sql = "Update Bookings set Total_Cost = Total_Cost + " + price + " where Booking_ID = " + bookingid;
-			
-			pstmt = getConn().prepareStatement(sql);
-			pstmt.executeUpdate();
-			
-			if(golf > 0){
-				sql = "Insert into SpecialBookings values(?,?,?)";
-				pstmt = getConn().prepareStatement(sql);
-				numSpecials++;
-				pstmt.setInt(1, numSpecials);
-				pstmt.setInt(2, 11);
-				pstmt.setInt(3,bookingid );
-				pstmt.executeUpdate();
-			}
-			if(spa > 0){
-				sql = "Insert into SpecialBookings values(?,?,?)";
-				pstmt = getConn().prepareStatement(sql);
-				
-				numSpecials++;
-				pstmt.setInt(1, numSpecials);
-				pstmt.setInt(2, 22);
-				pstmt.setInt(3,bookingid );
-				pstmt.executeUpdate();
-			}
-
-			if(breakfast > 0){
-				sql = "Insert into SpecialBookings values(?,?,?)";
-				pstmt = getConn().prepareStatement(sql);
-				
-				numSpecials++;
-				pstmt.setInt(1, numSpecials);
-				pstmt.setInt(2, 33);
-				pstmt.setInt(3,bookingid );
-				pstmt.executeUpdate();
-			}
-
-			if(karting > 0){
-				sql = "Insert into SpecialBookings values(?,?,?)";
-				pstmt = getConn().prepareStatement(sql);
-				
-				numSpecials++;
-				pstmt.setInt(1, numSpecials);
-				pstmt.setInt(2, 44);
-				pstmt.setInt(3,bookingid );
-				pstmt.executeUpdate();
-			}
-			System.out.println("Special cost added to booking ");
-		}
-		catch(Exception e){
-			System.out.println("could not add special " + e);
-		}
-		close();
-	}
-
 }
 
 

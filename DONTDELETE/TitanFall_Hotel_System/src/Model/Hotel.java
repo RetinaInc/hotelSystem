@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Database.CreateTables;
 import Database.RoomOperations;
+import Database.manageAccountOperations;
 
 public class Hotel {
 	// Instance variables
@@ -44,8 +45,8 @@ public class Hotel {
 				users.get(i).setPhoneNum(phone);
 			}	
 		}
-		CreateTables c = new CreateTables();
-		c.updateDeatils(id, fname, lname, address, email, phone);
+		manageAccountOperations m = new manageAccountOperations();
+		m.updateDeatils(id, fname, lname, address, email, phone);
 	}
 	
 	public void updateUsersPassword(String id,String password){
@@ -55,8 +56,8 @@ public class Hotel {
 				users.get(i).setPassword(password);
 			}	
 		}
-		CreateTables c = new CreateTables();
-		c.updatePassword(id, password);
+		manageAccountOperations m = new manageAccountOperations();
+		m.updatePassword(id, password);
 		
 	}
 	

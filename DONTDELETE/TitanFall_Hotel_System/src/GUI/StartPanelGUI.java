@@ -116,6 +116,7 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 
 		dateChooser = new JDateChooser();
 		dateChooser.setMinSelectableDate(cal.getTime());
+		dateChooser.setIcon(new ImageIcon("TitanfallImages/cal.jpg"));
 		cal.add(Calendar.YEAR, 2);
 		dateChooser.setMaxSelectableDate(cal.getTime());
 		dateChooser.getDateEditor().addPropertyChangeListener(
