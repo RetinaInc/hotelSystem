@@ -72,7 +72,7 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Manage Bookings", panel1);
 		tabbedPane.addTab("Manage Rooms", panel2);
-		tabbedPane.addTab("Add Specials", panel3);
+		tabbedPane.addTab("Manage Specials", panel3);
 		tabbedPane.addTab("Print Reports", panel4);
 		tabbedPane.addTab("Help", panel5);
 		tabbedPane.addTab("Manage Account", panel6);
