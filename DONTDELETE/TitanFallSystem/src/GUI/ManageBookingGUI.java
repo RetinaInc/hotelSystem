@@ -101,11 +101,6 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 			manageBookingOperations m = new manageBookingOperations();
 			bookingList = new ArrayList<Object[]>(m.getBookings(userSearch));
 			array2d = bookingList.toArray(new Object[bookingList.size()][]);
-//			for (int i = 0; i < array2d.length; i++) {
-//				System.out.println(array2d[i][0] + " " + array2d[i][1] + " "
-//						+ array2d[i][2] + " " + array2d[i][3] + " " + array2d[i][4]
-//						+ " " + array2d[i][5] + " " +array2d[i][6]);
-//			}
 		}
 
 	@Override
@@ -176,8 +171,6 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 			add(e);
 			}
 			catch(Exception e){
-				System.out.println(e.getMessage());
-				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Please select a booking you wish to edit","Edit Booking",
 						JOptionPane.INFORMATION_MESSAGE);
 			}

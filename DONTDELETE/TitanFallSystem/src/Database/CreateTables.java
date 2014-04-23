@@ -623,12 +623,58 @@ public class CreateTables {
 		public void updateBookingRooms(Booking b, int[] roomChoice){
 			try{
 				q.open();
+				for (int i = 0; i < roomChoice.length; i++) {
+					System.out.println(roomChoice.length);
+				}
 				String sql = "UPDATE bookings SET  NUMBER_OF_ROOMS = "  + roomChoice.length +", total_cost = " + b.getTotalCost() + "WHERE BOOKING_ID = " + b.getBookingID();
+				
 				stmt = q.getConn().createStatement();
 				stmt.executeUpdate(sql);
 				System.out.println("Booking " + b.getBookingID() + " updated.");
+				
+				sql = "DELETE FROM roombookings WHERE booking_id = " + b.getBookingID();  //removes previous room choice
+				stmt.executeUpdate(sql);
+				System.out.println("Rooms of " + b.getBookingID() + " deleted.");
+				
+				sql = "INSERT INTO roombookings VALUES (?,?,?)"; //adds new choice from EditBookingGUI
+				Calendar cal = Calendar.getInstance();
+				pstmt = q.getConn().prepareStatement(sql);
+				for (int i = 0; i < roomChoice.length; i++) {
+					pstmt.setInt(1, roomChoice[i]);
+					pstmt.setInt(2, b.getBookingID());
+					pstmt.setDate(3,convertDate(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH ), cal.get(Calendar.YEAR)) );
+					pstmt.executeUpdate();
+					System.out.println("Booking edited with new values");
+				}
+				
 			}catch (Exception e) {
 				System.out.println("Update booking error" + e);
+			}
+			q.close();
+		}
+		/* 	
+		*This will update the number of guests, number of nights, and the dates of the booking
+		*Needs to check availability of the rooms if they want to stay longer than originally requested or if they change the arrival date
+		*Otherwise just overwrite the departure
+		*/
+		
+		public void updateBookingDates(Booking b, Calendar newArrival){
+			try{
+				q.open();
+				stmt = q.getConn().createStatement();
+				String sql = "SELECT room_number FROM roombookings WHERE booking_id = " + b.getBookingID();
+				rset = stmt.executeQuery(sql);
+				int i;									//change to integer array/list
+				while (rset.next()){ 					//check these room numbers against available rooms for the arrival/departure dates
+					i = rset.getInt("ROOM_NUMBER");		//use availability query in Queries with arrival and numNights
+					System.out.println(i);
+				}
+				sql = "UPDATE bookings SET  NUMBER_OF_GUESTS = "  + b.getNumGuests() +", NUMBER_OF_NIGHTS = " + b.getNumNights() + "WHERE BOOKING_ID = " + b.getBookingID();
+
+				stmt.executeUpdate(sql);
+			}
+			catch (Exception e) {
+				System.out.println("Update booking error " + e);
 			}
 			q.close();
 		}

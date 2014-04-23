@@ -18,16 +18,6 @@ public class Booking {
 	private String arrivalDate,departureDate,userID;
 	private Queries q;
 	
-
-//	public Booking(int bookingID, int numGuests, int day, int months,
-//			int year, int numNights, int numRooms, double totalCost) {
-//		this.bookingID = bookingID;
-//		this.numGuests = numGuests;
-//		this.numNights = numNights;
-//		this.numRooms = numRooms;
-//		this.totalCost = totalCost;
-//		q = new Queries();
-//	}
 	public Booking(int bookingID, double totalCost){
 		this.bookingID = bookingID;
 		this.totalCost = totalCost;	
@@ -74,17 +64,10 @@ public class Booking {
 		this.arrivalDate = arrival.toString();
 		this.departureDate = departure.toString();
 	}
-	
-//	//java.util arrival and departure dates
-//	public Booking(int bookingid, int numGuests, int numRooms, double cost,
-//			java.util.Date arrival, java.util.Date departure) {
-//		this.bookingID = bookingid;
-//		this.numGuests = numGuests;
-//		this.numRooms = numRooms;
-//		this.totalCost = cost;
-//		this.arrivalDate = arrival.toString();
-//		this.departureDate = departure.toString();
-//	}
+
+	public Booking() {
+	}
+
 	public int getHotelID() {
 		return hotelID;
 	}

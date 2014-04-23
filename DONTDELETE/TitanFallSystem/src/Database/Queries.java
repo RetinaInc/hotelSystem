@@ -107,8 +107,9 @@ public class Queries {
 				bookedRooms[counter] = rset.getInt("ROOM_NUMBER");
 				counter++;
 			}
-			for (int j = 0; j < resultList.size(); j++) {
-				for (int h = 0; h < bookedRooms.length; h++) {
+			System.out.println(bookedRooms.length);
+			for (int h = 0; h < bookedRooms.length; h++) {
+				for (int j = 0; j < resultList.size(); j++) {
 					if((int) resultList.get(j)[0] == bookedRooms[h]){
 						resultList.remove(j);
 						System.out.println("Removed - " + bookedRooms[h]);
