@@ -66,13 +66,13 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 		panel3 = new AdminAddSpecialsGUI();
 		panel4 = new AdminPrintReportsGUI(usersFirstName);
 		panel5 = new AdminHelpGUI();
-		panel6 = new AdminManageAccountGUI();
+		panel6 = new AdminManageAccountGUI(user, users);
 
 		// Create a tabbed pane
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Manage Bookings", panel1);
 		tabbedPane.addTab("Manage Rooms", panel2);
-		tabbedPane.addTab("Add Specials", panel3);
+		tabbedPane.addTab("Manage Specials", panel3);
 		tabbedPane.addTab("Print Reports", panel4);
 		tabbedPane.addTab("Help", panel5);
 		tabbedPane.addTab("Manage Account", panel6);
@@ -90,7 +90,8 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 	}
 
 
-	public void mouseClicked(MouseEvent e) {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
 		
 		StartScreenGUI s = new StartScreenGUI();
 		setVisible(false);

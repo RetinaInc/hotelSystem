@@ -27,11 +27,12 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		ActionListener {
 	private JPanel container;
 	private JTextField tfname,tlname, address, temail, tphone;
-	private JLabel errorMessage, updatePasswordErrorMessage;
+	private JLabel errorMessage, updatePasswordErrorMessage,updateYourAccount;
 	private String usersID;
 	private ArrayList<User> users;
 	private JPasswordField toldPass,tnewPass,  tconfirmNewPass;
 	private JButton changeDetailsBtn,changePasswordBtn;
+	private Font fontBigger;
 	private Color color = new Color(227,99,26);
 	public ManageAccountGUI(String userID, ArrayList<User> users) {
 		usersID = userID;
@@ -43,9 +44,12 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		manage_account.setLayout(null);
 		add(container);
 		this.setLayout(null);
+		
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 		container.add(manage_account);
 		// contains all the elements neccessary to change your details
 		JPanel updateDetailsOption = new JPanel(null);
+		updateDetailsOption.setFont(fontBigger);
 		updateDetailsOption.setBorder(new TitledBorder(null,
 				"Update Personal Details", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
@@ -53,22 +57,27 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		container.add(updateDetailsOption);
 
 		JPanel updateDetails = new JPanel(new GridLayout(5, 2));
-		updateDetails.setBounds(10, 21, 338, 163);
+		updateDetails.setBounds(10, 21, 338, 150);
 		updateDetailsOption.add(updateDetails);
 
 		JLabel fname = new JLabel("First Name:");
+		fname.setFont(fontBigger);
 		tfname = new JTextField();
 		tfname.setToolTipText("Enter your first name");
 		JLabel lname = new JLabel("Last Name:");
+		lname.setFont(fontBigger);
 		tlname = new JTextField();
 		tlname.setToolTipText("Enter your last name");
 		JLabel lHomeAddress = new JLabel("Home Address");
+		lHomeAddress.setFont(fontBigger);
 		address = new JTextField();
 		address.setToolTipText("Enter your home address");
 		JLabel email = new JLabel("Email Address:       ");
+		email.setFont(fontBigger);
 		temail = new JTextField();
 		temail.setToolTipText("Enter your email address");
 		JLabel phone = new JLabel("Telephone:");
+		phone.setFont(fontBigger);
 		tphone = new JTextField();
 		tphone.setToolTipText("Enter your phone number");
 
@@ -85,7 +94,8 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 
 		changeDetailsBtn = new JButton("Update Details");
 		changeDetailsBtn.setBackground(color);
-		changeDetailsBtn.setBounds(119, 200, 144, 35);
+		changeDetailsBtn.setFont(fontBigger);
+		changeDetailsBtn.setBounds(119, 200, 185, 30);
 		changeDetailsBtn.setToolTipText("Update your password");
 		changeDetailsBtn.isFocusable();
 		changeDetailsBtn.addKeyListener(this);
@@ -93,7 +103,8 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		updateDetailsOption.add(changeDetailsBtn);
 		// contains all the elements neccessary to change your password
 		JPanel updatePassword = new JPanel(new GridLayout(2, 0));
-		updatePassword.setBounds(508, 131, 358, 259);
+		updatePassword.setBounds(508, 131, 450, 259);
+		updatePassword.setFont(fontBigger);
 		container.add(updatePassword);
 		updatePassword.setBorder(BorderFactory
 				.createTitledBorder("Change Password"));
@@ -102,12 +113,15 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		updatePassword.add(changePassword);
 
 		JLabel oldPass = new JLabel("Old Password:");
+		oldPass.setFont(fontBigger);
 		toldPass = new JPasswordField();
 		toldPass.setToolTipText("Enter your current password");
 		JLabel newPass = new JLabel("New Password:");
+		newPass.setFont(fontBigger);
 		tnewPass = new JPasswordField();
 		tnewPass.setToolTipText("Enter your new password");
-		JLabel confirmNewPass = new JLabel("Confirm New Password:  ");
+		JLabel confirmNewPass = new JLabel("Confirm New Password:");
+		confirmNewPass.setFont(fontBigger);
 		tconfirmNewPass = new JPasswordField();
 		tconfirmNewPass.setToolTipText("Confirm your new password");
 
@@ -121,7 +135,8 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		JPanel changePasswordPanel = new JPanel(null);
 		changePasswordBtn = new JButton("Update Password");
 		changePasswordBtn.setBackground(color);
-		changePasswordBtn.setBounds(114, 71, 151, 36);
+		changePasswordBtn.setFont(fontBigger);
+		changePasswordBtn.setBounds(114, 71, 185, 30);
 		changePasswordBtn.setToolTipText("Update your password");
 		changePasswordBtn.isFocusable();
 		changePasswordBtn.addKeyListener(this);
@@ -129,11 +144,11 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		changePasswordPanel.add(changePasswordBtn);
 		updatePassword.add(changePasswordPanel);
 
-		JLabel lblUpdateYourAccount = new JLabel(
+		 updateYourAccount = new JLabel(
 				"Update Your account details here ....");
-		lblUpdateYourAccount.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblUpdateYourAccount.setBounds(297, 70, 345, 36);
-		container.add(lblUpdateYourAccount);
+		updateYourAccount.setFont(fontBigger);
+		updateYourAccount.setBounds(297, 90, 345, 36);
+		container.add(updateYourAccount);
 		
 				errorMessage = new JLabel("");
 				errorMessage.setHorizontalAlignment(SwingConstants.CENTER);

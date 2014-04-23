@@ -30,6 +30,8 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 	private JButton saveReportTo, openReport;
 	private JLabel selectReport;
 	private String usersFirstName;
+	private Font fontBigger;
+	private Color color = new Color(227,99,26);
 
 	public AdminPrintReportsGUI(String usersFirstName) {
 		setBorder(null);
@@ -41,23 +43,31 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 		container.setBounds(150, 200, 798, 420);
 		add(container);
 
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 		selectReport = new JLabel("Select the type of report you want to print:");
-		selectReport.setBounds(86, 98, 275, 23);
+		selectReport.setFont(fontBigger);
+		selectReport.setBounds(20, 98, 350, 23);
 		container.add(selectReport);
 
 		reportOptions = new JComboBox<String>();
+		reportOptions.setFont(fontBigger);
 		reportOptions.addItem("Booking trends for a particular year");
-		reportOptions.setBounds(371, 98, 230, 23);
+		reportOptions.addItem("Specials trends");
+		reportOptions.setBounds(380, 98, 320, 30);
 		container.add(reportOptions);
 
-		saveReportTo = new JButton("Save report to file");
+		saveReportTo = new JButton("Save report");
+		saveReportTo.setFont(fontBigger);
+		saveReportTo.setBackground(color);
 		saveReportTo.addActionListener(this);
-		saveReportTo.setBounds(181, 203, 141, 23);
+		saveReportTo.setBounds(181, 203, 150, 23);
 		container.add(saveReportTo);
 
 		openReport = new JButton("Open report");
+		openReport.setFont(fontBigger);
+		openReport.setBackground(color);
 		openReport.addActionListener(this);
-		openReport.setBounds(371, 203, 141, 23);
+		openReport.setBounds(371, 203, 150, 23);
 		container.add(openReport);
 	}
 
@@ -102,6 +112,40 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 						ReportQueries q = new ReportQueries();
 						
 						fw.write(q.getBookingTrends(year) + usersFirstName);
+						fw.close();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+			
+			
+			else if(reportOptions.getSelectedIndex() == 1){
+				int year = 0;
+				try {
+					String y = JOptionPane
+							.showInputDialog(
+									null,
+									"Please enter the number of year "
+											+ "you wish to get the booking trends of (i.e. 14 for 2014)",
+									"Choose Year", JOptionPane.PLAIN_MESSAGE);
+
+					year = Integer.parseInt(y);
+				} catch (NumberFormatException me) {
+					JOptionPane.showInputDialog(null,
+							"Please enter a valid number", "Choose Year",
+							JOptionPane.OK_OPTION);
+				}
+				JFileChooser f = new JFileChooser();
+				int returnVal = f.showSaveDialog(this);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						BufferedWriter fw = new BufferedWriter(new FileWriter(
+								f.getSelectedFile() + ".txt"));
+						ReportQueries q = new ReportQueries();
+						
+						fw.write(q.specialsTrends(year));
 						fw.close();
 					} catch (Exception ex) {
 						ex.printStackTrace();

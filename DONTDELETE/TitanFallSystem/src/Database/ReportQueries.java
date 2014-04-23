@@ -879,7 +879,7 @@ public class ReportQueries {
 	////////////////////////////////////////////////////////////////////////////
 	//Special Trends
 	///////////////////////////////////////////////////////////////////////////
-	public String specialsTrends(){
+	public String specialsTrends(int year){
 		try
 		{
 			q.open();
@@ -893,9 +893,15 @@ public class ReportQueries {
 				ids.add(rset.getInt("Special_ID"));
 			}
 			
-			//get the number of bookings on each special
+			//get the number of bookings on each special within a year
 			for (int i = 0; i < ids.size(); i++) {
-				 sql = "SELECT COUNT(Booking_ID) as numTimesBooked, FROM SPECIALBOOKINGS where SPECIAL_ID = " + ids.get(i);
+				 sql = 
+				 "SELECT COUNT(SPECIALBOOKINGS.Booking_ID) as numTimesBooked " +
+				 "FROM SPECIALBOOKINGS,BOOKINGS " + 
+				 "where SPECIALBOOKINGS.BOOKING_ID = BOOKINGS.BOOKING_ID " +
+				 "and SPECIAL_ID = " + ids.get(i) +
+				 " and BOOKINGS.ARRIVALDATE >= '01-JAN-" + year +  "' " +
+				 " and BOOKINGS.DEPARTUREDATE <= '31-DEC-" + year + "'";
 				
 				pstmt = q.getConn().prepareStatement(sql);
 				rset = pstmt.executeQuery();
@@ -913,42 +919,20 @@ public class ReportQueries {
 				names.add(rset.getString("Special_Name"));
 				costs.add(rset.getDouble("Special_Cost"));
 			}
-			
-//			sql = "SELECT COUNT(Booking_ID) as numTimesBooked FROM SPECIALS where SPECIAL_ID = 22";
-//			
-//			pstmt = q.getConn().prepareStatement(sql);
-//			rset = pstmt.executeQuery();
-//			rset.next();
-//			System.out.println("numSpa = " + rset.getInt("numTimesBooked"));
-//			numSpa = rset.getInt("numTimesBooked");
-//			
-//			sql = "SELECT COUNT(Booking_ID) as numTimesBooked FROM SPECIALS where SPECIAL_ID = 33";
-//			
-//			pstmt = q.getConn().prepareStatement(sql);
-//			rset = pstmt.executeQuery();
-//			rset.next();
-//			System.out.println("numBreaky = " + rset.getInt("numTimesBooked"));
-//			numBreaky = rset.getInt("numTimesBooked");
-//			
-//			sql = "SELECT COUNT(Booking_ID) as numTimesBooked FROM SPECIALS where SPECIAL_ID = 44";
-//			
-//			pstmt = q.getConn().prepareStatement(sql);
-//			rset = pstmt.executeQuery();
-//			rset.next();
-//			System.out.println("numKarting = " + rset.getInt("numTimesBooked"));
-//			numKarting = rset.getInt("numTimesBooked");
 		}
 		catch(Exception e){
 			System.out.println("could not get specials trends " + e.getMessage());
+			e.printStackTrace();
 		}
-		String specials = "\t\t\t\t\t\t\tTITANFALL TOWERS MOST POPULAR SPECIALS\r\n\r\n"
-				+ "\t\tSpecial Name\t\tSpecial Cost\t\tAmount of Bookings on this Special";
+		String specials = "\t\t\t\t\t\t\t\tTITANFALL TOWERS MOST POPULAR SPECIALS 20" + year + "\r\n\r\n"
+				+ "\t\tSpecial Name\t\t\tSpecial Cost\t\tAmount of Bookings on this Special\r\n";
 		int total = 0;
 		for (int i = 0; i < names.size(); i++) {
-			specials = specials + "\t\t" + names.get(i) + "\t\t" + df.format(costs.get(i)) + "\t\t\t" + amount.get(i) + "\r\n";
+			String special = String.format("\t\t%-20s\t\t€%-9.2f\t\t\t\t%d\r\n", names.get(i),costs.get(i),amount.get(i));
+			specials = specials + special;
 			total = total + amount.get(i);
 		}
-		specials = specials + "\t\t\t\t\tTotal Specials Booked\t\t" + total;
+		specials = specials + "\t\t\t\t\t\tTotal Specials Booked\t\t\t" + total;
 		q.close();
 		return specials;
 	}
@@ -1019,7 +1003,8 @@ public class ReportQueries {
 		 if(names.size() > 0){
 			 specials = "\r\n\r\n\r\n\t\t\t\t\t\t\t\t\tSPECIALS YOU HAVE CHOSEN\r\n";
 			 for (int i = 0; i < names.size(); i++) {
-				specials = specials + "\r\n\t\t1\t\t\t" + names.get(i) + "\t\t\t\t\t€" + df.format(costs.get(i));
+				 String special = String.format("\r\n\t\t1\t\t\t%-20s\t\t\t\t\t€%9.2f", names.get(i),costs.get(i));
+				specials = specials + special;
 			}
 		 }
 		String receipt2 = "\t\t\t\t\t\t\t\t\tTITANFALL TOWERS HOTEL\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tArrival Date\t" + f.format(arrivalDate) + "\r\n"
