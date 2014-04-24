@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Database.CreateTables;
@@ -181,7 +182,12 @@ public class Hotel {
 		for(int i = 0; i < roomList.size(); i++){
 			if(roomNumber == roomList.get(i).getRoomNumber()){
 				roomList.remove(i);
-				roomOp.deleteRoom(roomNumber);
+				try {
+					roomOp.deleteRoom(roomNumber);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				num++;
 			}
 		}

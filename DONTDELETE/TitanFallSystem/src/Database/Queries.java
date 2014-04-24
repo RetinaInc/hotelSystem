@@ -23,8 +23,8 @@ public class Queries {
 				//ods.setUser("X00106072");
 				//ods.setPassword("db29Mar93");
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("root");
-				ods.setPassword("root");
+				ods.setUser("Delboy");
+				ods.setPassword("7777");
 				conn = ods.getConnection();
 			}
 			 catch (Exception ex) {

@@ -1,6 +1,9 @@
 package Database;
 
 import java.sql.*;
+
+import javax.swing.JOptionPane;
+
 import Model.*;
 import Database.*;
 import oracle.jdbc.pool.OracleDataSource;
@@ -23,20 +26,19 @@ public class RoomOperations {
 	 * uses a prepared statement to add the room to the Rooms table in the
 	 * database
 	 */
-	public void addRoom(Room r) {
-		try {
+	
+	//Instead of try catching i added throws exception here 
+	//so when you try add the room in the manage rooms it trys to do the below if its succesful itl show the dialog inside here 
+	//if it fails it doesnt add the room but shows an error dialog 
+	public void addRoom(Room r) throws SQLException {
+	
 			String addRoomSQL = "INSERT INTO Rooms (Room_Number, Room_Availability, Type_ID) VALUES (?,?,?)";
-
 			pstmt = connection.prepareStatement(addRoomSQL);
 			pstmt.setInt(1, r.getRoomNumber());
 			pstmt.setString(2, Character.toString(r.isRoomAvailability()));
 			pstmt.setInt(3, r.getRoomTypeID());
 			pstmt.executeUpdate();
-
-		} catch (Exception ex) {
-			System.out.println("ERROR!");
-			ex.printStackTrace();
-		}
+			JOptionPane.showMessageDialog(null,"Room Added to the database");
 	}
 
 	/*
@@ -56,17 +58,33 @@ public class RoomOperations {
 
 	// This method takes a room number parameter which is the room number to be
 	// deleted. The SQL statement deletes this roomnumber.
-	public int deleteRoom(int roomNumber) {
-		int no = 0;
-		try {
-			String deleteQuery = "DELETE FROM Rooms WHERE Room_Number =" + "'"
-					+ roomNumber + "'";
-			stmt = connection.createStatement();
-			no = stmt.executeUpdate(deleteQuery);
-		} catch (Exception e) {
-			System.out.println("Error: Room was not deleted");
+	public int deleteRoom(int roomNumber)throws SQLException {
+		
+		String findQuery ="SELECT room_number ,booking_id FROM RoomBookings WHERE ROOM_NUMBER= '"+roomNumber+"'";
+		pstmt = connection.prepareStatement(findQuery,
+				ResultSet.TYPE_SCROLL_INSENSITIVE,
+				ResultSet.CONCUR_READ_ONLY);
+		ResultSet resultSet = pstmt.executeQuery();
+		if (!resultSet.isBeforeFirst() ) {    
+			 System.out.println("No Bookings on Record For this room");
+			 int no = 0;
+				try {
+					String deleteQuery = "DELETE FROM Rooms WHERE Room_Number =" + "'"
+							+ roomNumber + "'";
+					stmt = connection.createStatement();
+					no = stmt.executeUpdate(deleteQuery);
+					System.out.println("Room no "+roomNumber+" deleted");
+				} catch (SQLException e) {
+					System.out.println("Room was not deleted");
+				}
+				return no;
+			}
+		else{
+			JOptionPane.showMessageDialog(null, "Room not deleted as a booking already exists");
 		}
-		return no;
+		return -1;
+		
+		
 	}
 
 	/*

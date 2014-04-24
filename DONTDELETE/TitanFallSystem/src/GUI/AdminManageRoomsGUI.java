@@ -2,8 +2,11 @@ package GUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
 import Database.*;
 import Model.*;
 
@@ -143,9 +146,16 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 					hotel.addRoom();
 					Room r = new Room(roomNumber, roomAvailability, roomTypeID);
 					
-					ro.addRoom(r);
-					JOptionPane.showMessageDialog(null, "New Room added to the database");
+					try {
+						ro.addRoom(r);
+						
+					} catch (SQLException se) {
+						JOptionPane.showMessageDialog(null,"Room Already exists Within the Database please try another Number");
+						
+					}
+					
 				}
+				
 				else if(e.getSource() == updateButton) {
 					int roomNumber = Integer.parseInt(roomNumberField_UPDATE.getText());
 					int roomTypeID = update_typeCombo.getSelectedIndex();
@@ -156,12 +166,15 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 					else if(update_typeCombo.getSelectedIndex() == 2)
 						roomTypeID = 902;
 					ro.updateRoom(roomNumber, roomTypeID);
-					JOptionPane.showMessageDialog(null, "Room updated");
+					
 				}
 				else if(e.getSource() == deleteRoom){
 					int roomNumber = Integer.parseInt(roomNumberField_DELETE.getText());
-					ro.deleteRoom(roomNumber);
-					JOptionPane.showMessageDialog(null, "Room deleted");
+					try {
+						ro.deleteRoom(roomNumber);
+					} catch (SQLException e1) {
+						System.out.println("Error __________");
+					}
 				}
 			}
 		}
