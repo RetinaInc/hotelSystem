@@ -39,7 +39,7 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		this.users = users;
 		container = new JPanel();
 		container.setLayout(null);
-		container.setBounds(0, 79,1000, 450);
+		container.setBounds(0, 80,1000, 450);
 		JPanel manage_account = new JPanel();
 		manage_account.setLayout(null);
 		add(container);

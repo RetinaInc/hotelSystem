@@ -213,7 +213,7 @@ public class CreditCardGUI extends JPanel implements ActionListener,MouseListene
 				CreateTables c = new CreateTables();
 				int bookingID = c.getLastRow();
 				Booking b = new Booking(bookingID, numGuests,numNights,numRooms,total,arrivalDate,departureDate,userID);
-				c.addBooking(b,roomChoice);
+				c.addBooking(b,roomChoice,1);
 				
 				JOptionPane.showMessageDialog(null, "Booking successful","Booking successful",JOptionPane.INFORMATION_MESSAGE);
 				

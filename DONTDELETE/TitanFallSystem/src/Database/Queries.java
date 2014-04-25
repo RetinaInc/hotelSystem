@@ -23,8 +23,8 @@ public class Queries {
 				//ods.setUser("X00106072");
 				//ods.setPassword("db29Mar93");
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("Delboy");
-				ods.setPassword("7777");
+				ods.setUser("root");
+				ods.setPassword("root");
 				conn = ods.getConnection();
 			}
 			 catch (Exception ex) {
@@ -137,9 +137,9 @@ public class Queries {
 
 	public ArrayList<Room> availabilityQuery(Calendar cal, int numNights) {
 		Calendar departureQ = cal;
-		System.out.println(departureQ.getTime());
+		System.out.println(departureQ.getTime() + " is the arrival date in Availability Query");
 		departureQ.add(Calendar.DAY_OF_MONTH, numNights);
-		System.out.println(departureQ.getTime());
+		System.out.println(departureQ.getTime() + " is the departure date in Availability Query");
 		Calendar arrivalQ = Calendar.getInstance();
 		arrivalQ.setTime(cal.getTime());
 		arrivalQ.add(Calendar.DATE, - numNights);
@@ -147,8 +147,9 @@ public class Queries {
 		
 //		System.out.println(day + " " +  month + " " +year);
 		String firstRoomQuery = "SELECT r.room_number, rt.type_name, rt.roomtype_price FROM rooms r, roomtypes rt WHERE r.type_id = rt.type_id ORDER BY r.room_number";
-		
-		String secondRoomQuery = "SELECT r.ROOM_NUMBER FROM BOOKINGS b, roombookings rb, rooms r WHERE rb.BOOKING_ID = b.BOOKING_ID AND rb.room_number = r.room_number AND"
+		//secondRoomQuery gets any rooms with overlapping arrival/departure dates
+		//must be distinct as a room can have 2 or more bookings within a week, trys to remove a room more than once (PROBLEM)
+		String secondRoomQuery = "SELECT DISTINCT r.ROOM_NUMBER FROM BOOKINGS b, roombookings rb, rooms r WHERE rb.BOOKING_ID = b.BOOKING_ID AND rb.room_number = r.room_number AND"
 			+ "((TO_DATE('" + arrivalQ.get(Calendar.YEAR) + "/" + (arrivalQ.get(Calendar.MONTH)+1) + "/" + arrivalQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') >= ARRIVALDATE "
 			+ "AND TO_DATE('" + arrivalQ.get(Calendar.YEAR) + "/" + (arrivalQ.get(Calendar.MONTH)+1) + "/" + arrivalQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') <= DEPARTUREDATE) "
 			+ "OR (TO_DATE('" + departureQ.get(Calendar.YEAR) + "/" + (departureQ.get(Calendar.MONTH)+1) + "/" + departureQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') >= ARRIVALDATE "
@@ -160,8 +161,6 @@ public class Queries {
 		int[] bookedRooms;
 		try {
 			open();
-			System.out.println(arrivalQ.get(Calendar.MONTH)+1);
-			System.out.println(departureQ.getTime());
 			stmt = getConn().createStatement();
 			rset = stmt.executeQuery(firstRoomQuery); // first query, selects
 														// all rooms

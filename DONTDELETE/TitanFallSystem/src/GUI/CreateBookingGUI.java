@@ -59,7 +59,7 @@ public class CreateBookingGUI extends JPanel implements ActionListener {
 
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-		panel.setBounds(153, 221, 633, 282);
+		panel.setBounds(155, 220, 635, 285);
 		add(panel);
 		panel.setLayout(null);
 

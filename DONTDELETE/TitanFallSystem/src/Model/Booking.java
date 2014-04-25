@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -151,5 +152,12 @@ public class Booking {
 		roomList = new ArrayList<Room>(q.availabilityQuery(getCal(),getNumNights()));
 
 		return roomList;
+	}
+	public String dateConverter(Date d){
+		String stringd ="";
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		stringd = df.format(d);
+		System.out.println(stringd);
+		return stringd;
 	}
 }

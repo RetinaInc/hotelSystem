@@ -57,7 +57,8 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		setSize(1000, 600);
 		setLayout(null);
 		container = new JPanel();
-		container.setSize(700, 600);
+		container.setLocation(135, 11);
+		container.setSize(400, 280);
 		add(container);
 
 		JPanel login_panel = new JPanel();
@@ -189,7 +190,6 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		else if(e.getSource().equals(btnBack) && creatingBooking ==  false){
 			StartPanelGUI s = new StartPanelGUI();
 			s.setVisible(true);
-			s.setSize(1000, 589);
 			container.setVisible(false);
 			add(s);
 		}

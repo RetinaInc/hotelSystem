@@ -364,8 +364,12 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 				int chosenNumGuests = (numGuestsCombo.getSelectedIndex() +1);
 				int chosenNumNights = (numNightsCombo.getSelectedIndex() +1);
 				Calendar newArrival = Calendar.getInstance();
+				System.out.println(calSelector.getDate() + " is the date I'm given, I think it should be different");
 				newArrival.setTime(calSelector.getDate());
+				System.out.println(newArrival.getTime());
+				System.out.println(newArrival.get(Calendar.DAY_OF_MONTH) + " " + (newArrival.get(Calendar.MONTH) +1)+ " " + newArrival.get(Calendar.YEAR));
 				Booking b = new Booking();
+//				b.setTotalCost(totalCost);  needs to be done
 				b.setBookingID(bookingid);
 				b.setNumGuests(chosenNumGuests);
 				b.setNumNights(chosenNumNights);

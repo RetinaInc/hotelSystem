@@ -51,7 +51,7 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		userInteraction.setVisible(true);
 		userInteraction.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		userInteraction.setLayout(new GridLayout(2, 0));
-		userInteraction.setBounds(150, 0, 373, 230);
+		userInteraction.setBounds(150, 30, 373, 230);
 		add(userInteraction);
 		JPanel search = new JPanel();
 		search.setLayout(new FlowLayout());
