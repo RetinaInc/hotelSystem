@@ -19,7 +19,8 @@ public class CreateUsers {
 		try {
 			stmt = q.getConn().createStatement();
 
-			stmt.execute("INSERT INTO users VALUES ('" + theUser.getUserID() + "','G', '" + theUser.getfName() + "','"
+			stmt.execute("INSERT INTO users VALUES ('" + theUser.getUserID() + "','" + theUser.getUserType() +
+					"','" + theUser.getfName() + "','"
 					+ theUser.getlName() + "','" + theUser.getHomeaddress()  + "','" + theUser.getPhoneNum() + "','"
 					+ theUser.getEmail() + "','" + theUser.getPassword() + "')");
 

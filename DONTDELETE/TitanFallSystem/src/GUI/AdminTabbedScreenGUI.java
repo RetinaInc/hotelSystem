@@ -13,12 +13,7 @@ import Model.User;
 public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 	private JTabbedPane tabbedPane;
 	private JLabel welcome, welcomeUser, signOut;;
-	private JPanel panel1;
-	private JPanel panel2;
-	private JPanel panel3;
-	private JPanel panel4;
-	private JPanel panel5;
-	private JPanel panel6;
+	private JPanel panel1,panel2,panel3,panel4,panel5,panel6,panel7;
 	private ArrayList<User> users;
 	private String usersID, usersFirstName;
 	private Font font, fontRegular;
@@ -66,7 +61,8 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 		panel3 = new AdminAddSpecialsGUI();
 		panel4 = new AdminPrintReportsGUI(usersFirstName);
 		panel5 = new AdminHelpGUI();
-		panel6 = new AdminManageAccountGUI(user, users);
+		panel6 = new AddAdminGUI();
+		panel7 = new AdminManageAccountGUI(user, users);
 
 		// Create a tabbed pane
 		tabbedPane = new JTabbedPane();
@@ -75,7 +71,8 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 		tabbedPane.addTab("Manage Specials", panel3);
 		tabbedPane.addTab("Print Reports", panel4);
 		tabbedPane.addTab("Help", panel5);
-		tabbedPane.addTab("Manage Account", panel6);
+		tabbedPane.addTab("Add Administrator", panel6);
+		tabbedPane.addTab("Manage Account", panel7);
 		this.add(tabbedPane);
 	}
 	public String getUsersFirstName() {

@@ -29,7 +29,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 	private ArrayList<Integer> roomChoice;
 	private Color color = new Color(227,99,26);
 	private JPanel container;
-	
+	private Font fontBigger;
 	public CreateAccountGUI() {
 		createCreateAccountScreen();
 	}
@@ -57,7 +57,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		container.add(greeting);
 		greeting.setBounds(40, 11, 390, 50);
 
-
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 		JPanel account_details = new JPanel();
 		container.add(account_details);
 		account_details.setBounds(40, 74, 363, 191);
@@ -65,6 +65,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		account_details.setLayout(new GridLayout(7, 2));
 
 		lblFirstName = new JLabel("First Name");
+		lblFirstName.setFont(fontBigger);
 		account_details.add(lblFirstName);
 
 		fname = new JTextField();
@@ -73,6 +74,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		fname.setColumns(10);
 
 		lblLastName = new JLabel("Last Name");
+		lblLastName.setFont(fontBigger);
 		account_details.add(lblLastName);
 
 		lname = new JTextField();
@@ -81,6 +83,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		lname.setColumns(10);
 
 		lblHomeAddress = new JLabel("Home Address");
+		lblHomeAddress.setFont(fontBigger);
 		account_details.add(lblHomeAddress);
 
 		address = new JTextField();
@@ -89,6 +92,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		address.setColumns(10);
 
 		lblTelephone = new JLabel("Telephone");
+		lblTelephone.setFont(fontBigger);
 		account_details.add(lblTelephone);
 
 		phone = new JTextField();
@@ -97,6 +101,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		phone.setColumns(10);
 
 		lblEmailAddress = new JLabel("Email Address");
+		lblEmailAddress.setFont(fontBigger);
 		account_details.add(lblEmailAddress);
 
 		email = new JTextField();
@@ -105,6 +110,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		email.setColumns(10);
 
 		lblUsername = new JLabel("Username");
+		lblUsername.setFont(fontBigger);
 		account_details.add(lblUsername);
 
 		username = new JTextField();
@@ -113,6 +119,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		username.setColumns(10);
 
 		lblPassword = new JLabel("Password");
+		lblPassword.setFont(fontBigger);
 		account_details.add(lblPassword);
 
 		password = new JPasswordField();
@@ -120,21 +127,23 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		account_details.add(password);
 
 		btnLogin = new JButton("Login");
+		btnLogin.setFont(fontBigger);
 		btnLogin.setBackground(color);
 		btnLogin.setToolTipText("Login to your account");
 		btnLogin.isFocusable();
 		btnLogin.addKeyListener(this);
 		btnLogin.addActionListener(this);
-		btnLogin.setBounds(40, 276, 89, 23);
+		btnLogin.setBounds(40, 276, 120, 30);
 		container.add(btnLogin);
 
 		btnContinue = new JButton("Continue");
+		btnContinue.setFont(fontBigger);
 		btnContinue.setBackground(color);
 		btnContinue.setToolTipText("Create your account");
 		btnContinue.isFocusable();
 		btnContinue.addKeyListener(this);
 		btnContinue.addActionListener(this);
-		btnContinue.setBounds(314, 276, 89, 23);
+		btnContinue.setBounds(280, 276, 120, 30);
 		container.add(btnContinue);
 	}
 	public boolean emptyFields(String e) {
@@ -207,8 +216,10 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 
 				CreateUsers cu = new CreateUsers();
 				if (cu.buildUser(u) == true) {
-					JOptionPane.showMessageDialog(null,"Sorry, this username is already taken, please try a different username",
+					JOptionPane.showMessageDialog(null,"Sorry, " + username.getText() +
+							" is already taken, please try a different username",
 									"Warning", JOptionPane.WARNING_MESSAGE);
+					username.setText("");
 				} else {
 					if(creatingBooking == true){
 						CreditCardGUI cc = new CreditCardGUI(calDate,username.getText(),users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
@@ -280,11 +291,10 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 
 				CreateUsers cu = new CreateUsers();
 				if (cu.buildUser(u) == true) {
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"Sorry, this username is already taken, please try a different username",
+					JOptionPane.showMessageDialog(null,"Sorry, " + username.getText() +
+							" is already taken, please try a different username",
 									"Warning", JOptionPane.WARNING_MESSAGE);
+					username.setText("");
 				} else {
 					this.setVisible(false);
 					UserTabbedScreenGUI us = new UserTabbedScreenGUI(username.getText(),users);

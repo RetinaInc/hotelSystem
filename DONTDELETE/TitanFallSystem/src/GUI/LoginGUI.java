@@ -34,6 +34,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 	private Calendar calDate = Calendar.getInstance();
 	private ArrayList<Integer> roomChoice;
 	private Color color = new Color(227,99,26);
+	private Font fontBigger;
 	public LoginGUI(){
 		createLoginScreen();
 	}
@@ -61,6 +62,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		container.setSize(400, 280);
 		add(container);
 
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 		JPanel login_panel = new JPanel();
 		container.add(login_panel);
 		login_panel.setLayout(new GridLayout(2,2));
@@ -76,6 +78,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		login_details.setLayout(gbl_login_details);
 
 		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setFont(fontBigger);
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 		gbc_lblUsername.anchor = GridBagConstraints.ABOVE_BASELINE;
 		gbc_lblUsername.fill = GridBagConstraints.HORIZONTAL;
@@ -95,6 +98,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		username.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(fontBigger);
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
 		gbc_lblPassword.anchor = GridBagConstraints.BELOW_BASELINE;
 		gbc_lblPassword.fill = GridBagConstraints.HORIZONTAL;
@@ -120,6 +124,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		button_panel.setLayout(new GridLayout(2,0));
 		
 		 btnLogin = new JButton("Login");
+		 btnLogin.setFont(fontBigger);
 		 btnLogin.setBackground(color);
 		 btnLogin.setToolTipText("Login to your account");
 		 btnLogin.isFocusable();
@@ -128,6 +133,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		btnLogin.addActionListener(this);
 		buttons.add(btnLogin);
 		btnBack = new JButton("Back");
+		btnBack.setFont(fontBigger);
 		btnBack.setBackground(color);
 		btnBack.setToolTipText("Go Back");
 		btnBack.isFocusable();
@@ -141,6 +147,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		create_accountOption.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		 lblCreateAccount = new JLabel("Create Account");
+		 lblCreateAccount.setFont(fontBigger);
 		 lblCreateAccount.setToolTipText("Create a new account");
 		 lblCreateAccount.setFocusable(true);
 		 lblCreateAccount.addKeyListener(this);

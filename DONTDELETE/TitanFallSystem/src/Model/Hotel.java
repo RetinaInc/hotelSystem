@@ -61,16 +61,6 @@ public class Hotel {
 		
 	}
 	
-	public User getUser(String userid){
-		User u = null;
-		for(int i = 0; i < users.size(); i++){
-			if(users.get(i).getUserID().equals(userid)){
-				u = users.get(i);
-			}
-		}
-		return u;
-	}
-	
 	public void addUsers(User u){
 		users.add(u);
 	}
