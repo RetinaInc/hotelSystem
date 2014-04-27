@@ -31,7 +31,7 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 		this.users = users;
 		ImageIcon icon = new ImageIcon("TitanfallImages/TitanFallLogo.png");
 		welcome = new JLabel(icon);
-		welcome.setBounds(150, 50, 700, 180);
+		welcome.setBounds(150, 50, 700, 200);
 		add(welcome);
 		
 		welcomeUser = new JLabel("Welcome, " + getUsersFirstName());

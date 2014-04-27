@@ -59,7 +59,13 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 		Object[] columnNames = { "Booking ID", "Number of Guests",
 				"Number of Rooms","Number of Nights", "Total Cost", "Arrival", "Departure"};
 		testBookings(usersID);
-		model = new DefaultTableModel(array2d, columnNames);
+		model = new DefaultTableModel(array2d, columnNames){
+			 @Override
+			    public boolean isCellEditable(int row, int column) {
+			       //all cells false
+			       return false;
+			    }
+		};
 
 		table = new JTable(model);
 		table.getTableHeader().setBackground(color);

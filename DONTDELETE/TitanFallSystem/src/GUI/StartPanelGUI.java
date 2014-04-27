@@ -46,23 +46,32 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		setLayout(null);
 		setSize(1000, 600);
 		
-		fontBigger = new Font("Veranda", Font.PLAIN, 18);
+		fontBigger = new Font("Veranda", Font.PLAIN, 16);
 		userInteraction = new JPanel();
 		userInteraction.setVisible(true);
 		userInteraction.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		userInteraction.setLayout(new GridLayout(2, 0));
-		userInteraction.setBounds(150, 30, 400, 230);
+		userInteraction.setBounds(135, 30, 366, 230);
 		add(userInteraction);
 		JPanel search = new JPanel();
 		search.setLayout(new FlowLayout());
 
-		lblnumNights = new JLabel("No. of Nights");
+		lblnumNights = new JLabel("No. of Nights : ");
 		lblnumNights.setFont(fontBigger);
 		search.add(lblnumNights);
 
 		numNights = new JComboBox(nights);
+		numNights.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}));
 		numNights.setFont(fontBigger);
 		search.add(numNights);
+		
+				lblnumPeople = new JLabel("No. of People : ");
+				lblnumPeople.setFont(fontBigger);
+				search.add(lblnumPeople);
+		
+				numPeople = new JComboBox(people);
+				numPeople.setFont(fontBigger);
+				search.add(numPeople);
 
 		arrivalDate = new JLabel("Arrival Date");
 		arrivalDate.setFont(fontBigger);
@@ -70,7 +79,7 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 
 		day = new JYearChooser();
 		day.setFont(fontBigger);
-		day.setPreferredSize(new Dimension(35,20));
+		day.setPreferredSize(new Dimension(40, 20));
 		day.adjustWidthToMaximumValue();
 		day.setYear((cal.get(Calendar.DAY_OF_MONTH)));		
 		day.setMaximum(31);
@@ -109,47 +118,42 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		});
 		search.add(month);
 
-		year = new JYearChooser();
-		year.setFont(fontBigger);
-		year.setYear(cal.get(Calendar.YEAR));
-		year.setMaximum(2016);
-		year.setMinimum(2014);
-		search.add(year);
-
-
-		dateChooser = new JDateChooser();
-		dateChooser.setFont(fontBigger);
-		dateChooser.setMinSelectableDate(cal.getTime());
-		dateChooser.setIcon(new ImageIcon("TitanfallImages/cal.jpg"));
-		cal.add(Calendar.YEAR, 2);
-		dateChooser.setMaxSelectableDate(cal.getTime());
-		dateChooser.getDateEditor().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					@Override
-					public void propertyChange(PropertyChangeEvent e) {
-						if ("date".equals(e.getPropertyName())) {
-							chosenDate = Calendar.getInstance();
-							chosenDate.setTime((Date) e.getNewValue());
-							day.setYear(chosenDate.get(Calendar.DAY_OF_MONTH));
-							month.setMonth(chosenDate.get(Calendar.MONTH));
-							year.setYear(chosenDate.get(Calendar.YEAR));
-
-						}
-
-					}
-				});
-		search.add(dateChooser);
-
-		lblnumPeople = new JLabel("No. of People");
-		lblnumPeople.setFont(fontBigger);
-		search.add(lblnumPeople);
-
-		numPeople = new JComboBox(people);
-		numPeople.setFont(fontBigger);
-		search.add(numPeople);
-
 
 		userInteraction.add(search);
+				Calendar maximumDate = Calendar.getInstance();
+				maximumDate.add(Calendar.YEAR, 2);
+						
+						
+								dateChooser = new JDateChooser();
+								dateChooser.setFont(fontBigger);
+								dateChooser.setMaxSelectableDate(maximumDate.getTime());
+								dateChooser.setMinSelectableDate(cal.getTime());
+								dateChooser.setIcon(new ImageIcon("TitanfallImages/cal.jpg"));
+								dateChooser.getDateEditor().addPropertyChangeListener(
+										new PropertyChangeListener() {
+											@Override
+											public void propertyChange(PropertyChangeEvent e) {
+												if ("date".equals(e.getPropertyName())) {
+													chosenDate = Calendar.getInstance();
+													chosenDate.setTime((Date) e.getNewValue());
+													day.setYear(chosenDate.get(Calendar.DAY_OF_MONTH));
+													month.setMonth(chosenDate.get(Calendar.MONTH));
+													year.setYear(chosenDate.get(Calendar.YEAR));
+
+												}
+
+											}
+										});
+								
+										year = new JYearChooser();
+										year.setFont(fontBigger);
+										year.setYear(cal.get(Calendar.YEAR));
+										year.setMaximum(2016);
+										year.setMinimum(2014);
+										search.add(year);
+										System.out.println(day.getYear() + "     " + (month.getMonth() + 1)
+												+ "        " + year.getYear());
+								search.add(dateChooser);
 
 		JPanel buttons = new JPanel();
 		buttons.setLayout(null);
@@ -173,10 +177,8 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		btnSearch.isFocusable();
 		btnSearch.addKeyListener(this);
 		btnSearch.addActionListener(this);
-		btnSearch.setBounds(270, 47, 100, 30);
+		btnSearch.setBounds(252, 47, 100, 30);
 		buttons.add(btnSearch);
-		System.out.println(day.getYear() + "     " + (month.getMonth() + 1)
-				+ "        " + year.getYear());
 	}
 
 	public void actionPerformed(ActionEvent e) {

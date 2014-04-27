@@ -62,7 +62,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		container.setSize(400, 280);
 		add(container);
 
-		fontBigger = new Font("Veranda", Font.PLAIN, 18);
+		fontBigger = new Font("Veranda", Font.PLAIN, 16);
 		JPanel login_panel = new JPanel();
 		container.add(login_panel);
 		login_panel.setLayout(new GridLayout(2,2));

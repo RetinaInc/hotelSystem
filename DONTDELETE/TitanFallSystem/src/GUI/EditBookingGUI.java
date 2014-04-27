@@ -29,14 +29,14 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 	private JComboBox numGuestsCombo, numNightsCombo;
 	private ArrayList<Object[]> availableList, availableListRight;
 	private Object[][] array2dLeft, array2dRight;
-	private int bookingid;
+	private int bookingid,numNightsCounter;
 	private double price;
 	private int numGuests, numRooms, numNights;
 	private Calendar arrival, departure, currentDate, maxDate;
 	private JTextField day;
 	private JTextField month;
 	private JTextField year;
-	private JTextField textField_3;
+	private JTextField totalCostField;
 	private Color color = new Color(227, 99, 26);
 	private String usersID;
 	private JTable tableLeft, tableRight;
@@ -87,6 +87,7 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 		numGuestsCombo = new JComboBox(new DefaultComboBoxModel(new Integer[] {
 				1, 2,3,4,5,6,7,8,9,10}));
 		numGuestsCombo.setSelectedIndex(numGuests - 1);
+		
 		leftPanel.add(numGuestsCombo);
 
 		this.bookingid = bookingid;
@@ -97,7 +98,9 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 
 		numNightsCombo = new JComboBox(new DefaultComboBoxModel(new Integer[] {
 				1, 2,3,4,5,6,7,8,9,10,11,12,13,14}));
-		numNightsCombo.setSelectedIndex(numNights - 1);
+		numNightsCombo.setSelectedIndex(numNights - 1);	
+		numNightsCombo.addActionListener(this);
+		numNightsCounter = (numNightsCombo.getSelectedIndex() +1);
 		leftPanel.add(numNightsCombo);
 
 		JLabel lblArrivalDate = new JLabel("Original Arrival Date:  ");
@@ -124,10 +127,11 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 				"New Total Cost:                        ");
 		leftPanel.add(lblNewTotalCost);
 
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		leftPanel.add(textField_3);
-		textField_3.setColumns(6);
+		totalCostField = new JTextField();
+		totalCostField.setEditable(false);
+		leftPanel.add(totalCostField);
+		totalCostField.setColumns(6);
+		totalCostField.setText(Double.toString(price));
 
 		btnAdd = new JButton("Add/Remove rooms");
 		btnAdd.setBackground(color);
@@ -137,8 +141,9 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 		JPanel rigthPanel = new JPanel();
 		rigthPanel.setBounds(415, 35, 260, 200);
 		edit.add(rigthPanel);
-
+		
 		calSelector = new JCalendar();
+		calSelector.setDate(arrivalD);
 		currentDate = Calendar.getInstance();
 		calSelector.setMinSelectableDate(currentDate.getTime());
 		currentDate.add(Calendar.DAY_OF_MONTH, -1);
@@ -220,7 +225,13 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 			addRooms.add(scrollPane);
 			Object[] columnNames = { "Room Number", "Room Type", "Room Price" };
 			getAvailableRooms("left");
-			modelLeft = new DefaultTableModel(array2dLeft, columnNames);
+			modelLeft = new DefaultTableModel(array2dLeft, columnNames){
+				 @Override
+				    public boolean isCellEditable(int row, int column) {
+				       //all cells false
+				       return false;
+				    }
+			};
 
 			tableLeft = new JTable(modelLeft);
 			tableLeft.setBorder(null);
@@ -259,7 +270,13 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 			addRooms.add(scrollPaneRight);
 
 			getAvailableRooms("right");
-			model = new DefaultTableModel(array2dRight, columnNames);
+			model = new DefaultTableModel(array2dRight, columnNames){
+				 @Override
+				    public boolean isCellEditable(int row, int column) {
+				       //all cells false
+				       return false;
+				    }
+			};
 			tableRight = new JTable(model);
 			tableRight.setBorder(null);
 			tableRight.removeColumn(tableRight.getColumnModel().getColumn(0));
@@ -278,9 +295,15 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 			addRooms.add(txtTotalCost);
 			txtTotalCost.setColumns(6);
 		}
+		if(e.getSource().equals(numNightsCombo)){
+			System.out.println( numNightsCounter);
+	    	double priceOneNight = (Double.parseDouble(totalCostField.getText())/numNightsCounter);
+	    	numNightsCounter = (numNightsCombo.getSelectedIndex() + 1);
+	    	System.out.println(priceOneNight * numNightsCounter);
+	        totalCostField.setText(Double.toString(priceOneNight * numNightsCounter));
+		}
 		if (e.getSource().equals(back)) {
-			if (JOptionPane
-					.showConfirmDialog(
+			if (JOptionPane.showConfirmDialog(
 							null,
 							"Are you sure you want to cancel? Any changes made will not be saved",
 							"Cancel editing a booking",
@@ -373,8 +396,13 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 				b.setBookingID(bookingid);
 				b.setNumGuests(chosenNumGuests);
 				b.setNumNights(chosenNumNights);
+				b.setTotalCost(Double.valueOf(totalCostField.getText()));
 				CreateTables c = new CreateTables();
 				c.updateBookingDates(b, newArrival );
+				ManageBookingGUI m = new ManageBookingGUI(usersID);
+				edit.setVisible(false);
+				m.setVisible(true);
+				add(m);
 			}
 		}
 	}

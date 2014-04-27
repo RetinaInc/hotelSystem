@@ -69,7 +69,13 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 		scrollPane.setBounds(200, 50, 350, 120);
 		specials.add(scrollPane);
 		fillTable();
-		model = new DefaultTableModel(array2d, columnNames);
+		model = new DefaultTableModel(array2d, columnNames){
+			 @Override
+			    public boolean isCellEditable(int row, int column) {
+			       //all cells false
+			       return false;
+			    }
+		};
 
 		specialsList = new JTable(model);
 		specialsList.getTableHeader().setBackground(color);

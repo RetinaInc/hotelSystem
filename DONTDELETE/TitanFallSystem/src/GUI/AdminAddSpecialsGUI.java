@@ -81,7 +81,13 @@ public class AdminAddSpecialsGUI extends JPanel implements ActionListener{
 		scrollPane.setBounds(300, 230, 350, 120);
 		container.add(scrollPane);
 		fillTable();
-		model = new DefaultTableModel(array2d, columnNames);
+		model = new DefaultTableModel(array2d, columnNames){
+			 @Override
+			    public boolean isCellEditable(int row, int column) {
+			       //all cells false
+			       return false;
+			    }
+		};
 
 		specialsList = new JTable(model);
 		specialsList.getTableHeader().setBackground(color);

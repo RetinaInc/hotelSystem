@@ -72,7 +72,7 @@ public class AvailabilityGUI extends JPanel implements ActionListener {
 
 		container = new JPanel();
 		container.setLocation(0, 0);
-		container.setSize(599, 300);
+		container.setSize(600, 300);
 		add(container);
 		
 		setLayout(null);
