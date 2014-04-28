@@ -38,26 +38,33 @@ public class ReportQueries {
 	private ArrayList<Integer> amount = new ArrayList<Integer>();     //used to keep track of the amount of times a booking was booked
 	private DecimalFormat df = new DecimalFormat("###,###.00");
 	
-	public void getMonthSplit(int year,int month){
+	public int[] getMonthSplit(int year,int month){
+		int[] monthTypeValues = new int[3];
 		q.open();
 		//Select certain dates between x and y
-		String sql = "SELECT *  FROM Bookings WHERE date = '' AND date = ''";
+		String sql = "Select ROOMS.TYPE_ID,ROOMBOOKINGS.ROOM_NUMBER,ROOMBOOKINGS.BOOKING_ID FROM ROOMS INNER JOIN ROOMBOOKINGS "+
+		"ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER";
 		try {
 			rset = pstmt.executeQuery();
 			pstmt = q.getConn().prepareStatement(sql);
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			//put all of the ids retreaved into an array list
 			while(rset.next()){
-				ids.add(rset.getInt("Special_ID"));
-			}
+				if(rset.getInt(0) == 900){
+					monthTypeValues[0]++;
+					}
+				if(rset.getInt(0) == 901){
+					monthTypeValues[1]++;
+				}
+				if(rset.getInt(0) == 902){
+					monthTypeValues[2]++;
+				}
+				}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}		
-		
-		
-		
+		return monthTypeValues;
 	}
+		
+	
 	public String getBookingTrends(int year){
 		//Start of singles calculations from number of bookings per month and the total for each month
 		String sql = "select COUNT(ROOMTYPES.TYPE_ID) as numBookings from BOOKINGS,ROOMTYPES,ROOMBOOKINGS,ROOMS"

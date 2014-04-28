@@ -172,18 +172,14 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 					}
 					JFileChooser f = new JFileChooser();
 					int returnVal = f.showSaveDialog(this);
-
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						try {
-							BufferedWriter fw = new BufferedWriter(new FileWriter(
-									f.getSelectedFile() + ".jpeg"));
-							ReportQueries q = new ReportQueries();
-							
-							fw.write(q.getBookingTrends(year) + usersFirstName);
-							fw.close();
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
+					
+//					if (returnVal == JFileChooser.APPROVE_OPTION) {
+//						try{
+//						    
+//							
+//						}catch(Exception e){
+//						    e.printStackTrace();
+//						}
 					}
 				}
 		}
@@ -223,4 +219,4 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 			}
 		}	
 	}
-}
+//}
