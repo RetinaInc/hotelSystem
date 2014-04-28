@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -239,16 +241,32 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 	public void errorCheckingForUpdatePassword(){
 		for(int i = 0; i < users.size(); i++){
 			
-			if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword().equals(toldPass.getText()) && 
-					tnewPass.getText().equals(tconfirmNewPass.getText()) && emptyFields(tnewPass.getText()) == true &&
+			String oldPass = "";
+			String newPass = "";
+			String cNewPass = "";
+			try {
+				oldPass = Encryption.encrypt(toldPass.getText());
+				newPass = Encryption.encrypt(tnewPass.getText());
+				cNewPass = Encryption.encrypt(tconfirmNewPass.getText());
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (GeneralSecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword().equals(oldPass) && 
+					newPass.equals(cNewPass) && emptyFields(tnewPass.getText()) == true &&
 							emptyFields(tconfirmNewPass.getText()) == true){
 				
-				users.get(i).setPassword(tnewPass.getText());
+				users.get(i).setPassword(newPass);
 				CreateTables c = new CreateTables();
 				Hotel h = c.getHotel();
 				
 				
-				h.updateUsersPassword(usersID, tnewPass.getText());
+				h.updateUsersPassword(usersID, newPass);
 				JOptionPane.showMessageDialog(null, "Password has been updated Successfully","Password Updated",JOptionPane.INFORMATION_MESSAGE);
 				toldPass.setText("");
 				tnewPass.setText("");

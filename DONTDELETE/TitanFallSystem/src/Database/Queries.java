@@ -22,10 +22,16 @@ public class Queries {
 				//ods.setURL("jdbc:oracle:thin:@//10.10.2.7:1521/global1");
 				//ods.setUser("X00106072");
 				//ods.setPassword("db29Mar93");
-				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("root");
-				ods.setPassword("root");
+//				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
+//				ods.setUser("root");
+//				ods.setPassword("root");
+			
+				
+				ods.setURL("jdbc:oracle:thin:HR/pmagee@localhost:1521:XE");
+				ods.setUser("tom");
+				ods.setPassword("tom");
 				conn = ods.getConnection();
+
 			}
 			 catch (Exception ex) {
 					System.out.println("Open Database Error, check Queries class");

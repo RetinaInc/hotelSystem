@@ -2,6 +2,7 @@ package Database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +38,26 @@ public class ReportQueries {
 	private ArrayList<Integer> amount = new ArrayList<Integer>();     //used to keep track of the amount of times a booking was booked
 	private DecimalFormat df = new DecimalFormat("###,###.00");
 	
+	public void getMonthSplit(int year,int month){
+		q.open();
+		//Select certain dates between x and y
+		String sql = "SELECT *  FROM Bookings WHERE date = '' AND date = ''";
+		try {
+			rset = pstmt.executeQuery();
+			pstmt = q.getConn().prepareStatement(sql);
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			//put all of the ids retreaved into an array list
+			while(rset.next()){
+				ids.add(rset.getInt("Special_ID"));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
+		
+		
+		
+	}
 	public String getBookingTrends(int year){
 		//Start of singles calculations from number of bookings per month and the total for each month
 		String sql = "select COUNT(ROOMTYPES.TYPE_ID) as numBookings from BOOKINGS,ROOMTYPES,ROOMBOOKINGS,ROOMS"

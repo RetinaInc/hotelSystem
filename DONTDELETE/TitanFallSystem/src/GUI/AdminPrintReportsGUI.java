@@ -48,26 +48,29 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 		selectReport.setFont(fontBigger);
 		selectReport.setBounds(20, 98, 350, 23);
 		container.add(selectReport);
+		
+		saveReportTo = new JButton("Save report");
+		saveReportTo.setSize(150, 23);
+		saveReportTo.setLocation(391, 199);
+		saveReportTo.setFont(fontBigger);
+		saveReportTo.setBackground(color);
+		saveReportTo.addActionListener(this);
+		container.add(saveReportTo);
 
 		reportOptions = new JComboBox<String>();
+		reportOptions.setModel(new DefaultComboBoxModel(new String[] {"Booking trends for a particular year", "Specials trends", "Room Split Pie Chart", "Yearly Booking Trend XyGraph"}));
 		reportOptions.setFont(fontBigger);
 		reportOptions.addItem("Booking trends for a particular year");
 		reportOptions.addItem("Specials trends");
 		reportOptions.setBounds(380, 98, 320, 30);
 		container.add(reportOptions);
-
-		saveReportTo = new JButton("Save report");
-		saveReportTo.setFont(fontBigger);
-		saveReportTo.setBackground(color);
-		saveReportTo.addActionListener(this);
-		saveReportTo.setBounds(181, 203, 150, 23);
-		container.add(saveReportTo);
+		openReport.setBounds(341, 203, 150, 23);
 
 		openReport = new JButton("Open report");
 		openReport.setFont(fontBigger);
 		openReport.setBackground(color);
 		openReport.addActionListener(this);
-		openReport.setBounds(371, 203, 150, 23);
+		openReport.setBounds(190, 199, 150, 23);
 		container.add(openReport);
 	}
 
@@ -118,8 +121,6 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 					}
 				}
 			}
-			
-			
 			else if(reportOptions.getSelectedIndex() == 1){
 				int year = 0;
 				try {
@@ -152,7 +153,74 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 					}
 				}
 			}
-		}
+			else if (e.getSource() == saveReportTo) {
+				if (reportOptions.getSelectedIndex() == 2) {
+					int year = 0;
+					try {
+						String y = JOptionPane
+								.showInputDialog(
+										null,
+										"Please enter the number of the month "
+												+ "you wish to get the booking trends of (i.e. 1 for September)",
+										"Choose Year", JOptionPane.PLAIN_MESSAGE);
 
+						year = Integer.parseInt(y);
+					} catch (NumberFormatException me) {
+						JOptionPane.showInputDialog(null,
+								"Please enter a valid number", "Choose Year",
+								JOptionPane.OK_OPTION);
+					}
+					JFileChooser f = new JFileChooser();
+					int returnVal = f.showSaveDialog(this);
+
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						try {
+							BufferedWriter fw = new BufferedWriter(new FileWriter(
+									f.getSelectedFile() + ".jpeg"));
+							ReportQueries q = new ReportQueries();
+							
+							fw.write(q.getBookingTrends(year) + usersFirstName);
+							fw.close();
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+		}
+			else if (e.getSource() == saveReportTo) {
+				if (reportOptions.getSelectedIndex() == 0) {
+					int year = 0;
+					try {
+						String y = JOptionPane
+								.showInputDialog(
+										null,
+										"Please enter the number of year "
+												+ "you wish to get the booking trends of (i.e. 14 for 2014)",
+										"Choose Year", JOptionPane.PLAIN_MESSAGE);
+
+						year = Integer.parseInt(y);
+					} catch (NumberFormatException me) {
+						JOptionPane.showInputDialog(null,
+								"Please enter a valid number", "Choose Year",
+								JOptionPane.OK_OPTION);
+					}
+					JFileChooser f = new JFileChooser();
+					int returnVal = f.showSaveDialog(this);
+
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						try {
+							BufferedWriter fw = new BufferedWriter(new FileWriter(
+									f.getSelectedFile() + ".txt"));
+							ReportQueries q = new ReportQueries();
+							
+							fw.write(q.getBookingTrends(year) + usersFirstName);
+							fw.close();
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+		}	
 	}
 }
