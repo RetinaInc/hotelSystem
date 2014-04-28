@@ -51,8 +51,21 @@ public class specialsOperations {
 			{
 				q.open();
 				
-				String sql = "Update Bookings set Total_Cost = Total_Cost + " + price + " where Booking_ID = " + bookingid;
+				String sql = "select * from specialbookings where booking_ID = " + bookingid;
+				pstmt = q.getConn().prepareStatement(sql);
+				rset = pstmt.executeQuery();
 				
+				//if rset.next = true then this booking has specials on it and therefore 
+				//should not be able to add more specials to it incase of more of the same specials being added
+				//and the user being charged for the special they already have
+				if(rset.next()){
+					JOptionPane.showMessageDialog(null, "You have already added specials to this booking",
+							"Error adding special",JOptionPane.ERROR_MESSAGE);
+				}
+				//other wise update the total cost and add the specials to this booking
+				else
+				{
+				sql = "Update Bookings set Total_Cost = Total_Cost + " + price + " where Booking_ID = " + bookingid;
 				pstmt = q.getConn().prepareStatement(sql);
 				pstmt.executeUpdate();
 				
@@ -82,12 +95,13 @@ public class specialsOperations {
 						pstmt.executeUpdate();
 					}
 					
+					JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
+							JOptionPane.INFORMATION_MESSAGE);
 				System.out.println("Special cost added to booking ");
+				}
 			}
 			catch(Exception e){
 				System.out.println("could not add special " + e);
-				JOptionPane.showMessageDialog(null, "You have already added this special to this booking",
-						"Error adding special",JOptionPane.ERROR_MESSAGE);
 			}
 			q.close();
 		}

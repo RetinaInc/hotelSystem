@@ -137,9 +137,6 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 				}
 				
 				s.addSpecials(names,bookingid,priceField);
-				JOptionPane.showMessageDialog(null, "Special added to booking " + bookingid,"Special added",
-						JOptionPane.INFORMATION_MESSAGE);
-				
 				ManageBookingGUI a = new ManageBookingGUI(usersID);
 				specials.setVisible(false);
 				a.setVisible(true);
