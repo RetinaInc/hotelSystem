@@ -233,8 +233,9 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		if(e.getSource() == login && e.getKeyCode() == KeyEvent.VK_ENTER){
 			
 			LoginGUI l = new LoginGUI();
-			this.setVisible(false);
+			userInteraction.setVisible(false);
 			l.setVisible(true);
+			this.add(l);
 		}
 		else if(calDate.compareTo(Calendar.getInstance()) >= 0 && e.getKeyCode() == KeyEvent.VK_ENTER){
 			Calendar selectedDate = Calendar.getInstance();

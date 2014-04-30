@@ -59,7 +59,7 @@ public class AdminTabbedScreenGUI extends JFrame implements MouseListener{
 		panel1 = new AdminManageBookingGUI();
 		panel2 = new AdminManageRoomsGUI();
 		panel3 = new AdminAddSpecialsGUI();
-		//panel4 = new AdminPrintReportsGUI(usersFirstName);
+		panel4 = new AdminPrintReportsGUI(usersFirstName);
 		panel5 = new AdminHelpGUI();
 		panel6 = new AddAdminGUI();
 		panel7 = new AdminManageAccountGUI(user, users);
