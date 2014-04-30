@@ -14,9 +14,9 @@ public class RoomOperations {
 	private ResultSet rset;
 	private Statement stmt;
 	private PreparedStatement pstmt;
-
+	Queries q = new Queries();
 	public RoomOperations() {
-		Queries q = new Queries();
+	
 		q.open();
 		connection = q.getConn();
 	}
@@ -28,17 +28,29 @@ public class RoomOperations {
 	 */
 	
 	//Instead of try catching i added throws exception here 
-	//so when you try add the room in the manage rooms it trys to do the below if its succesful itl show the dialog inside here 
+	//so when you try add the room in the manage rooms it trys to do the below if its succesfull 
+	//the method returns true
 	//if it fails it doesnt add the room but shows an error dialog 
-	public void addRoom(Room r) throws SQLException {
-	
+	public boolean addRoom(Room r) throws SQLException {
+		boolean added = false;
+			try
+			{
+
 			String addRoomSQL = "INSERT INTO Rooms (Room_Number, Room_Availability, Type_ID) VALUES (?,?,?)";
 			pstmt = connection.prepareStatement(addRoomSQL);
 			pstmt.setInt(1, r.getRoomNumber());
 			pstmt.setString(2, Character.toString(r.isRoomAvailability()));
 			pstmt.setInt(3, r.getRoomTypeID());
 			pstmt.executeUpdate();
-			JOptionPane.showMessageDialog(null,"Room Added to the database");
+			System.out.println("room added");
+			added = true;
+			}
+			catch(Exception ae){
+				JOptionPane.showMessageDialog(null, "Room already exists","Error adding room",JOptionPane.WARNING_MESSAGE);
+				System.out.println("room already exists ");
+				ae.printStackTrace();
+			}
+			return added;
 	}
 
 	/*
@@ -46,45 +58,90 @@ public class RoomOperations {
 	 */
 	public void updateRoom(int roomNumber, int roomTypeID) {
 		try {
-			String updateRoomQuery = "UPDATE Rooms SET Type_ID =" + "'"
-					+ roomTypeID + "'" + "WHERE Room_Number =" + "'"
-					+ roomNumber + "'";
-			stmt = connection.createStatement();
-			stmt.executeUpdate(updateRoomQuery);
+				
+			String sql = "select Room_Number from ROOMBOOKINGS where ROOM_NUMBER = " + roomNumber;
+			
+			pstmt = q.getConn().prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			//check to see if room  has a booking on it
+			if(rset.next() == true){
+				JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has a booking on it and cannot be updated",
+					"Error deleting room",JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				//check to see if the room exists because it doesn't have a booking on it when it gets to here
+				sql = "select * from ROOMS where ROOM_NUMBER = " + roomNumber;
+				
+				pstmt = q.getConn().prepareStatement(sql);
+				
+				rset = pstmt.executeQuery();
+				if(rset.next() == true){ //means it does exist
+					String updateRoomQuery = "UPDATE Rooms SET Type_ID = " + 
+							+ roomTypeID + "WHERE Room_Number = " 
+							+ roomNumber;
+					stmt = connection.createStatement();
+					stmt.executeUpdate(updateRoomQuery);
+					JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has been updated","Room updated"
+							 ,JOptionPane.INFORMATION_MESSAGE);
+					 System.out.println("room updated ");
+				}
+				else //doesnt exist
+				{
+					JOptionPane.showMessageDialog(null, "Room " + roomNumber + " does not exist",
+							"Error deleting room",JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		} catch (Exception e) {
 			System.out.println("Problem, roomNumber has not been updated " + e);
+			e.printStackTrace();
 		}
 	}
 
 	// This method takes a room number parameter which is the room number to be
 	// deleted. The SQL statement deletes this roomnumber.
-	public int deleteRoom(int roomNumber)throws SQLException {
+	public void deleteRoom(int roomNumber)throws SQLException {
+		try
+		{
+		String sql = "select Room_Number from ROOMBOOKINGS where ROOM_NUMBER = " + roomNumber;
 		
-		String findQuery ="SELECT room_number ,booking_id FROM RoomBookings WHERE ROOM_NUMBER= '"+roomNumber+"'";
-		pstmt = connection.prepareStatement(findQuery,
-				ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
-		ResultSet resultSet = pstmt.executeQuery();
-		if (!resultSet.isBeforeFirst() ) {    
-			 System.out.println("No Bookings on Record For this room");
-			 int no = 0;
-				try {
-					String deleteQuery = "DELETE FROM Rooms WHERE Room_Number =" + "'"
-							+ roomNumber + "'";
-					stmt = connection.createStatement();
-					no = stmt.executeUpdate(deleteQuery);
-					JOptionPane.showMessageDialog(null, "Room " + roomNumber + " deleted");
-					System.out.println("Room no "+roomNumber+" deleted");
-				} catch (SQLException e) {
-					System.out.println("Room was not deleted");
-				}
-				return no;
-			}
-		else{
-			JOptionPane.showMessageDialog(null, "Room not deleted as a booking already exists");
+		pstmt = q.getConn().prepareStatement(sql);
+		
+		rset = pstmt.executeQuery();
+		//check to see if room  has a booking on it
+		if(rset.next() == true){
+			JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has a booking on it and cannot be removed",
+				"Error deleting room",JOptionPane.ERROR_MESSAGE);
 		}
-		return -1;
-		
+		else
+		{
+			//check to see if the room exists because it doesn't have a booking on it when it gets to here
+			sql = "select * from ROOMS where ROOM_NUMBER = " + roomNumber;
+			
+			pstmt = q.getConn().prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next() == true){
+				sql = "Delete from rooms where Room_Number = " + roomNumber;
+				
+				pstmt = q.getConn().prepareStatement(sql);
+				pstmt.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has been removed",
+						"Room removed",JOptionPane.INFORMATION_MESSAGE);
+				System.out.println("room " + roomNumber + " removed");
+				
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Room " + roomNumber + " does not exist",
+						"Error deleting room",JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		}catch(Exception e){
+			System.out.println("could not remove room " + e);
+		}
 		
 	}
 

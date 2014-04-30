@@ -134,31 +134,50 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 			
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == addbutton) {
-					int roomNumber = Integer.parseInt(roomNumberField_ADD.getText());
-					char roomAvailability = 'T';
-					int roomTypeID = comboBoxRoomType.getSelectedIndex();
-					
-					if(comboBoxRoomType.getSelectedIndex() == 0)
-						roomTypeID = 900;
-					if(comboBoxRoomType.getSelectedIndex() == 1)
-						roomTypeID = 901;
-					if(comboBoxRoomType.getSelectedIndex() == 2)
-						roomTypeID = 902;
-					
-					hotel.addRoom();
-					Room r = new Room(roomNumber, roomAvailability, roomTypeID);
-					
 					try {
-						ro.addRoom(r);
+						int roomNumber = 0;
+						if(roomNumberField_ADD.getText().contains("-")){
+							JOptionPane.showMessageDialog(null, "Please enter a number","Error adding room",JOptionPane.WARNING_MESSAGE);
+						}
+						else
+						{
+							roomNumber = Integer.parseInt(roomNumberField_ADD.getText());
+							char roomAvailability = 'T';
+							int roomTypeID = comboBoxRoomType.getSelectedIndex();
+							
+							if(comboBoxRoomType.getSelectedIndex() == 0)
+								roomTypeID = 900;
+							if(comboBoxRoomType.getSelectedIndex() == 1)
+								roomTypeID = 901;
+							if(comboBoxRoomType.getSelectedIndex() == 2)
+								roomTypeID = 902;
+							
+							hotel.addRoom();
+							Room r = new Room(roomNumber, roomAvailability, roomTypeID);
+							
+							
+								try {
+									if(ro.addRoom(r) == true){
+										JOptionPane.showMessageDialog(null, "Room " + r.getRoomNumber() + " added","Room added",JOptionPane.INFORMATION_MESSAGE);
+									}
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+						}
+					
+					
 						
-					} catch (SQLException se) {
-						JOptionPane.showMessageDialog(null,"Room Already exists Within the Database please try another Number");
+					} catch (NumberFormatException se) {
+						JOptionPane.showMessageDialog(null, "Please enter a number","Error adding room",JOptionPane.WARNING_MESSAGE);
 						
 					}
 					
 				}
 				
 				else if(e.getSource() == updateButton) {
+					try
+					{
 					int roomNumber = Integer.parseInt(roomNumberField_UPDATE.getText());
 					int roomTypeID = update_typeCombo.getSelectedIndex();
 					if(update_typeCombo.getSelectedIndex() == 0)
@@ -168,13 +187,22 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 					else if(update_typeCombo.getSelectedIndex() == 2)
 						roomTypeID = 902;
 					ro.updateRoom(roomNumber, roomTypeID);
+					}catch(NumberFormatException ae){
+						JOptionPane.showMessageDialog(null, "Please enter a number","Error updating room",JOptionPane.WARNING_MESSAGE);
+					} 
 					
 				}
 				else if(e.getSource() == deleteRoom){
-					int roomNumber = Integer.parseInt(roomNumberField_DELETE.getText());
+					
 					try {
-						ro.deleteRoom(roomNumber);
-					} catch (SQLException e1) {
+						int roomNumber = Integer.parseInt(roomNumberField_DELETE.getText());
+						try {
+							ro.deleteRoom(roomNumber);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} catch (NumberFormatException e1) {
 						System.out.println("Error __________");
 					}
 				}
