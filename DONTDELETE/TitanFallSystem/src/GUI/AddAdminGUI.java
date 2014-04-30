@@ -174,8 +174,7 @@ public class AddAdminGUI extends JPanel implements ActionListener{
 						email.getText(),encryptedPassword);
 				
 				users.add(u);
-				JOptionPane.showMessageDialog(null,username.getText() + " was added to the system",
-								"Administrator added", JOptionPane.INFORMATION_MESSAGE);
+				
 				CreateUsers cu = new CreateUsers();
 				if (cu.buildUser(u) == true) {
 					JOptionPane.showMessageDialog(null,"Sorry, " + username.getText() +
@@ -183,6 +182,9 @@ public class AddAdminGUI extends JPanel implements ActionListener{
 									"Warning", JOptionPane.WARNING_MESSAGE);
 					username.setText("");
 				}
+				else
+					JOptionPane.showMessageDialog(null,username.getText() + " was added to the system",
+							"Administrator added", JOptionPane.INFORMATION_MESSAGE);
 
 			} else {
 				if (emptyFields(fname.getText()) == false

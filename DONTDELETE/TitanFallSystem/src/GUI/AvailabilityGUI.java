@@ -34,25 +34,19 @@ public class AvailabilityGUI extends JPanel implements ActionListener {
 	private JScrollPane scrollPane;
 	private Color color = new Color(227,99,26);
 
-	public AvailabilityGUI(Calendar dc, int numnights, int numGuests) {
+	public AvailabilityGUI(Calendar dc, int numnights) {
 		System.out.println(dc.getTime());
 		calDate = Calendar.getInstance();
 		Date dcDate = dc.getTime();
 		calDate.setTime(dcDate);
 		System.out.println(calDate.getTime());
 		numNights = numnights;
-		numberOfGuests = numGuests;
 		buildAvailabiltyScreen();
 	}
-
-	/**
-	 * @wbp.parser.constructor
-	 */
 	public AvailabilityGUI(String userID, ArrayList<User> users, Calendar dc,
-			int numnights, int numGuests) {
+			int numnights) {
 		calDate = dc;
 		numNights = numnights;
-		numberOfGuests = numGuests;
 		user = userID;
 		this.users = users;
 		buildAvailabiltyScreen();
@@ -228,7 +222,7 @@ public class AvailabilityGUI extends JPanel implements ActionListener {
 				total = Double.parseDouble(totalCostField.getText());
 				if (StartScreenGUI.isLoggedIn() == true) {
 					CreditCardGUI c = new CreditCardGUI(calDate, user, users, total,
-							numberOfRooms, numNights, numberOfGuests,
+							numberOfRooms, numNights,
 							arrivalDate, departureDate, roomChoice);
 					container.setVisible(false);
 					c.setVisible(true);
@@ -236,7 +230,7 @@ public class AvailabilityGUI extends JPanel implements ActionListener {
 				} else {
 					System.out.println(calDate.getTime());
 					LoginGUI l = new LoginGUI(calDate, total, numberOfRooms,
-							numNights, numberOfGuests, arrivalDate,
+							numNights, arrivalDate,
 							departureDate, roomChoice);
 					container.setVisible(false);
 					l.setVisible(true);

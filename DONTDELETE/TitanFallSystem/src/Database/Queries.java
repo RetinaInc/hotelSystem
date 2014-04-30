@@ -19,18 +19,16 @@ public class Queries {
 			try {
 				// open local DB
 				OracleDataSource ods = new OracleDataSource();
-				//ods.setURL("jdbc:oracle:thin:@//10.10.2.7:1521/global1");
-				//ods.setUser("X00106072");
-				//ods.setPassword("db29Mar93");
+//				ods.setURL("jdbc:oracle:thin:@//10.10.2.7:1521/global1");
+//				ods.setUser("X00100551");
+//				ods.setPassword("db29Nov93");
+
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
 				ods.setUser("root");
 				ods.setPassword("root");
-			
-				
-//				ods.setURL("jdbc:oracle:thin:HR/pmagee@localhost:1521:XE");
-//				ods.setUser("tom");
-//				ods.setPassword("tom");
-//				conn = ods.getConnection();
+
+				conn = ods.getConnection();
+
 
 			}
 			 catch (Exception ex) {
@@ -93,6 +91,7 @@ public class Queries {
 			+ "OR (TO_DATE('" + arrival.get(Calendar.YEAR) + "/" + (arrival.get(Calendar.MONTH)+1) + "/" + arrival.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') <= ARRIVALDATE "
 			+ "AND TO_DATE('" + departureQ.get(Calendar.YEAR) + "/" + (departureQ.get(Calendar.MONTH)+1) + "/" + departureQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') >= DEPARTUREDATE))"
 			+ "ORDER BY r.ROOM_NUMBER";
+		
 		int[] bookedRooms;
 		try {
 			open();
@@ -122,6 +121,7 @@ public class Queries {
 					}
 				}
 			}
+			
 			for (int j = 0; j < resultList.size(); j++) {
 				System.out.println(resultList.get(j)[0]);
 			}
@@ -142,6 +142,7 @@ public class Queries {
 	*/
 
 	public ArrayList<Room> availabilityQuery(Calendar cal, int numNights) {
+
 		Calendar departureQ = cal;
 		System.out.println(departureQ.getTime() + " is the arrival date in Availability Query");
 		departureQ.add(Calendar.DAY_OF_MONTH, numNights);
@@ -163,6 +164,15 @@ public class Queries {
 			+ "OR (TO_DATE('" + arrivalQ.get(Calendar.YEAR) + "/" + (arrivalQ.get(Calendar.MONTH)+1) + "/" + arrivalQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') <= ARRIVALDATE "
 			+ "AND TO_DATE('" + departureQ.get(Calendar.YEAR) + "/" + (departureQ.get(Calendar.MONTH)+1) + "/" + departureQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') >= DEPARTUREDATE))"
 					+ "ORDER BY r.ROOM_NUMBER";
+		
+		String thirdQuery = "SELECT r.room_number, rt.type_name, rt.roomtype_price "
+				+ "FROM rooms r, roomtypes rt, roombookings rb, bookings b "
+				+ "WHERE r.type_id = rt.type_id "
+				+ "AND r.room_number = rb.room_number "
+				+ "AND rb.booking_id = b.booking_id "
+				+ "AND b.departuredate = TO_DATE('" + arrivalQ.get(Calendar.YEAR) + "/" + (arrivalQ.get(Calendar.MONTH)+1) + "/" + arrivalQ.get(Calendar.DAY_OF_MONTH) + "','YYYY/MM/DD') "
+				+ "ORDER BY r.room_number";
+		
 		ArrayList<Room> roomList = new ArrayList<Room>();
 		int[] bookedRooms;
 		try {
@@ -189,6 +199,7 @@ public class Queries {
 			for (int i = 0; i < bookedRooms.length; i++) {
 				System.out.println(bookedRooms[i]);
 			}
+			
 			// We use the Iterator to move through the array-list, the loop checks every iteration of room
 			// numbers against each value of bookedRooms
 			Iterator<Room> it = roomList.iterator(); 
@@ -199,7 +210,14 @@ public class Queries {
 						System.out.println("Room removed" + bookedRooms[loop]);
 						loop++;
 				}
-			}	
+			}
+				rset = stmt.executeQuery(thirdQuery);
+				while(rset.next()){
+					Room r = new Room(rset.getInt("ROOM_NUMBER"),
+							rset.getString("TYPE_NAME"),
+							rset.getDouble("ROOMTYPE_PRICE"));
+					roomList.add(r);
+				}
 		} catch (SQLException ex) {
 			System.out.println("ERROR: " + ex.getMessage());
 			ex.printStackTrace();
@@ -211,6 +229,71 @@ public class Queries {
 		return roomList;  //passed back to model as an arrayList of Room objects
 		
 	}
+	
+	public double getTotalPrice(int bookingID, int previousNumNights, int newNumNights){
+		double Specialprices[];
+		double finalPrice =0;
+		String query = "SELECT BOOKING_ID FROM SPECIALBOOKINGS WHERE BOOKING_ID = " + bookingID;
+		try{
+			open();
+			stmt = getConn().createStatement(); 
+			rset = stmt.executeQuery(query);
+			int tempBookingID =0;
+			while(rset.next()){
+			tempBookingID = rset.getInt(1);
+			}
+			query = "SELECT total_cost ,NUMBER_OF_NIGHTS FROM bookings WHERE booking_id= " + bookingID;
+			rset = stmt.executeQuery(query);
+			int dbNumNights =0;
+			while(rset.next()){
+				finalPrice = rset.getDouble(1);
+				dbNumNights = rset.getInt(2);
+			}
+			if(tempBookingID == 0){ //if there are no specials for the booking, skip the else statement
+				System.out.println("this is happening in the if without specials....");
+				finalPrice = finalPrice / dbNumNights;
+				finalPrice = finalPrice * newNumNights;	
+			}
+			/*
+			 * Following removes the special cost from the total cost for calculation purposes
+			 * Returns final price to be entered into JTextField in EditBookingGUI
+			 */
+			else{
+				System.out.println("this is inside the else with specials...");
+				query = "SELECT COUNT(s.special_cost) from SPECIALS s, SPECIALBOOKINGS sb WHERE s.SPECIAL_ID = sb.SPECIAL_ID AND sb.BOOKING_ID = "  + bookingID;
+				rset = stmt.executeQuery(query);
+				int numSpecials =0;
+				while(rset.next()){
+					numSpecials = rset.getInt(1); //gets number of specials on booking, used by for loop
+				}
+				System.out.println(numSpecials + " is num specials");
+				Specialprices = new double[numSpecials];
+				query = "SELECT s.special_cost from SPECIALS s, SPECIALBOOKINGS sb WHERE s.SPECIAL_ID = sb.SPECIAL_ID AND sb.BOOKING_ID = "  + bookingID;
+				rset = stmt.executeQuery(query);
+				while(rset.next()){
+					System.out.println("DERP");
+					Specialprices[rset.getRow() -1] = rset.getDouble(1);  //gets cost of each special
+				}
+				for (int i = 0; i < Specialprices.length; i++) {
+					finalPrice = finalPrice - Specialprices[i];  //remove special cost from total price
+				}
+				System.out.println(finalPrice + " after minus of specials");
+				finalPrice = finalPrice / dbNumNights;
+				System.out.println(finalPrice + " after dividing by numNights");
+				finalPrice = (finalPrice * newNumNights);
+				for (int i = 0; i < Specialprices.length; i++) {
+					finalPrice = finalPrice + Specialprices[i];	//specials added back onto the booking after getting price x numNights
+				}
+				System.out.println(finalPrice);
+			}
+		}
+		catch(SQLException se){
+			System.out.println("Get prices error");
+			se.printStackTrace();
+		}
+		return finalPrice;
+	}
 }
+	
 
 

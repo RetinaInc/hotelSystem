@@ -69,7 +69,7 @@ public class specialsOperations {
 				pstmt = q.getConn().prepareStatement(sql);
 				pstmt.executeUpdate();
 				
-				ArrayList<Integer> ids = new ArrayList();
+				ArrayList<Integer> ids = new ArrayList<Integer>();
 				//get the ids of the specials names that have been passed in
 				
 				for (int i = 0; i < names.length; i++) {

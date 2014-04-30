@@ -562,7 +562,33 @@ public class CreateTables {
 	private String dayString, monthString, yearString, dayString2,
 			monthString2, yearString2;
 	private int day, month, year, day2, month2, year2;
-
+	public int calculateNumGuests(ArrayList<Integer> roomChoice){
+		int numGuests = 0;
+		try{
+			//q.open();
+			stmt = q.getConn().createStatement();
+			for (int i = 0; i < roomChoice.size(); i++) {
+				String sqlGuests = "SELECT TYPE_ID FROM ROOMS WHERE ROOM_NUMBER = " + roomChoice.get(i);
+				rset = stmt.executeQuery(sqlGuests);
+				while(rset.next()){
+					if(rset.getInt(1) == 900){
+						numGuests = numGuests + 2;
+					}
+					else if(rset.getInt(1) == 901){
+						numGuests = numGuests + 4;
+					}
+					else 
+						numGuests = numGuests + 5;
+					}
+				}
+				
+			}
+		catch (Exception se) {
+			System.out.println("Error calculating number of guests " + se);
+			se.printStackTrace();
+		}
+		return numGuests;
+		}
 	public void addBooking(Booking b, ArrayList<Integer> roomChoice,
 			int decision) {
 
@@ -585,7 +611,10 @@ public class CreateTables {
 		month2 = month2 - 1; // Subtract 1 to get precise month i.e 01 should be
 								// 00 to represent January
 		year2 = Integer.parseInt(yearString2);
-
+		for (int i = 0; i < roomChoice.size(); i++) {
+			System.out.println(roomChoice.get(i) + " is a room number booked");
+			System.out.println(b.getNumRooms() + " is the number of rooms we have tried to book");
+		}
 		try {
 			q.open();
 			String sql = "INSERT INTO Bookings VALUES (?,?,?,?,?,?,?,?,?) ";
@@ -596,7 +625,7 @@ public class CreateTables {
 			} else {
 				pstmt.setInt(1, (b.getBookingID()));
 			}
-			pstmt.setInt(2, b.getNumGuests());
+			pstmt.setInt(2, calculateNumGuests(roomChoice));
 			pstmt.setInt(3, b.getNumNights());
 			pstmt.setInt(4, b.getNumRooms());
 			pstmt.setDouble(5, b.getTotalCost());
@@ -615,7 +644,7 @@ public class CreateTables {
 
 			for (int i = 0; i < roomChoice.size(); i++) {
 				pstmt.setInt(1, roomChoice.get(i));
-				if (decision == 1) {
+				if (decision == 1) {							//DECIDES BETWEEN EDITING A BOOKING OR MAKING A NEW BOOKING
 					pstmt.setInt(2, (b.getBookingID() + 1));
 				} else {
 					pstmt.setInt(2, (b.getBookingID()));
@@ -623,18 +652,9 @@ public class CreateTables {
 				pstmt.setDate(
 						3,
 						convertDate(cal.get(Calendar.DAY_OF_MONTH),
-								cal.get(Calendar.MONTH), cal.get(Calendar.YEAR))); // ////////////////THIS
-																					// NEEDS
-																					// TO
-																					// BE
-																					// CHANGED
-																					// TO
-																					// THE
-																					// CURRENT
-																					// DATE/////////////////////////////
+								cal.get(Calendar.MONTH), cal.get(Calendar.YEAR))); 
 				pstmt.executeUpdate();
-				System.out
-						.println("Print statement to check if new bookings works");
+				System.out.println("Print statement to check if new bookings works");
 			}
 		} catch (Exception se) {
 			System.out.println("Error creating a booking " + se);
@@ -643,16 +663,17 @@ public class CreateTables {
 		q.close();
 	}
 
-	public void updateBookingRooms(Booking b, int[] roomChoice) {
+	public void updateBookingRooms(Booking b, ArrayList<Integer> roomChoice) {
 		try {
 			q.open();
-			for (int i = 0; i < roomChoice.length; i++) {
-				System.out.println(roomChoice.length);
+			for (int i = 0; i < roomChoice.size(); i++) {
+				System.out.println(roomChoice.size());
 			}
 
 			String sql = "UPDATE bookings SET  NUMBER_OF_ROOMS = "
-					+ roomChoice.length + ", total_cost = " + b.getTotalCost()
-					+ "WHERE BOOKING_ID = " + b.getBookingID();
+					+ roomChoice.size() + ", total_cost = " + b.getTotalCost()
+					+ ", NUMBER_OF_GUESTS = " + calculateNumGuests(roomChoice)
+					+ " WHERE BOOKING_ID = " + b.getBookingID();
 
 			stmt = q.getConn().createStatement();
 			stmt.executeUpdate(sql);
@@ -668,8 +689,8 @@ public class CreateTables {
 																// EditBookingGUI
 			Calendar cal = Calendar.getInstance();
 			pstmt = q.getConn().prepareStatement(sql);
-			for (int i = 0; i < roomChoice.length; i++) {
-				pstmt.setInt(1, roomChoice[i]);
+			for (int i = 0; i < roomChoice.size(); i++) {
+				pstmt.setInt(1, roomChoice.get(i));
 				pstmt.setInt(2, b.getBookingID());
 				pstmt.setDate(
 						3,
@@ -735,9 +756,21 @@ public class CreateTables {
 				int i = rset.getInt("ROOM_NUMBER"); // use availability query in
 													// Queries with arrival and
 													// numNights
-				System.out.println(i);
+				System.out.println(i + " is a room booked for the selected booking");
 				currentRooms.add(i);
 			}
+			String tempGetSpecials = "SELECT S.SPECIAL_ID ,S.SPECIAL_COST FROM SPECIALBOOKINGS SB, SPECIALS S WHERE BOOKING_ID = " + origB.getBookingID()
+										+ " AND S.SPECIAL_ID = SB.SPECIAL_ID";
+			rset = stmt.executeQuery(tempGetSpecials);
+			ArrayList<Integer> specialsBooked = new ArrayList<Integer>();
+			ArrayList<Double> specialsCostBooked = new ArrayList<Double>();
+			while(rset.next()){
+				specialsBooked.add(rset.getInt(1));
+				specialsCostBooked.add(rset.getDouble(2));
+			}
+			String tempDeleteSpecial = "DELETE FROM SPECIALBOOKINGS WHERE BOOKING_ID = "
+					+ origB.getBookingID();
+			stmt.executeUpdate(tempDeleteSpecial);
 			String tempDeleteRoomBooking = "DELETE FROM ROOMBOOKINGS WHERE BOOKING_ID = "
 					+ origB.getBookingID();
 			stmt.executeUpdate(tempDeleteRoomBooking);
@@ -749,8 +782,7 @@ public class CreateTables {
 			int count = 0;
 			for (int i = 0; i < currentRooms.size(); i++) {
 				for (int j = 0; j < availableRooms.size(); j++) {
-					if (availableRooms.get(j).getRoomNumber() == currentRooms
-							.get(i)) {
+					if (availableRooms.get(j).getRoomNumber() == currentRooms.get(i)) {
 						System.out.println("hooray");
 						count++;
 
@@ -764,6 +796,16 @@ public class CreateTables {
 			q.close();
 			addBooking(origB, currentRooms, 2);
 			q.open();
+			sql = "INSERT INTO SPECIALBOOKINGS VALUES(?,?,?)";
+			pstmt = q.getConn().prepareStatement(sql);
+			int counter =0;
+			for (int i = 0; i < specialsBooked.size(); i++) {
+				counter++;
+				pstmt.setInt(1, counter);
+				pstmt.setInt(2, specialsBooked.get(i));
+				pstmt.setInt(3, origB.getBookingID());
+				pstmt.executeUpdate();
+			}
 			sql = "INSERT INTO ROOMBOOKINGS VALUES(?,?,?)";
 
 			pstmt = q.getConn().prepareStatement(sql);
@@ -791,6 +833,7 @@ public class CreateTables {
 				stmt.executeUpdate(sql);
 				System.out.println("No overlap of rooms found. Booking updated ");
 			}
+			
 
 		}
 

@@ -73,6 +73,7 @@ public class RoomOperations {
 							+ roomNumber + "'";
 					stmt = connection.createStatement();
 					no = stmt.executeUpdate(deleteQuery);
+					JOptionPane.showMessageDialog(null, "Room " + roomNumber + " deleted");
 					System.out.println("Room no "+roomNumber+" deleted");
 				} catch (SQLException e) {
 					System.out.println("Room was not deleted");

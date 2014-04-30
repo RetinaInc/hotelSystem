@@ -23,12 +23,11 @@ import Model.Booking;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
+
 import java.awt.BorderLayout;
 
 public class StartPanelGUI extends JPanel implements ActionListener, ItemListener,KeyListener{
-	private String[] nights = { "1", "2", "3", "4", "5", "6", "7" };
-	private String[] people = { "1", "2", "3", "4", "5", "6", "7", "8", "9",
-			"10" };
+	private String[] nights = { "1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12","13","14"};
 	private JDateChooser dateChooser;
 	private JYearChooser day, year;
 	private JMonthChooser month;
@@ -61,17 +60,9 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		search.add(lblnumNights);
 
 		numNights = new JComboBox(nights);
-		numNights.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}));
+		numNights.setModel(new DefaultComboBoxModel(nights));
 		numNights.setFont(fontBigger);
 		search.add(numNights);
-		
-				lblnumPeople = new JLabel("No. of People : ");
-				lblnumPeople.setFont(fontBigger);
-				search.add(lblnumPeople);
-		
-				numPeople = new JComboBox(people);
-				numPeople.setFont(fontBigger);
-				search.add(numPeople);
 
 		arrivalDate = new JLabel("Arrival Date");
 		arrivalDate.setFont(fontBigger);
@@ -84,11 +75,13 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 		day.setYear((cal.get(Calendar.DAY_OF_MONTH)));		
 		day.setMaximum(31);
 		day.setMinimum(1);
+		day.setPreferredSize(new Dimension(50,22));
 		search.add(day);
 
 		month = new JMonthChooser();
 		month.setFont(fontBigger);
 		month.setMonth(cal.get(Calendar.MONTH));
+		month.setPreferredSize(new Dimension(125,28));
 		month.addPropertyChangeListener(new PropertyChangeListener() {
 
 			@Override
@@ -125,7 +118,8 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 						
 						
 								dateChooser = new JDateChooser();
-								dateChooser.setFont(fontBigger);
+								dateChooser.setFont(new Font("Veranda", Font.PLAIN, 14));
+								dateChooser.setPreferredSize(new Dimension(110,28));
 								dateChooser.setMaxSelectableDate(maximumDate.getTime());
 								dateChooser.setMinSelectableDate(cal.getTime());
 								dateChooser.setIcon(new ImageIcon("TitanfallImages/cal.jpg"));
@@ -147,6 +141,7 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 								
 										year = new JYearChooser();
 										year.setFont(fontBigger);
+										year.setPreferredSize(new Dimension(55,28));
 										year.setYear(cal.get(Calendar.YEAR));
 										year.setMaximum(2016);
 										year.setMinimum(2014);
@@ -202,12 +197,20 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 			System.out.println(selectedDate.getTime());
 			Booking b = new Booking(selectedDate ,(numNights.getSelectedIndex()) + 1);
 			System.out.println(selectedDate.getTime());
-			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1),
-					numPeople.getSelectedIndex() + 1);
+			if(b.availability().size() > 0){
+			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1));
 			a.listContent(b.availability());
 			userInteraction.setVisible(false);
 			a.setVisible(true);
 			this.add(a);
+			}
+			else{
+				if(JOptionPane.showConfirmDialog(null, 
+						"Hotel is fully booked for selected dates. Do you want to try again?","Hotel Booked Out",JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+					System.exit(0);
+				}
+				
+			}
 		}
 		
 	}
@@ -237,11 +240,20 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 			Calendar selectedDate = Calendar.getInstance();
 			selectedDate.set(year.getYear(), month.getMonth(), day.getYear());
 			Booking b = new Booking(selectedDate,(numNights.getSelectedIndex()) + 1);
-			b.availability();
-			AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1), numPeople.getSelectedIndex() + 1);
-			a.listContent(b.availability());
-			this.setVisible(false);
-			a.setVisible(true);
+			if(b.availability().size() > 0){
+				AvailabilityGUI a = new AvailabilityGUI(calDate,((numNights.getSelectedIndex()) + 1));
+				a.listContent(b.availability());
+				userInteraction.setVisible(false);
+				a.setVisible(true);
+				this.add(a);
+				}
+				else{
+					if(JOptionPane.showConfirmDialog(null, 
+							"Hotel is fully booked for selected dates. Do you want to try again?","Hotel Booked Out",JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+						System.exit(0);
+					}			
+				}
+			
 		}
 		else{
 			JOptionPane.showMessageDialog(null, "Date cannot be in the past","Date input error",JOptionPane.ERROR_MESSAGE);

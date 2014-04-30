@@ -39,7 +39,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		createLoginScreen();
 	}
 	
-	public LoginGUI(Calendar dc,double total, int numberOfRooms, int numNights, int numberOfGuests, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
+	public LoginGUI(Calendar dc,double total, int numberOfRooms, int numNights, String arrivalDate, String departureDate, ArrayList<Integer> roomChoice){
 		this.roomChoice = roomChoice; //Possibly not working
 		Date dcDate = dc.getTime();
 		calDate.setTime(dcDate);
@@ -47,7 +47,6 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		this.total = total;
 		numRooms = numberOfRooms;
 		this.numNights = numNights;
-		numGuests = numberOfGuests;
 		arrivalD = arrivalDate;
 		departureD = departureDate;
 		createLoginScreen();
@@ -203,7 +202,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 		else if(e.getSource().equals(btnBack) && creatingBooking ==  true){
 			//calDate.add(Calendar.DATE,  - numNights);
 			Booking b = new Booking(calDate ,numNights);			
-			AvailabilityGUI a = new AvailabilityGUI(calDate,numNights,numGuests);
+			AvailabilityGUI a = new AvailabilityGUI(calDate,numNights);
 			a.listContent(b.availability());
 			container.setVisible(false);
 			a.setVisible(true);
@@ -274,12 +273,14 @@ public void mouseReleased(MouseEvent e) {
 			if(loginSuccessful()){
 				try{
 				if(type.equals("A")){
+					System.out.println(user);
+					System.out.println(users.get(0).getfName());
 					AdminTabbedScreenGUI a = new AdminTabbedScreenGUI(user,users);
 					getTopLevelAncestor().setVisible(false);
 					a.setVisible(true);
 				}
 				else if(loginSuccessful() == true && creatingBooking == true){
-					CreditCardGUI c = new CreditCardGUI(calDate,user,users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+					CreditCardGUI c = new CreditCardGUI(calDate,user,users,total, numRooms,numNights,arrivalD,departureD, roomChoice);
 					container.setVisible(false);
 					c.setVisible(true);
 					c.setSize(1000, 400);

@@ -24,7 +24,7 @@ import Database.manageBookingOperations;
 public class ManageBookingGUI extends JPanel implements ActionListener {
 	//Gui Components 
 	private JLabel currentBookings;
-	private JButton editBooking, saveChanges,saveReceipt,addSpecial;
+	private JButton editBooking,saveReceipt,addSpecial;
 	private Object[][] array2d;
 	private DefaultTableModel model;
 	private JTable table;
@@ -79,17 +79,14 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 		editBooking.addActionListener(this);
 		editBooking.setBounds(810, 265, 150, 23);
 		bookingPanel.add(editBooking);
-		saveChanges = new JButton("Save Changes");
-		saveChanges.setBackground(color);
-		saveChanges.addActionListener(this);
-		saveChanges.setBounds(810, 315, 150, 23);
-		bookingPanel.add(saveChanges);
+
+
 		
 		saveReceipt = new JButton("Save Receipt");
 		saveReceipt.addActionListener(this);
 		saveReceipt.setToolTipText("Save selected booking to a file");
 		saveReceipt.setBackground(color);
-		saveReceipt.setBounds(810, 365, 150, 23);
+		saveReceipt.setBounds(810, 340, 150, 23);
 		bookingPanel.add(saveReceipt);
 		
 		addSpecial = new JButton("Add Specials");

@@ -27,7 +27,7 @@ public class CreateUsers {
 			System.out.println("Users table populated.");
 
 		} catch (SQLIntegrityConstraintViolationException ex) {
-			System.out.println("Username unavailable, please try again BITCH");
+			System.out.println("Username unavailable, please try again");
 			existing = true;
 		} catch (SQLException ex) {
 			System.out.println("ERROR: in buildUser " + ex.getMessage());

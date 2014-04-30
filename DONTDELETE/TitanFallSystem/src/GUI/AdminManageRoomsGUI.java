@@ -20,7 +20,8 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 	private JTextField roomNumberField_ADD,roomNumberField_DELETE, roomNumberField_UPDATE;
 	private JLabel roomNumber_ADD, roomType, roomNumberLabel_DELETE, updateRoomNumberLabel, newTypeLabel_UPDATE;
 	private JPanel roomsDetails, addbuttonPanel, addRooms, container,deleteRooms, updateRooms;
-	
+	private Color color = new Color(227, 99, 26);
+	private Font fontBigger;
 	public AdminManageRoomsGUI() {
 		hotel = new Hotel();
 		ro = new RoomOperations();
@@ -31,6 +32,7 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 		container.setBounds(10,119,998,420);
 		add(container);
 
+		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 
 		//2nd Panel - ADD ROOM
 		addRooms = new JPanel();
@@ -44,18 +46,18 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 		roomsDetails.setLayout(new GridLayout(3, 3));
 
 		roomNumber_ADD = new JLabel("Room Number");
-		roomNumber_ADD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		roomNumber_ADD.setFont(fontBigger);
 		roomsDetails.add(roomNumber_ADD);
 
 		roomNumberField_ADD = new JTextField();
 		roomsDetails.add(roomNumberField_ADD);
 		
 		roomType = new JLabel("Room Type");
-		roomType.setFont(new Font("Tahoma", Font.BOLD, 16));
+		roomType.setFont(fontBigger);
 		roomsDetails.add(roomType);
 
 		comboBoxRoomType = new JComboBox(types);
-		comboBoxRoomType.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		comboBoxRoomType.setFont(fontBigger);
 		roomsDetails.add(comboBoxRoomType);
 
 		
@@ -66,8 +68,8 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 
 		addbutton = new JButton("Add");
 		addbutton.setBounds(73, 30, 118, 26);
-		addbutton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		addbutton.setForeground(Color.GREEN);
+		addbutton.setFont(fontBigger);
+		addbutton.setBackground(color);
 		addbuttonPanel.add(addbutton);
 		addbutton.addActionListener(this);
 
@@ -79,7 +81,7 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 		container.add(deleteRooms);
 
 		roomNumberLabel_DELETE = new JLabel("Room Number");
-		roomNumberLabel_DELETE.setFont(new Font("Tahoma", Font.BOLD, 16));
+		roomNumberLabel_DELETE.setFont(fontBigger);
 		roomNumberLabel_DELETE.setBounds(10, 26, 135, 23);
 		deleteRooms.add(roomNumberLabel_DELETE);
 
@@ -92,8 +94,8 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 		deleteRoom.setBounds(79, 121, 118, 26);
 		deleteRooms.add(deleteRoom);
 		deleteRoom.addActionListener(this);
-		deleteRoom.setForeground(Color.RED);
-		deleteRoom.setFont(new Font("Tahoma", Font.BOLD, 16));
+		deleteRoom.setBackground(color);
+		deleteRoom.setFont(fontBigger);
 		
 		//4th Panel - UPDATE ROOM
 				updateRooms = new JPanel();
@@ -103,30 +105,30 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 				updateRooms.setLayout(null);
 
 				updateButton = new JButton("Update");
-				updateButton.setForeground(Color.ORANGE);
-				updateButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-				updateButton.setBounds(90, 123, 118, 26);
+				updateButton.setBackground(color);
+				updateButton.setFont(fontBigger);
+				updateButton.setBounds(90, 123, 118, 30);
 				updateRooms.add(updateButton);
 				updateButton.addActionListener(this);
 
 				updateRoomNumberLabel = new JLabel("Room Number");
-				updateRoomNumberLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+				updateRoomNumberLabel.setFont(fontBigger);
 				updateRoomNumberLabel.setBounds(10, 25, 123, 23);
 				updateRooms.add(updateRoomNumberLabel);
 
 				roomNumberField_UPDATE = new JTextField();
-				roomNumberField_UPDATE.setBounds(153, 27, 145, 23);
+				roomNumberField_UPDATE.setBounds(153, 25, 145, 30);
 				roomNumberField_UPDATE.setColumns(10);
 				updateRooms.add(roomNumberField_UPDATE);
 
-				newTypeLabel_UPDATE = new JLabel("New Room Type");
-				newTypeLabel_UPDATE.setFont(new Font("Tahoma", Font.BOLD, 16));
-				newTypeLabel_UPDATE.setBounds(10, 52, 133, 23);
+				newTypeLabel_UPDATE = new JLabel("Room Type");
+				newTypeLabel_UPDATE.setFont(fontBigger);
+				newTypeLabel_UPDATE.setBounds(10, 51, 133, 23);
 				updateRooms.add(newTypeLabel_UPDATE);
 
 				update_typeCombo = new JComboBox(types);
-				update_typeCombo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				update_typeCombo.setBounds(153, 52, 145, 23);
+				update_typeCombo.setFont(fontBigger);
+				update_typeCombo.setBounds(153, 51, 145, 30);
 				updateRooms.add(update_typeCombo);
 			}
 			

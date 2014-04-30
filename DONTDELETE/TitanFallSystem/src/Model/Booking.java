@@ -44,10 +44,9 @@ public class Booking {
 	}
 	
 	//used to pass a booking object to the database where a full booking object is created from this
-	public Booking(int bookingID , int numGuests, int numNights, int numRooms, double total,
+	public Booking(int bookingID , int numNights,int numRooms, double total,
 			String arrivalDate, String departureDate, String userID) {
 		this.bookingID = bookingID;
-		this.numGuests = numGuests;
 		this.numNights = numNights;
 		this.numRooms = numRooms;
 		this.totalCost = total;

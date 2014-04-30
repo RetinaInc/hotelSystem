@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class EditBookingGUI extends JPanel implements ActionListener {
 	private JPanel edit, addRooms;
-	private JComboBox numGuestsCombo, numNightsCombo;
+	private JComboBox numNightsCombo;
 	private ArrayList<Object[]> availableList, availableListRight;
 	private Object[][] array2dLeft, array2dRight;
 	private int bookingid,numNightsCounter;
@@ -46,6 +46,7 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 			txtTotalCost;
 	private DefaultTableModel model, modelLeft;
 	private final JCalendar calSelector;
+	private Queries q;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public EditBookingGUI(String usersID, int bookingid, int numGuests,
@@ -80,24 +81,12 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 		leftPanel.setBounds(155, 35, 260, 200);
 		edit.add(leftPanel);
 
-		JLabel lblNumberOfGuests = new JLabel(
-				"Number of Guests:                           ");
-		leftPanel.add(lblNumberOfGuests);
-
-		numGuestsCombo = new JComboBox(new DefaultComboBoxModel(new Integer[] {
-				1, 2,3,4,5,6,7,8,9,10}));
-		numGuestsCombo.setSelectedIndex(numGuests - 1);
-		
-		leftPanel.add(numGuestsCombo);
-
 		this.bookingid = bookingid;
 
-		JLabel lblNumberOfNights = new JLabel(
-				"Number of Nights:                             ");
+		JLabel lblNumberOfNights = new JLabel("Number of Nights:                             ");
 		leftPanel.add(lblNumberOfNights);
 
-		numNightsCombo = new JComboBox(new DefaultComboBoxModel(new Integer[] {
-				1, 2,3,4,5,6,7,8,9,10,11,12,13,14}));
+		numNightsCombo = new JComboBox(new DefaultComboBoxModel(new Integer[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14}));
 		numNightsCombo.setSelectedIndex(numNights - 1);	
 		numNightsCombo.addActionListener(this);
 		numNightsCounter = (numNightsCombo.getSelectedIndex() +1);
@@ -296,11 +285,15 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 			txtTotalCost.setColumns(6);
 		}
 		if(e.getSource().equals(numNightsCombo)){
-			System.out.println( numNightsCounter);
+			q = new Queries();
+			System.out.println( numNightsCounter + " IS NUMnIGHTS");
 	    	double priceOneNight = (Double.parseDouble(totalCostField.getText())/numNightsCounter);
-	    	numNightsCounter = (numNightsCombo.getSelectedIndex() + 1);
-	    	System.out.println(priceOneNight * numNightsCounter);
-	        totalCostField.setText(Double.toString(priceOneNight * numNightsCounter));
+	    	int tempCounter = (numNightsCombo.getSelectedIndex() + 1);
+	    	System.out.println(tempCounter);
+	    	double priceprice = q.getTotalPrice(bookingid, numNightsCounter, tempCounter);
+	    	numNightsCounter = tempCounter;   	
+	    	System.out.println(priceprice);
+	        totalCostField.setText(Double.toString(priceprice));
 		}
 		if (e.getSource().equals(back)) {
 			if (JOptionPane.showConfirmDialog(
@@ -358,10 +351,10 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 				CreateTables c = new CreateTables();
 
 				System.out.println(model.getRowCount());
-				int[] roomsChosen = new int[model.getRowCount()];
-				for (int i = 0; i < roomsChosen.length; i++) {
-					roomsChosen[i] = (int) model.getValueAt(i, 0);
-					System.out.println(roomsChosen[i]);
+				ArrayList<Integer> roomsChosen = new ArrayList<Integer>();
+				for (int i = 0; i < model.getRowCount(); i++) {
+					roomsChosen.add((int) model.getValueAt(i, 0));
+					System.out.println(roomsChosen.get(i));
 				}
 				for (int i = 0; i < array2dRight.length; i++) {
 
@@ -384,7 +377,6 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 							null,
 							"Your previous booking details will be overriden. Do you wish to continue?",
 							"Save Changes", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				int chosenNumGuests = (numGuestsCombo.getSelectedIndex() +1);
 				int chosenNumNights = (numNightsCombo.getSelectedIndex() +1);
 				Calendar newArrival = Calendar.getInstance();
 				System.out.println(calSelector.getDate() + " is the date I'm given, I think it should be different");
@@ -394,7 +386,6 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 				Booking b = new Booking();
 //				b.setTotalCost(totalCost);  needs to be done
 				b.setBookingID(bookingid);
-				b.setNumGuests(chosenNumGuests);
 				b.setNumNights(chosenNumNights);
 				b.setTotalCost(Double.valueOf(totalCostField.getText()));
 				CreateTables c = new CreateTables();
@@ -435,6 +426,7 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 		for (int i = 0; i < model.getRowCount(); i++) {
 			dubCost = dubCost + (double) model.getValueAt(i, 2);
 		}
+		dubCost = dubCost * numNights;
 		cost = Double.toString(dubCost);
 		return cost;
 

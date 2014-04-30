@@ -222,7 +222,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 					username.setText("");
 				} else {
 					if(creatingBooking == true){
-						CreditCardGUI cc = new CreditCardGUI(calDate,username.getText(),users,total, numRooms,numNights,numGuests,arrivalD,departureD, roomChoice);
+						CreditCardGUI cc = new CreditCardGUI(calDate,username.getText(),users,total, numRooms,numNights,arrivalD,departureD, roomChoice);
 						container.setVisible(false);
 						cc.setVisible(true);
 						cc.setSize(1000, 400);

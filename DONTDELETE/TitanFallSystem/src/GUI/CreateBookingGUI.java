@@ -27,8 +27,7 @@ import java.util.Date;
 import javax.swing.border.BevelBorder;
 
 public class CreateBookingGUI extends JPanel implements ActionListener {
-	private String[] nights = { "1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12","13","14","15","16","17","18","19","20","21"};
-	private String[] people = { "1", "2", "3", "4", "5", "6" };
+	private String[] nights = { "1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12","13","14"};
 
 	private static boolean loggedIn;
 	private JDateChooser dateChooser;
@@ -72,16 +71,6 @@ public class CreateBookingGUI extends JPanel implements ActionListener {
 		numNights.setBounds(333, 178, 194, 20);
 		panel.add(numNights);
 		numNights.setFont(fontBigger);
-
-		lblnumPeople = new JLabel("Number of People:");
-		lblnumPeople.setBounds(161, 139, 151, 25);
-		panel.add(lblnumPeople);
-		lblnumPeople.setFont(fontBigger);
-
-		numPeople = new JComboBox(people);
-		numPeople.setBounds(333, 141, 194, 21);
-		panel.add(numPeople);
-		numPeople.setFont(fontBigger);
 
 		arrivalDate = new JLabel("Opt 2: Arrival Date:");
 		arrivalDate.setBounds(161, 102, 162, 26);
@@ -191,8 +180,7 @@ public class CreateBookingGUI extends JPanel implements ActionListener {
 				selectedDate.set(year.getYear(), month.getMonth(), day.getYear());
 				Booking b = new Booking(selectedDate, (numNights.getSelectedIndex()) + 1);
 				AvailabilityGUI a = new AvailabilityGUI(usersID, users, calDate,
-						((numNights.getSelectedIndex()) + 1),
-						numPeople.getSelectedIndex() + 1);
+						((numNights.getSelectedIndex()) + 1));
 				a.listContent(b.availability());
 				
 				panel.setVisible(false);
