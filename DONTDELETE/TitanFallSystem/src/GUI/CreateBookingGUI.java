@@ -63,12 +63,12 @@ public class CreateBookingGUI extends JPanel implements ActionListener {
 		panel.setLayout(null);
 
 		lblnumNights = new JLabel("Number of Nights:");
-		lblnumNights.setBounds(161, 175, 151, 26);
+		lblnumNights.setBounds(161, 140, 151, 26);
 		panel.add(lblnumNights);
 		lblnumNights.setFont(fontBigger);
 
 		numNights = new JComboBox(nights);
-		numNights.setBounds(333, 178, 194, 20);
+		numNights.setBounds(333, 140, 194, 20);
 		panel.add(numNights);
 		numNights.setFont(fontBigger);
 
@@ -119,7 +119,7 @@ public class CreateBookingGUI extends JPanel implements ActionListener {
 				btnSearch = new JButton("Search");
 				btnSearch.setBackground(color);
 				btnSearch.setFont(fontBigger);
-				btnSearch.setBounds(161, 212, 366, 26);
+				btnSearch.setBounds(161, 200, 366, 26);
 				panel.add(btnSearch);
 				
 				JLabel lblNewLabel = new JLabel("Opt 1: Calendar:");
