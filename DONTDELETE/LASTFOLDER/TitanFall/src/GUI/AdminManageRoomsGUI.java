@@ -202,8 +202,8 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					} catch (NumberFormatException e1) {
-						System.out.println("Error __________");
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, "Please enter a number","Error adding room",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}

@@ -25,29 +25,31 @@ import Database.CreateTables;
 import Model.Hotel;
 import Model.User;
 
-public class AdminManageAccountGUI extends JPanel implements KeyListener, ActionListener {
+public class AdminManageAccountGUI extends JPanel implements KeyListener,
+		ActionListener {
 	private JPanel container;
-	private JTextField tfname,tlname, address, temail, tphone;
-	private JLabel errorMessage, updatePasswordErrorMessage,updateYourAccount;
+	private JTextField tfname, tlname, address, temail, tphone;
+	private JLabel errorMessage, updatePasswordErrorMessage, updateYourAccount;
 	private String usersID;
 	private ArrayList<User> users;
-	private JPasswordField toldPass,tnewPass,  tconfirmNewPass;
-	private JButton changeDetailsBtn,changePasswordBtn;
+	private JPasswordField toldPass, tnewPass, tconfirmNewPass;
+	private JButton changeDetailsBtn, changePasswordBtn;
 	private Font fontBigger;
-	private Color color = new Color(227,99,26);
-	public AdminManageAccountGUI(String userID, ArrayList<User> users){
+	private Color color = new Color(227, 99, 26);
+
+	public AdminManageAccountGUI(String userID, ArrayList<User> users) {
 		usersID = userID;
 		this.users = users;
 		container = new JPanel();
 		container.setLayout(null);
-		container.setBounds(0, 79,1000, 450);
+		container.setBounds(0, 79, 1000, 450);
 		JPanel manage_account = new JPanel();
 		manage_account.setLayout(null);
 		add(container);
 		this.setLayout(null);
 
 		fontBigger = new Font("Veranda", Font.PLAIN, 18);
-		//contains all the elements neccessary to change your details
+		// contains all the elements neccessary to change your details
 		JPanel updateDetailsOption = new JPanel(null);
 		updateDetailsOption.setFont(fontBigger);
 		updateDetailsOption.setBorder(new TitledBorder(null,
@@ -144,27 +146,22 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 		changePasswordPanel.add(changePasswordBtn);
 		updatePassword.add(changePasswordPanel);
 
-		 updateYourAccount = new JLabel(
-				"Update Your account details here ....");
-		updateYourAccount.setFont(fontBigger);
-		updateYourAccount.setBounds(297, 90, 345, 36);
-		container.add(updateYourAccount);
-		
-				errorMessage = new JLabel("");
-				errorMessage.setFont(fontBigger);
-				errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-				errorMessage.setBounds(214, 401, 300, 30);
-				container.add(errorMessage);
-				errorMessage.setForeground(Color.RED);
-				
-				updatePasswordErrorMessage = new JLabel("");
-				updatePasswordErrorMessage.setFont(fontBigger);
-				updatePasswordErrorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-				updatePasswordErrorMessage.setBounds(584, 401, 300, 30);
-				container.add(updatePasswordErrorMessage);
-				updatePasswordErrorMessage.setForeground(Color.RED);
-				updatePasswordErrorMessage.setVisible(false);
-				errorMessage.setVisible(true);
+		errorMessage = new JLabel("");
+		errorMessage.setFont(fontBigger);
+		errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
+		errorMessage.setBounds(214, 401, 300, 30);
+		container.add(errorMessage);
+		errorMessage.setForeground(Color.RED);
+
+		updatePasswordErrorMessage = new JLabel("");
+		updatePasswordErrorMessage.setFont(fontBigger);
+		updatePasswordErrorMessage
+				.setHorizontalAlignment(SwingConstants.CENTER);
+		updatePasswordErrorMessage.setBounds(584, 401, 300, 30);
+		container.add(updatePasswordErrorMessage);
+		updatePasswordErrorMessage.setForeground(Color.RED);
+		updatePasswordErrorMessage.setVisible(false);
+		errorMessage.setVisible(true);
 	}
 
 	public boolean emptyFields(String e) {
@@ -186,6 +183,7 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 		}
 		return valid;
 	}
+
 	public static boolean isNumber(String string) {
 		try {
 			Long.parseLong(string);
@@ -195,22 +193,25 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 		}
 		return true;
 	}
-	public void errorCheckingForUpdateDetails(){
+
+	public void errorCheckingForUpdateDetails() {
 		if (isNumber(tfname.getText()) == false
 				&& isNumber(tlname.getText()) == false
 				&& validateEmail(temail.getText()) == true
-				&& isNumber(tphone.getText()) == true 
+				&& isNumber(tphone.getText()) == true
 				&& emptyFields(tfname.getText()) == true
 				&& emptyFields(tlname.getText()) == true
 				&& emptyFields(address.getText()) == true
-				&& emptyFields(tphone.getText()) == true){
-		
+				&& emptyFields(tphone.getText()) == true) {
+
 			CreateTables c = new CreateTables();
 			Hotel h = c.getHotel();
-			
-			
-			h.updateUsersDetails(usersID, tfname.getText(), tlname.getText(), address.getText(), temail.getText(), tphone.getText());
-			JOptionPane.showMessageDialog(null, "Details have been updated Successfully","Details Updated",JOptionPane.INFORMATION_MESSAGE);
+
+			h.updateUsersDetails(usersID, tfname.getText(), tlname.getText(),
+					address.getText(), temail.getText(), tphone.getText());
+			JOptionPane.showMessageDialog(null,
+					"Details have been updated Successfully",
+					"Details Updated", JOptionPane.INFORMATION_MESSAGE);
 			tfname.setText("");
 			tlname.setText("");
 			address.setText("");
@@ -218,29 +219,28 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 			tphone.setText("");
 			errorMessage.setText("");
 		}
-		
-		else{
-				if (emptyFields(tfname.getText()) == false
-						|| emptyFields(tlname.getText()) == false
-						|| emptyFields(address.getText()) == false
-						|| emptyFields(tphone.getText()) == false) {
-					errorMessage.setText("You cannot leave a field blank");
-					errorMessage.setVisible(true);
-				}
-				else if (validateEmail(temail.getText()) == false) {
-					errorMessage.setText("You must enter a valid email address");
-					errorMessage.setVisible(true);
-				} 
-				else
-				{
-					errorMessage.setText("You must enter valid data for each field");
-					errorMessage.setVisible(true);
-				}
+
+		else {
+			if (emptyFields(tfname.getText()) == false
+					|| emptyFields(tlname.getText()) == false
+					|| emptyFields(address.getText()) == false
+					|| emptyFields(tphone.getText()) == false) {
+				errorMessage.setText("You cannot leave a field blank");
+				errorMessage.setVisible(true);
+			} else if (validateEmail(temail.getText()) == false) {
+				errorMessage.setText("You must enter a valid email address");
+				errorMessage.setVisible(true);
+			} else {
+				errorMessage
+						.setText("You must enter valid data for each field");
+				errorMessage.setVisible(true);
 			}
 		}
-	public void errorCheckingForUpdatePassword(){
-		for(int i = 0; i < users.size(); i++){
-			
+	}
+
+	public void errorCheckingForUpdatePassword() {
+		for (int i = 0; i < users.size(); i++) {
+
 			String oldPass = "";
 			String newPass = "";
 			String cNewPass = "";
@@ -248,7 +248,7 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 				oldPass = Encryption.encrypt(toldPass.getText());
 				newPass = Encryption.encrypt(tnewPass.getText());
 				cNewPass = Encryption.encrypt(tconfirmNewPass.getText());
-				
+
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -256,51 +256,54 @@ public class AdminManageAccountGUI extends JPanel implements KeyListener, Action
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword().equals(oldPass) && 
-					newPass.equals(cNewPass) && emptyFields(tnewPass.getText()) == true &&
-							emptyFields(tconfirmNewPass.getText()) == true){
-				
+
+			if (users.get(i).getUserID().equals(usersID)
+					&& users.get(i).getPassword().equals(oldPass)
+					&& newPass.equals(cNewPass)
+					&& emptyFields(tnewPass.getText()) == true
+					&& emptyFields(tconfirmNewPass.getText()) == true) {
+
 				users.get(i).setPassword(newPass);
 				CreateTables c = new CreateTables();
 				Hotel h = c.getHotel();
-				
-				
+
 				h.updateUsersPassword(usersID, newPass);
-				JOptionPane.showMessageDialog(null, "Password has been updated Successfully","Password Updated",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"Password has been updated Successfully",
+						"Password Updated", JOptionPane.INFORMATION_MESSAGE);
 				toldPass.setText("");
 				tnewPass.setText("");
-				tconfirmNewPass.setText("");				
+				tconfirmNewPass.setText("");
 				updatePasswordErrorMessage.setVisible(false);
 				break;
 			}
-			
-			else if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword() != toldPass.getText()
-					&& emptyFields(tnewPass.getText()) == true &&
-					emptyFields(tconfirmNewPass.getText()) == true)
-				{
-					updatePasswordErrorMessage.setText("Invalid Password entered");
-					updatePasswordErrorMessage.setVisible(true);
-				}
-			
-			 if(emptyFields(toldPass.getText()) == false 
-					|| emptyFields(tnewPass.getText()) == false ||
-					emptyFields(tconfirmNewPass.getText()) == false){
-				updatePasswordErrorMessage.setText("You cannot leave a field blank");
-			updatePasswordErrorMessage.setVisible(true);
+
+			else if (users.get(i).getUserID().equals(usersID)
+					&& users.get(i).getPassword() != toldPass.getText()
+					&& emptyFields(tnewPass.getText()) == true
+					&& emptyFields(tconfirmNewPass.getText()) == true) {
+				updatePasswordErrorMessage.setText("Invalid Password entered");
+				updatePasswordErrorMessage.setVisible(true);
+			}
+
+			if (emptyFields(toldPass.getText()) == false
+					|| emptyFields(tnewPass.getText()) == false
+					|| emptyFields(tconfirmNewPass.getText()) == false) {
+				updatePasswordErrorMessage
+						.setText("You cannot leave a field blank");
+				updatePasswordErrorMessage.setVisible(true);
 			}
 		}
-		
-		 
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == changeDetailsBtn){
+		if (e.getSource() == changeDetailsBtn) {
 			errorCheckingForUpdateDetails();
 		}
-		
-		else if(e.getSource() == changePasswordBtn){
+
+		else if (e.getSource() == changePasswordBtn) {
 			errorCheckingForUpdatePassword();
 		}
 	}

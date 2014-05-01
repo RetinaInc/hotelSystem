@@ -101,7 +101,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 		if(e.getSource() ==helpQscomboBox){
 			if(helpQscomboBox.getSelectedIndex() == 0){
 		        try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/index.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/20_AdminHomeScreen_ManageAccount.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -109,7 +109,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox.getSelectedIndex() == 1){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/login.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/20_AdminHomeScreen_ManageAccount.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -117,15 +117,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox.getSelectedIndex() == 2){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
-				} catch (IOException io) {
-					// TODO Auto-generated catch block
-					io.printStackTrace();
-				}
-			}
-			else{
-				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/search_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/19_AdminHomeScreen_AddAdmin.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -136,7 +128,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			System.out.println(helpQscomboBox2.getSelectedIndex());
 			if(helpQscomboBox2.getSelectedIndex() == 0){
 		        try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/user_homescreen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/14_AdminHomeScreen_ManageBookings.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -144,7 +136,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 1){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/login.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/15_AdminHomeScreen_ManageRooms.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -152,7 +144,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 2){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/15_AdminHomeScreen_ManageRooms.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -160,7 +152,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 3){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/15_AdminHomeScreen_ManageRooms.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -168,7 +160,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 4){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/16_AdminHomeScreen_ManageSpecials.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -176,7 +168,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 5){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/16_AdminHomeScreen_ManageSpecials.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -184,7 +176,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 6){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/17_AdminHomeScreen_PrintReports.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -195,7 +187,7 @@ public class AdminHelpGUI extends JPanel implements ActionListener, MouseListene
 	}
 	public void mouseClicked(MouseEvent e) {
 		try {
-			java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/index.html"));
+			java.awt.Desktop.getDesktop().open(new File("TitanFall Website/00_Index.html"));
 		} catch (IOException io) {
 			// TODO Auto-generated catch block
 			io.printStackTrace();

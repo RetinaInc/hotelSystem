@@ -13,6 +13,7 @@ public class ReportQueries {
 	private Queries q = new Queries();
 	private ResultSet rset;
 	private PreparedStatement pstmt;
+	
 	private int numJanBookings,numFebBookings,numMarBookings,numAprBookings,numMayBookings,numJunBookings,numJulBookings,numAugBookings
 	,numSepBookings,numOctBookings,numNovBookings,numDecBookings,
 	numJanBookings2,numFebBookings2,numMarBookings2,numAprBookings2,numMayBookings2,numJunBookings2,numJulBookings2,numAugBookings2
@@ -38,7 +39,156 @@ public class ReportQueries {
 	private ArrayList<Integer> amount = new ArrayList<Integer>();     //used to keep track of the amount of times a booking was booked
 	private DecimalFormat df = new DecimalFormat("###,###.00");
 	
+	
+	public int[] getRoomCount(){
+		int[] roomTotal = new int[3];
+		q.open();
+		String sql ="SELECT TYPE_ID FROM ROOMS";
+		try{
+		pstmt = q.getConn().prepareStatement(sql);
+		rset = pstmt.executeQuery();
+		while(rset.next()){
+			if(rset.getInt(1) == 900){
+				roomTotal[0]++;
+				}
+			if(rset.getInt(1) == 901){
+				roomTotal[1]++;
+			}
+			if(rset.getInt(1) == 902){
+				roomTotal[2]++;
+			}
+			}
+		
+		
+		}catch(Exception e){
+			System.out.println("Could not get Monthly Count Vaules -- Check Queries Class" + e.getMessage());
+		}
+		q.close();
+		return roomTotal;
+	}
+	//Method to get the number of bookings in each month of the year
+	public int[] getMonthlyBookingCount(int year){
+		
+		String[] months = new String[]{"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};//months of the year string array for the sql insert
+		int[] monthVals  = new int[]{1,2,3,4,5,6,7,8,9,10,11,12};//Month numbers
+		int[] monthCountValues = new int[12];//Array to store the no of bookings in each month
+		int[] monthLengths  = new int[]{28,30,31};//month lengths for sql insert
+		
+		try{
+		//open db connection	
+		q.open();
+		String sql ="";
+		for (int i = 0; i < months.length; i++) {
+			String startValue = "'01-"+months[i]+"-"+year+"'";
+			
+			
+		
+			if(monthVals[i] == 2){
+				String endValue = "'" + monthLengths[0] + "-"+months[i]+"-"+year+"'";
+				//Count the number of  unique bookings in a particular month 
+				sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+				
+						pstmt = q.getConn().prepareStatement(sql);
+						rset = pstmt.executeQuery();
+						//go through the result set(in this case it will only be one value) and add it to the monthCountValues array
+						while(rset.next()){
+							monthCountValues[i] = rset.getInt(1);
+						}
+			}
+			if(monthVals[i] == 1||monthVals[i] == 3||monthVals[i] ==5||monthVals[i] ==7||monthVals[i] ==8||monthVals[i] ==10||monthVals[i] ==12){
+				String endValue = "'" + monthLengths[2] + "-"+months[i]+"-"+year+"'";
+				sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+						pstmt = q.getConn().prepareStatement(sql);
+						rset = pstmt.executeQuery();
+						while(rset.next()){
+							monthCountValues[i] = rset.getInt(1);
+						}
+			}
+			if(monthVals[i] == 4||monthVals[i] == 6||monthVals[i] ==9||monthVals[i] ==11){
+				String endValue = "'" + monthLengths[1] + "-"+months[i]+"-"+year+"'";
+				sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+						pstmt = q.getConn().prepareStatement(sql);
+						rset = pstmt.executeQuery();
+						while(rset.next()){
+							monthCountValues[i] = rset.getInt(1);
+						}
+			}
+			
+		}
+			}catch(Exception e){
+				//Exception Handling
+			System.out.println("Could not get Monthly Count Vaules -- Check Queries Class" + e.getMessage());
+			e.printStackTrace();
+		}
+		//Close the connection
+		q.close();
+		return monthCountValues;
+	}
+	//Get the number of bookings in a particular month in a particular year by type
+	public int[] getMonthSplit(int year,int month){
+		
+		String[] months = new String[]{"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};//Month list values 
+		int[] monthTypeValues = new int[3];//Store the number of room bookings of each type ie monthTypeValues[0] stores the single room bookings
+		int[] monthLengths  = new int[]{28,30,31};//Month lengths for the sql insert
+		try{
+		//open connection
+		q.open();
+		
+		String startValue = "'01-"+months[(month-1)]+"-"+year+"'";
+		String sql ="";
+		if(month == 2){
+			String endValue = "'" + monthLengths[0] + "-"+months[(month-1)]+"-"+year+"'";
+			sql = "Select ROOMS.TYPE_ID,ROOMBOOKINGS.ROOM_NUMBER,ROOMBOOKINGS.BOOKING_ID,ROOMBOOKINGS.DATEOFBOOKING FROM ROOMS "+ 
+					"INNER JOIN ROOMBOOKINGS ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER "+
+					"WHERE ROOMBOOKINGS.DATEOFBOOKING >= "+"'01-"+months[(month-1)]+"-"+year+"'"+
+					" AND ROOMBOOKINGS.DATEOFBOOKING <= +"+ endValue;
+		}
+		if(month == 1||month == 3||month ==5||month ==7||month ==8||month ==10||month ==12){
+			String endValue = "'" + monthLengths[2] + "-"+months[(month-1)]+"-"+year+"'";
+			sql = "Select ROOMS.TYPE_ID,ROOMBOOKINGS.ROOM_NUMBER,ROOMBOOKINGS.BOOKING_ID,ROOMBOOKINGS.DATEOFBOOKING FROM ROOMS "+ 
+					"INNER JOIN ROOMBOOKINGS ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER "+
+					"WHERE ROOMBOOKINGS.DATEOFBOOKING >= "+"'01-"+months[(month-1)]+"-"+year+"'"+
+					" AND ROOMBOOKINGS.DATEOFBOOKING <= +"+ endValue;
 
+			//Original Sql Statement For future reference			
+//			Select ROOMS.TYPE_ID,ROOMBOOKINGS.ROOM_NUMBER,ROOMBOOKINGS.BOOKING_ID,ROOMBOOKINGS.DATEOFBOOKING 
+//			FROM ROOMS 
+//			INNER JOIN ROOMBOOKINGS ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER
+//			WHERE ROOMBOOKINGS.DATEOFBOOKING >= '01-MAY-14'
+//			AND ROOMBOOKINGS.DATEOFBOOKING <= '31-MAY-14';
+		}
+		if(month == 4||month == 6||month ==9||month ==11){
+			String endValue = "'" + monthLengths[1] + "-"+months[(month-1)]+"-"+year+"'";
+			sql = "Select ROOMS.TYPE_ID,ROOMBOOKINGS.ROOM_NUMBER,ROOMBOOKINGS.BOOKING_ID,ROOMBOOKINGS.DATEOFBOOKING FROM ROOMS "+ 
+					"INNER JOIN ROOMBOOKINGS ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER "+
+					"WHERE ROOMBOOKINGS.DATEOFBOOKING >= "+"'01-"+months[(month-1)]+"-"+year+"'"+
+					" AND ROOMBOOKINGS.DATEOFBOOKING <= +"+ endValue;
+		}
+		
+		
+		
+		pstmt = q.getConn().prepareStatement(sql);
+		rset = pstmt.executeQuery();
+			while(rset.next()){
+				if(rset.getInt(1) == 900){
+					monthTypeValues[0]++;
+					}
+				if(rset.getInt(1) == 901){
+					monthTypeValues[1]++;
+				}
+				if(rset.getInt(1) == 902){
+					monthTypeValues[2]++;
+				}
+				}
+		}catch(Exception e){
+			System.out.println("could not get Booking trends " + e.getMessage());
+			e.printStackTrace();
+		}
+		//close connection
+		q.close();
+		return monthTypeValues;
+		
+	}
 		
 	
 	public String getBookingTrends(int year){

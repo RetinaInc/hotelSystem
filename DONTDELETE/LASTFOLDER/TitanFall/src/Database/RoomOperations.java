@@ -1,6 +1,9 @@
 package Database;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
@@ -15,11 +18,34 @@ public class RoomOperations {
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	Queries q = new Queries();
-	public RoomOperations() {
+	private Calendar today;
+	private SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy");
+	private String dayString,monthString,yearString;
+	private int day,month,year;
 	
-		q.open();
-		connection = q.getConn();
-	}
+	//this method takes in the month as an integer and returns the sting representation of it so it can
+		//be used to compare departure dates to todays date
+		public String getMonth(int month){
+			String m = "";
+			ArrayList<String> months = new ArrayList<String>();
+			months.add("JAN");
+			months.add("FEB");
+			months.add("MAR");
+			months.add("APR");
+			months.add("MAY");
+			months.add("JUN");
+			months.add("JUL");
+			months.add("AUG");
+			months.add("SEP");
+			months.add("OCT");
+			months.add("NOV");
+			months.add("DEC");
+			
+			for(int i = 0; i < months.size(); i++){
+				m = months.get(month);
+			}
+			return m;
+		}
 
 	/*
 	 * This method takes a reference variable of type Room as a parameter and
@@ -35,9 +61,9 @@ public class RoomOperations {
 		boolean added = false;
 			try
 			{
-
+				q.open();
 			String addRoomSQL = "INSERT INTO Rooms (Room_Number, Room_Availability, Type_ID) VALUES (?,?,?)";
-			pstmt = connection.prepareStatement(addRoomSQL);
+			pstmt = q.getConn().prepareStatement(addRoomSQL);
 			pstmt.setInt(1, r.getRoomNumber());
 			pstmt.setString(2, Character.toString(r.isRoomAvailability()));
 			pstmt.setInt(3, r.getRoomTypeID());
@@ -50,6 +76,7 @@ public class RoomOperations {
 				System.out.println("room already exists ");
 				ae.printStackTrace();
 			}
+			q.close();
 			return added;
 	}
 
@@ -57,9 +84,21 @@ public class RoomOperations {
 	 * This method updates a particular room in the hotel
 	 */
 	public void updateRoom(int roomNumber, int roomTypeID) {
+		today = Calendar.getInstance(); //checks to see if a booking has passed todays date
+		String todaysDate = s.format(today.getTime());
+		dayString = todaysDate.substring(0, 2);
+		monthString = todaysDate.substring(3, 5);
+		yearString =  todaysDate.substring(8, 10);
+		
+		day = Integer.parseInt(dayString);
+		month = Integer.parseInt(monthString);
+		month = month -1;			//subtract 1 to get precise month i.e 01 should be 00 to represent Jan
+		year = Integer.parseInt(yearString);
 		try {
-				
-			String sql = "select Room_Number from ROOMBOOKINGS where ROOM_NUMBER = " + roomNumber;
+				q.open();
+			String sql = "select Room_Number from ROOMBOOKINGS,Bookings where "
+					+ "ROOMBOOKINGS.BOOKING_ID = Bookings.BOOKING_ID and ROOM_NUMBER = " + roomNumber
+					+ " and BOOKINGS.DEPARTUREDATE >= '" + day + "-" + getMonth(month) + "-" + year + "'";
 			
 			pstmt = q.getConn().prepareStatement(sql);
 			
@@ -90,21 +129,35 @@ public class RoomOperations {
 				else //doesnt exist
 				{
 					JOptionPane.showMessageDialog(null, "Room " + roomNumber + " does not exist",
-							"Error deleting room",JOptionPane.ERROR_MESSAGE);
+							"Error updating room",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Problem, roomNumber has not been updated " + e);
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Please enter a number",
+					"Error updating room",JOptionPane.WARNING_MESSAGE);
 		}
+		q.close();
 	}
 
 	// This method takes a room number parameter which is the room number to be
 	// deleted. The SQL statement deletes this roomnumber.
 	public void deleteRoom(int roomNumber)throws SQLException {
+		today = Calendar.getInstance(); //checks to see if a booking has passed todays date
+		String todaysDate = s.format(today.getTime());
+		dayString = todaysDate.substring(0, 2);
+		monthString = todaysDate.substring(3, 5);
+		yearString =  todaysDate.substring(8, 10);
+		
+		day = Integer.parseInt(dayString);
+		month = Integer.parseInt(monthString);
+		month = month -1;			//subtract 1 to get precise month i.e 01 should be 00 to represent Jan
+		year = Integer.parseInt(yearString);
 		try
 		{
-		String sql = "select Room_Number from ROOMBOOKINGS where ROOM_NUMBER = " + roomNumber;
+			q.open();
+		String sql = "select Room_Number from ROOMBOOKINGS,Bookings where "
+				+ "ROOMBOOKINGS.BOOKING_ID = Bookings.BOOKING_ID and ROOM_NUMBER = " + roomNumber
+				+ " and BOOKINGS.DEPARTUREDATE >= '" + day + "-" + getMonth(month) + "-" + year + "'";
 		
 		pstmt = q.getConn().prepareStatement(sql);
 		
@@ -142,7 +195,7 @@ public class RoomOperations {
 		}catch(Exception e){
 			System.out.println("could not remove room " + e);
 		}
-		
+		q.close();
 	}
 
 	/*
@@ -151,9 +204,10 @@ public class RoomOperations {
 	 */
 	public ResultSet getRooms() {
 		try {
+			q.open();
 			String queryString = "SELECT * FROM Rooms ORDER BY Room_Number";
 
-			stmt = connection.createStatement();
+			stmt = q.getConn().createStatement();
 			rset = stmt.executeQuery(queryString);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -164,7 +218,8 @@ public class RoomOperations {
 	public ResultSet getLastRow() {
 		String addRoomSQL = "SELECT * FROM Rooms ORDER By Room_Number";
 		try {
-			pstmt = connection.prepareStatement(addRoomSQL,
+			q.open();
+			pstmt = q.getConn().prepareStatement(addRoomSQL,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			rset = pstmt.executeQuery();
@@ -183,9 +238,10 @@ public class RoomOperations {
 	 */
 	public void queryRooms() {
 		try {
+			q.open();
 			String roomQuery = "SELECT count(Room_Number) FROM rooms";
 
-			stmt = connection.createStatement();
+			stmt = q.getConn().createStatement();
 			rset = stmt.executeQuery(roomQuery);
 
 			while (rset.next()) {
@@ -195,14 +251,7 @@ public class RoomOperations {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		q.close();
 	}
 
-	public void closeDB() {
-		try {
-			connection.close();
-			System.out.println("Connection closed");
-		} catch (SQLException e) {
-			System.out.println("Could not close connection ");
-		}
-	}
 }

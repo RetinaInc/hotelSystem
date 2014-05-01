@@ -68,11 +68,9 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 	
 	 helpLabel = new JLabel("If your question isn't answered in the above FAQs, please see our    ");
 	helpLabel.setFont(fontBigger);
-//	helpLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	helpLabel.setBounds(100, 138, 948, 27);
 	JLabel helpLabel2 = new JLabel("for more answers");
 	helpLabel2.setFont(fontBigger);
-//	helpLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 	helpLabel2.setBounds(740, 138, 948, 27);
 	container.add(helpLabel2);
 	container.add(helpLabel);
@@ -95,7 +93,7 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 		if(e.getSource().equals(helpQscomboBox)){
 			if(helpQscomboBox.getSelectedIndex() == 0){
 		        try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/index.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/13_UserManageAccount.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -103,7 +101,7 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 			}
 			else if(helpQscomboBox.getSelectedIndex() == 1){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/login.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/13_UserManageAccount.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -111,7 +109,7 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 			}
 			else if(helpQscomboBox.getSelectedIndex() == 2){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/07_UserManageBooking.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -119,7 +117,7 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 			}
 			else{
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/search_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/05_CreditCardScreen.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -129,7 +127,7 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 		else if(e.getSource().equals(helpQscomboBox2)){
 			if(helpQscomboBox2.getSelectedIndex() == 0){
 		        try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/user_homescreen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/06_UserHomeScreen.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -137,7 +135,7 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 1){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/login.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/07_UserManageBooking.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
@@ -145,26 +143,23 @@ public class HelpGUI extends JPanel implements ActionListener,MouseListener{
 			}
 			else if(helpQscomboBox2.getSelectedIndex() == 2){
 				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/availability_screen.html"));
+					java.awt.Desktop.getDesktop().open(new File("TitanFall Website/10_UserManageBooking_Specials.html"));
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
 					io.printStackTrace();
 				}
 			}
 			else{
-				try {
-					java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/search_screen.html"));
-				} catch (IOException io) {
-					// TODO Auto-generated catch block
-					io.printStackTrace();
-				}
+				JOptionPane.showMessageDialog(null, "To delete a booking please contact Titanfall Towers on\n"
+						+ "                                 01-407-6397",
+						"Delete a booking", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		
 	}
 	public void mouseClicked(MouseEvent e) {
 		try {
-			java.awt.Desktop.getDesktop().open(new File("TitanfallWebsite/index.html"));
+			java.awt.Desktop.getDesktop().open(new File("TitanFall Website/00_Index.html"));
 		} catch (IOException io) {
 			// TODO Auto-generated catch block
 			io.printStackTrace();

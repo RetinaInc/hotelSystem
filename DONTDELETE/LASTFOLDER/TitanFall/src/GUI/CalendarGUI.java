@@ -25,9 +25,5 @@ public class CalendarGUI extends JPanel {
 			
 		bigCalendar.getDayChooser();
 		container.add(bigCalendar,BorderLayout.CENTER);
-		
-		infoText = new JLabel("                             Click a date to see our special offers");
-		add(infoText,BorderLayout.SOUTH);
-		infoText.setFont(font);
 	}
 }

@@ -1,3 +1,10 @@
+/**
+ * Reference: JFreeChart.org API
+ * XYChart  
+ * 
+ * 
+ */
+
 package GUI;
 
 import java.awt.BorderLayout;
@@ -15,52 +22,51 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class XyChart extends JFrame{
-	public XyChart(JFreeChart chart){
-		this.setSize(600,600);
+public class XyChart{
+	//Constructor for the Xy chart takes an array passed from the gui ,and the files save Location
+	public XyChart(int[] counts,String fileLocation){
+		JFreeChart xyChart = createXyChart(counts);
+		try{
+			///Method for saving from the JFreeChart Api
+        	ChartUtilities.saveChartAsPNG(new File(fileLocation),xyChart, 500, 500);
+        
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+	}
+	
+	public JFreeChart createXyChart(int[] counts){
+		//Takes in the array of values each position in the index represents a particular month ie counts[0] = januarys booking count total
+		XYSeries series = new XYSeries("XYGraph");
+		 series.add(1, counts[0]);
+		 series.add(2, counts[1]);
+		 series.add(3, counts[2]);
+		 series.add(4, counts[3]);
+		 series.add(5, counts[4]);
+		 series.add(6, counts[5]);
+		 series.add(7, counts[6]);
+		 series.add(8, counts[7]);
+		 series.add(9, counts[8]);
+		 series.add(10, counts[9]);
+		 series.add(11, counts[10]);
+		 series.add(12, counts[11]);
+		 // Add the series to the data set
+		 XYSeriesCollection dataset = new XYSeriesCollection();
+		 dataset.addSeries(series);
+		 // Generate the graph
+		 JFreeChart chart = ChartFactory.createXYLineChart(
+		 "XY Chart", // Title
+		 "Months of the Year", // x-axis Label
+		 "No of bookings in the the particular month", // y-axis Label
+		 dataset, // Dataset
+		 PlotOrientation.VERTICAL, // Plot Orientation
+		 true, // Show Legend
+		 true, // USe this to decide Whether to show tooltips or not
+		 false // Configure chart to generate URLs?
 		
-		JPanel jPanel1 = new JPanel();
-		jPanel1.setLayout(new java.awt.BorderLayout());
-	
-		ChartPanel CP = new ChartPanel(chart);
-	
-		jPanel1.add(CP,BorderLayout.CENTER);
-		jPanel1.validate();
-		jPanel1.setVisible(true);
-		add(jPanel1);
-		}
-	 public static void main(String[] args){		
-	 // Create a simple XY chart
-	 XYSeries series = new XYSeries("XYGraph");
-	 series.add(1, 1);
-	 series.add(2, 2);
-	 series.add(3, 1);
-	 series.add(4, 9);
-	 series.add(5, 8);
-	 series.add(6, 100);
-	 series.add(7, 2);
-	 series.add(8, 6);
-	 series.add(9, 9);
-	 series.add(10, 10);
-	 series.add(9, 9);
-	 series.add(10, 10);
-	 // Add the series to your data set
-	 XYSeriesCollection dataset = new XYSeriesCollection();
-	 dataset.addSeries(series);
-	 // Generate the graph
-	 JFreeChart chart = ChartFactory.createXYLineChart(
-	 "XY Chart", // Title
-	 "Months of the Year", // x-axis Label
-	 "No of bookings in the the particular month", // y-axis Label
-	 dataset, // Dataset
-	 PlotOrientation.VERTICAL, // Plot Orientation
-	 true, // Show Legend
-	 true, // Use tooltips
-	 false // Configure chart to generate URLs?
-	
-	 );
-	 XyChart a = new XyChart(chart);
-	 a.setVisible(true);
-	
-	 }
+		 );
+		 //Return the chart
+		return chart;
+		
+		}	
 	}

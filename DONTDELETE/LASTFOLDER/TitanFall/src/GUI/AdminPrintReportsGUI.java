@@ -46,7 +46,7 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 		selectReport = new JLabel("Select the type of report you want to print:");
 		selectReport.setFont(fontBigger);
-		selectReport.setBounds(20, 98, 350, 23);
+		selectReport.setBounds(20, 100, 350, 23);
 		container.add(selectReport);
 		
 		saveReportTo = new JButton("Save report");
@@ -58,10 +58,9 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 		container.add(saveReportTo);
 
 		reportOptions = new JComboBox<String>();
-		reportOptions.setModel(new DefaultComboBoxModel(new String[] {"Booking trends for a particular year", "Specials trends", "Room Split Pie Chart", "Yearly Booking Trend XyGraph"}));
+		reportOptions.setModel(new DefaultComboBoxModel(new String[] {"Booking trends for a particular year", "Specials trends", 
+				"Room Split Pie Chart", "Yearly Booking Trend XyGraph","Room Breakdown Report"}));
 		reportOptions.setFont(fontBigger);
-		reportOptions.addItem("Booking trends for a particular year");
-		reportOptions.addItem("Specials trends");
 		reportOptions.setBounds(380, 98, 320, 30);
 		container.add(reportOptions);
 
@@ -90,52 +89,268 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 		} else if (e.getSource() == saveReportTo) {
 			if (reportOptions.getSelectedIndex() == 0) {
 				int year = 0;
+				String y = "";
 				try {
-					String y = JOptionPane
+					 y = JOptionPane
 							.showInputDialog(
 									null,
 									"Please enter the number of year "
 											+ "you wish to get the booking trends of (i.e. 14 for 2014)",
 									"Choose Year", JOptionPane.PLAIN_MESSAGE);
+					 if(y != null && y.length() == 2 && y.contains("-") == false){
+						 year = Integer.parseInt(y);
+						 JFileChooser f = new JFileChooser();
+							int returnVal = f.showSaveDialog(this);
 
-					year = Integer.parseInt(y);
+							if (returnVal == JFileChooser.APPROVE_OPTION) {
+								try {
+									BufferedWriter fw = new BufferedWriter(new FileWriter(
+											f.getSelectedFile() + ".txt"));
+									ReportQueries q = new ReportQueries();
+									
+									fw.write(q.getBookingTrends(year) + usersFirstName);
+									fw.close();
+								} catch (Exception ex) {
+									ex.printStackTrace();
+								}
+							}
+					 }
+					 else
+					 {
+						 if(y.equals("")){ //catches empty field
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else if(y.length() < 2 || y.length() > 2){ //catches numbers too big or small
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else //catches minus sign
+						 {
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+					 }
+					
 				} catch (NumberFormatException me) {
-					JOptionPane.showInputDialog(null,
+					JOptionPane.showMessageDialog(null,
 							"Please enter a valid number", "Choose Year",
 							JOptionPane.OK_OPTION);
 				}
-				JFileChooser f = new JFileChooser();
-				int returnVal = f.showSaveDialog(this);
-
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					try {
-						BufferedWriter fw = new BufferedWriter(new FileWriter(
-								f.getSelectedFile() + ".txt"));
-						ReportQueries q = new ReportQueries();
-						
-						fw.write(q.getBookingTrends(year) + usersFirstName);
-						fw.close();
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
+				catch (NullPointerException me) {
+					System.out.println("user pressed cancel or the x button");
 				}
 			}
 			else if(reportOptions.getSelectedIndex() == 1){
 				int year = 0;
+				String y = "";
 				try {
-					String y = JOptionPane
+					 y = JOptionPane
 							.showInputDialog(
 									null,
 									"Please enter the number of year "
 											+ "you wish to get the booking trends of (i.e. 14 for 2014)",
 									"Choose Year", JOptionPane.PLAIN_MESSAGE);
+					 if(y != null && y.length() == 2 && y.contains("-") == false){
+						 year = Integer.parseInt(y);
+						 JFileChooser f = new JFileChooser();
+							int returnVal = f.showSaveDialog(this);
 
-					year = Integer.parseInt(y);
+							if (returnVal == JFileChooser.APPROVE_OPTION) {
+								try {
+									BufferedWriter fw = new BufferedWriter(new FileWriter(
+											f.getSelectedFile() + ".txt"));
+									ReportQueries q = new ReportQueries();
+									
+									fw.write(q.specialsTrends(year));
+									fw.close();
+								} catch (Exception ex) {
+									ex.printStackTrace();
+								}
+							}
+					 }
+					 else
+					 {
+						 if(y.equals("")){ //catches empty field
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else if(y.length() < 2 || y.length() > 2){ //catches numbers too big or small
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else //catches minus sign
+						 {
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+					 }
+					
 				} catch (NumberFormatException me) {
-					JOptionPane.showInputDialog(null,
+					JOptionPane.showMessageDialog(null,
 							"Please enter a valid number", "Choose Year",
 							JOptionPane.OK_OPTION);
 				}
+				catch (NullPointerException me) {
+					System.out.println("user pressed cancel or the x button");
+				}
+			}
+			else if (reportOptions.getSelectedIndex() == 2) {
+				int year = 0;
+				int month =0;
+				String y="";
+				String z ="";
+				try {
+					y = JOptionPane
+							.showInputDialog(
+									null,
+									"Please enter the number of the Year "
+											+ "you wish to get the booking trends of (i.e. 14 for 2014)",
+									"Choose Year", JOptionPane.PLAIN_MESSAGE);
+					if(y != null && y.length() == 2 && y.contains("-") == false){
+						year = Integer.parseInt(y);
+						 z = JOptionPane
+								.showInputDialog(
+										null,
+										"Please enter the number of the month "
+												+ "you wish to get the booking trends of (i.e. 1 for January)",
+										"Choose Year", JOptionPane.PLAIN_MESSAGE);
+						 int monthEntered = Integer.parseInt(z);
+						 if(z != null && z.length() >= 1 && z.length() <= 2 && z.contains("-") == false 
+								 && monthEntered <= 12){
+							 month = Integer.parseInt(z);
+							 JFileChooser f = new JFileChooser();
+								int returnVal = f.showSaveDialog(this);
+								
+								if (returnVal == JFileChooser.APPROVE_OPTION) {
+									try{
+										ReportQueries q = new ReportQueries();
+										String saveLocale = f.getSelectedFile() + ".png";
+										int[] a =q.getMonthSplit(year, month);
+										PieChart pieChart = new PieChart(a[0], a[1], a[2], "Monthly Breakdown for "+month+"/"+year,saveLocale);
+						 
+										
+									}catch(Exception ev){
+									    ev.printStackTrace();
+									}
+								}
+						 }
+						 else
+						 {
+							 if(z.equals("")){ //catches empty field
+								 JOptionPane.showMessageDialog(null,
+											"Please enter a valid number", "Choose Year",
+											JOptionPane.OK_OPTION);
+							 }
+							 else if(z.length() > 2){ //catches numbers too big
+								 JOptionPane.showMessageDialog(null,
+											"Please enter a valid number", "Choose Year",
+											JOptionPane.OK_OPTION);
+							 }
+							 else //catches minus sign
+							 {
+								 JOptionPane.showMessageDialog(null,
+											"Please enter a valid number", "Choose Year",
+											JOptionPane.OK_OPTION);
+							 }
+						 }
+					}
+					else
+					{
+						if(y.equals("")){ //catches empty field
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else if(y.length() < 2 || y.length() > 2){ //catches numbers too big or small
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else //catches minus sign
+						 {
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+					}
+				}catch(NumberFormatException ev){
+					JOptionPane.showMessageDialog(null,
+							"Please enter a valid number", "Choose Year",
+							JOptionPane.OK_OPTION);
+				}
+				catch (NullPointerException me) {
+					System.out.println("user pressed cancel or the x button");
+				}
+			}
+			else if (reportOptions.getSelectedIndex() == 3) {
+				int inputYear =0;
+				String y = "";
+				try {
+					 y = JOptionPane
+							.showInputDialog(null,"Please enter the number of the Year "
+											+ "you wish to get the booking trends of (i.e. 14 for 2014)",
+									"Choose Year", JOptionPane.PLAIN_MESSAGE);
+					 if(y != null && y.length() == 2 && y.contains("-") == false){
+						 inputYear = Integer.parseInt(y);
+						 JFileChooser f = new JFileChooser();
+							int returnVal = f.showSaveDialog(this);
+							
+							if (returnVal == JFileChooser.APPROVE_OPTION) {
+								try{
+									ReportQueries q = new ReportQueries();
+									String saveLocale = f.getSelectedFile() + ".png";
+									int[] bookingCount = q.getMonthlyBookingCount(inputYear);
+									for (int i = 0; i < bookingCount.length; i++) {
+										System.out.println(""+ bookingCount[i]);
+									}
+									XyChart xy = new XyChart(bookingCount,saveLocale);
+									
+					 
+									
+								}catch(Exception ev){
+								    ev.printStackTrace();
+								}
+							}
+					 }
+					 else
+					 {
+						 if(y.equals("")){ //catches empty field
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else if(y.length() < 2 || y.length() > 2){ //catches numbers too big or small
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+						 else //catches minus sign
+						 {
+							 JOptionPane.showMessageDialog(null,
+										"Please enter a valid number", "Choose Year",
+										JOptionPane.OK_OPTION);
+						 }
+					 }
+					
+				} catch (NumberFormatException me) {
+					JOptionPane.showMessageDialog(null,
+							"Please enter a valid number", "Choose Year",
+							JOptionPane.OK_OPTION);
+				}
+				catch (NullPointerException me) {
+					System.out.println("user pressed cancel or the x button");
+				}
+				
+			}
+			else
+			{	
 				JFileChooser f = new JFileChooser();
 				int returnVal = f.showSaveDialog(this);
 
@@ -144,81 +359,24 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 						BufferedWriter fw = new BufferedWriter(new FileWriter(
 								f.getSelectedFile() + ".txt"));
 						ReportQueries q = new ReportQueries();
+						int[] roomCounts = q.getRoomCount();
 						
-						fw.write(q.specialsTrends(year));
+						String fileOutput = "\t\t\t\t\t\t\t\tTITANFALL TOWERS Current Room Config \r\n\r\n"
+								+ "\t\tRoomType \t\t\tAmount of this type"
+								+ "\r\n\t\tSingle: \t\t\t"+roomCounts[0] 
+								+"\r\n\t\tDouble: \t\t\t"  + roomCounts[1]
+								+"\r\n\t\tTwin: \t\t\t\t" +roomCounts[2];
+						
+						
+						
+						fw.write(fileOutput);
 						fw.close();
 					} catch (Exception ex) {
 						ex.printStackTrace();
-					}
-				}
-			}
-			else if (e.getSource() == saveReportTo) {
-				if (reportOptions.getSelectedIndex() == 2) {
-					int year = 0;
-					try {
-						String y = JOptionPane
-								.showInputDialog(
-										null,
-										"Please enter the number of the month "
-												+ "you wish to get the booking trends of (i.e. 1 for September)",
-										"Choose Year", JOptionPane.PLAIN_MESSAGE);
-
-						year = Integer.parseInt(y);
-					} catch (NumberFormatException me) {
-						JOptionPane.showInputDialog(null,
-								"Please enter a valid number", "Choose Year",
-								JOptionPane.OK_OPTION);
-					}
-					JFileChooser f = new JFileChooser();
-					int returnVal = f.showSaveDialog(this);
-
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						try {
-							BufferedWriter fw = new BufferedWriter(new FileWriter(
-									f.getSelectedFile() + ".jpeg"));
-							ReportQueries q = new ReportQueries();
-							
-							fw.write(q.getBookingTrends(year) + usersFirstName);
-							fw.close();
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
-					}
-				}
-		}
-			else if (reportOptions.getSelectedIndex() == 0) {
-					int year = 0;
-					try {
-						String y = JOptionPane
-								.showInputDialog(
-										null,
-										"Please enter the number of year "
-												+ "you wish to get the booking trends of (i.e. 14 for 2014)",
-										"Choose Year", JOptionPane.PLAIN_MESSAGE);
-
-						year = Integer.parseInt(y);
-					} catch (NumberFormatException me) {
-						JOptionPane.showInputDialog(null,
-								"Please enter a valid number", "Choose Year",
-								JOptionPane.OK_OPTION);
-					}
-					JFileChooser f = new JFileChooser();
-					int returnVal = f.showSaveDialog(this);
-
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						try {
-							BufferedWriter fw = new BufferedWriter(new FileWriter(
-									f.getSelectedFile() + ".txt"));
-							ReportQueries q = new ReportQueries();
-							
-							fw.write(q.getBookingTrends(year) + usersFirstName);
-							fw.close();
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
 					}
 				}
 			}
 		}	
 	}
+}
 
