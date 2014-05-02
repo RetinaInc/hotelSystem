@@ -1,6 +1,7 @@
 /**Referencing JfreeChart.org 
- * INSERT HARVARD TUTORIAL HERE
- * 
+ * Matthew D'Andra JFreeChart Tutorial University of Toronto 
+ * This tutorial is shared and is free to view by anyone
+ * at http://dvillela.servehttp.com:4000/apostilas/jfreechart_tutorial.pdf
  * 
  */
 

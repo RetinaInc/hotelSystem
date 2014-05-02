@@ -1,5 +1,5 @@
 package GUI;
-//Taken From the Sun Java Encryption Tutorial on the jva api Website [-------------Reference to be entered here]
+//Taken From the Sun Java Encryption Tutorial on the jva api Website [Java.sun.api Example 1 decryption]
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;

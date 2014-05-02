@@ -24,8 +24,8 @@ public class Queries {
 //				ods.setPassword("db29Nov93");
 
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("root");
-				ods.setPassword("root");
+				ods.setUser("tom");
+				ods.setPassword("tom");
 
 				conn = ods.getConnection();
 
