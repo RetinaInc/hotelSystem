@@ -1,5 +1,8 @@
 package GUI;
-
+/**
+ * Thomas Murphy
+ * Robert Kenny
+ */
 import java.awt.Desktop;
 import java.awt.Font;
 
@@ -76,6 +79,7 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == openReport) {
 			JFileChooser f = new JFileChooser();
+			//this return value is in response to a click
 			int returnVal = f.showOpenDialog(this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {

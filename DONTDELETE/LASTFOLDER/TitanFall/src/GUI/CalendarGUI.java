@@ -1,7 +1,12 @@
 package GUI;
-
+/**
+ * Thomas Murphy
+ * Robert Kenny
+ */
 import java.awt.*;
+
 import javax.swing.*;
+
 import com.toedter.calendar.JCalendar;
 
 public class CalendarGUI extends JPanel {

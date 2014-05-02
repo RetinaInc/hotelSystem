@@ -1,4 +1,7 @@
 package Database;
+/**
+ * Derek Mulhern
+ */
 import java.sql.*;
 
 import oracle.jdbc.pool.OracleDataSource;
@@ -15,16 +18,6 @@ public class DropTables {
 		try {
 			q.open();
 			stmt = q.getConn().createStatement();
-
-			try{
-				//Drop the Credit Card table.
-				stmt.execute("DROP TABLE creditcards");
-				System.out.println("CreditCards table dropped.");
-			}
-			catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
-			}
 			try{
 				//Drop the SpecialBookings table
 				stmt.execute("DROP TABLE specialbookings");

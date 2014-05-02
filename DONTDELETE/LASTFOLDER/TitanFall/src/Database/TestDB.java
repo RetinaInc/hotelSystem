@@ -1,4 +1,9 @@
 package Database;
+/**
+ * Mark Lordan
+ * Robert Kenny
+ * Derek Mulhern
+ */
 public class TestDB {
 	public static void main(String[] args) {
 

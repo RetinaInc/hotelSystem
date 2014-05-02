@@ -1,5 +1,8 @@
 package GUI;
-
+/**
+ * Derek Mulhern
+ * Mark Lordan
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
@@ -19,7 +22,7 @@ public class CreditCardGUI extends JPanel implements ActionListener,
 	private JComboBox<String> combo, expCombo1, expCombo2;
 	private JButton btnBack, btnPayNow;
 	private JLabel securityCode, creditCardNumber, cardholderName,
-			creditCardType, titanfallTowersHotel, ccvNumber;
+			creditCardType, ccvNumber;
 	private JPanel container;
 	private String userID, arrivalDate, departureDate;
 	private double total;
@@ -27,7 +30,6 @@ public class CreditCardGUI extends JPanel implements ActionListener,
 	private ArrayList<User> users;
 	private ArrayList<Integer> roomChoice;
 	private Calendar calDate;
-	private ResultSet rs;
 	private JPanel panel;
 	private JPanel panel_2;
 	private JPanel panel_3;

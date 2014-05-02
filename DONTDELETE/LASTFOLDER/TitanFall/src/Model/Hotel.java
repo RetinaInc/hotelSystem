@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import Database.CreateTables;
 import Database.RoomOperations;
 import Database.manageAccountOperations;
-
+/**
+ * Thomas Murphy
+ * Mark Lordan
+ * Robert Kenny
+ * Derek Mulhern
+ */
 public class Hotel {
 	// Instance variables
 	private String hotelName, hotelPhoneNumber, hotelAddress;

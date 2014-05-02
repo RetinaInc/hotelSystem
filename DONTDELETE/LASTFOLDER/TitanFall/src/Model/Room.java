@@ -1,5 +1,8 @@
 package Model;
-
+/**
+ * Mark Lordan
+ * Derek Mulhern
+ */
 public class Room {
 	// Instance variables
 	private int roomNumber;

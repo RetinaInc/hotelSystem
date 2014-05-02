@@ -1,4 +1,8 @@
 package GUI;
+/**
+ * Mark Lordan
+ * Thomas Murphy
+ */
 import javax.swing.*;
 
 import Model.Booking;

@@ -1,5 +1,7 @@
 package Database;
-
+/**
+ * Mark Lordan
+ */
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -24,8 +26,8 @@ public class Queries {
 //				ods.setPassword("db29Nov93");
 
 				ods.setURL("jdbc:oracle:thin:HR/@localhost:1521:XE");
-				ods.setUser("tom");
-				ods.setPassword("tom");
+				ods.setUser("root");
+				ods.setPassword("root");
 
 				conn = ods.getConnection();
 

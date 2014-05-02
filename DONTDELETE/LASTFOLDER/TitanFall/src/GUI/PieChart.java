@@ -5,6 +5,10 @@
  * 
  */
 
+/**
+ * Thomas Murphy
+ */
+
 package GUI;
 
 import java.awt.Graphics2D;
@@ -57,7 +61,7 @@ public class PieChart{
 	 
 	        PiePlot plot = (PiePlot) chart.getPlot();
 	        plot.setSectionOutlinesVisible(false);
-	        plot.setNoDataMessage("Invalid Data Passed From DB");
+	        plot.setNoDataMessage("No bookings on for this month cannot display the room breakdown");
 	 
 	        return chart;
 	 

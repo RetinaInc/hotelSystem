@@ -1,5 +1,8 @@
 package GUI;
-
+/**
+ * Robert Kenny
+ * Derek Mulhern
+ */
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
@@ -70,7 +73,7 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 		specials.add(scrollPane);
 		fillTable();
 		model = new DefaultTableModel(array2d, columnNames){
-			 @Override
+			 @Override //used to make all cells in jtable uneditable
 			    public boolean isCellEditable(int row, int column) {
 			       //all cells false
 			       return false;
@@ -86,7 +89,7 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 		specialsList.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				priceField = 0.0;
-				selection = specialsList.getSelectedRows();
+				selection = specialsList.getSelectedRows(); //used to get the rows the user has selected
 				
 				for (int i = 0; i < selection.length; i++) {
 					priceField = priceField + Double.parseDouble(specialsList.getValueAt(selection[i], 1).toString());
@@ -131,7 +134,8 @@ public class SpecialsGUI extends JPanel implements ActionListener{
 			}
 			else
 			{
-				String[] names = new String[selection.length];
+				String[] names = new String[selection.length]; //sends the name of the specials the user has
+																//chosen to a database query
 				for (int i = 0; i < selection.length; i++) {
 					names[i] = specialsList.getValueAt(selection[i], 0).toString();
 				}

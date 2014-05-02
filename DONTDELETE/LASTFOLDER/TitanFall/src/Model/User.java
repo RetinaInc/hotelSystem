@@ -4,7 +4,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import Database.CreateTables;
-
+/**
+ * Thomas Murphy
+ * Mark Lordan
+ * Robert Kenny
+ * Derek Mulhern
+ */
 public class User {
 	// Instance variables
 	private String userType,fName,lName,homeaddress,email,phoneNum,userID,password;

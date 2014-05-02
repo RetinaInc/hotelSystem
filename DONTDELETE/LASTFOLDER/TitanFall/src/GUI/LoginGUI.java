@@ -1,4 +1,10 @@
 package GUI;
+/**
+ * Derek Mulhern
+ * Thomas Murphy
+ * Robert Kenny
+ * Mark Lordan
+ */
 import javax.swing.*;
 
 import Database.CreateTables;
@@ -156,7 +162,7 @@ public class LoginGUI extends JPanel implements ActionListener,MouseListener,Key
 	
 	String type = "";
 	String user = "";
-	
+	//titanfall hotel containing the users for the system is retrieved here
 	CreateTables c = new CreateTables();
 	Hotel h = c.getHotel();
 	ArrayList<User> users = c.getUsers();

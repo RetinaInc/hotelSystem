@@ -1,5 +1,8 @@
 package Database;
-
+/**
+ * Mark Lordan
+ * Robert Kenny
+ */
 import java.sql.*; 
 import Model.*;
 import oracle.jdbc.pool.OracleDataSource;

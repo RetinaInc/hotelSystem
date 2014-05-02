@@ -1,5 +1,10 @@
 package GUI;
-
+/**
+ * Robert Kenny
+ * Mark Lordan
+ * Derek Mulhern
+ * Thomas Murphy
+ */
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -179,7 +184,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener {
 			l.setVisible(true);
 			add(l);
 
-		} else {
+		} else { //checks to make sure information entered is valid
 			if (isNumber(fname.getText()) == false
 					&& isNumber(lname.getText()) == false
 					&& validateEmail(email.getText()) == true

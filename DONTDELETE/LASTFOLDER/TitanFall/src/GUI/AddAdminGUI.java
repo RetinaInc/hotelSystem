@@ -1,5 +1,8 @@
 package GUI;
-
+/**
+ * Robert Kenny
+ * Derek Mulhern
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.UnsupportedEncodingException;

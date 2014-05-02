@@ -1,4 +1,8 @@
 package GUI;
+/**
+ * Robert Kenny
+ * Mark Lordan
+ */
 //Gui Imports
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -60,7 +64,7 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 				"Number of Rooms","Number of Nights", "Total Cost", "Arrival", "Departure"};
 		testBookings(usersID);
 		model = new DefaultTableModel(array2d, columnNames){
-			 @Override
+			 @Override //make all cells in the jtable uneditable
 			    public boolean isCellEditable(int row, int column) {
 			       //all cells false
 			       return false;
@@ -79,8 +83,6 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 		editBooking.addActionListener(this);
 		editBooking.setBounds(810, 265, 150, 23);
 		bookingPanel.add(editBooking);
-
-
 		
 		saveReceipt = new JButton("Save Receipt");
 		saveReceipt.addActionListener(this);
@@ -108,9 +110,6 @@ public class ManageBookingGUI extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		/** 
-		 * Database Query code/Java Method goes here
-		 * **/
 		//code used to save the receipt of a selected booking
 		if(ae.getSource() == saveReceipt){
 			try

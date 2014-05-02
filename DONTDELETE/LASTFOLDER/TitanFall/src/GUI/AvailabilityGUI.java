@@ -1,5 +1,7 @@
 package GUI;
-
+/**
+ * Mark Lordan
+ */
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -23,7 +25,7 @@ public class AvailabilityGUI extends JPanel implements ActionListener {
 	private JList availableList;
 	private JLabel lblArrivalDate, lblNoOfNights, lblnumRoomsLabel;
 	private JButton back, continueb;
-	private int numNights, numberOfRooms, numberOfGuests;
+	private int numNights, numberOfRooms;
 	private Calendar calDate;
 	private String arrivalDate, departureDate;
 	private JTextField totalCostField;
@@ -87,8 +89,6 @@ public class AvailabilityGUI extends JPanel implements ActionListener {
 		continueb.setBackground(color);
 		continueb.addActionListener(this);
 		buttons.add(continueb);
-
-		
 		
 		container.setLayout(new BorderLayout(0, 0));
 		JPanel dates_selected = new JPanel();

@@ -1,5 +1,10 @@
 package Model;
-
+/**
+ * Thomas Murphy
+ * Mark Lordan
+ * Robert Kenny
+ * Derek Mulhern
+ */
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

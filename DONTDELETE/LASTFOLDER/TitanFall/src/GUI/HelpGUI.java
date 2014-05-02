@@ -1,5 +1,9 @@
 package GUI;
-
+/**
+ * Robert Kenny
+ * Derek Mulhern
+ * Thomas Murphy
+ */
 import javax.swing.*;
 
 import java.awt.*;

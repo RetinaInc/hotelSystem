@@ -1,5 +1,8 @@
 package GUI;
-
+/**
+ * Mark Lordan
+ * Derek Mulhern
+ */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;

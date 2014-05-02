@@ -1,5 +1,8 @@
 package Database;
-
+/**
+ * Robert Kenny 
+ * Derek Mulhern
+ */
 import java.sql.Statement;
 
 public class manageAccountOperations {

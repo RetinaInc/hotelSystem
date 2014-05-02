@@ -1,5 +1,8 @@
 package GUI;
-
+/**
+ * Robert Kenny
+ * Mark Lordan
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class AdminManageBookingGUI extends JPanel implements ActionListener{
 		fillTable();
 		model = new DefaultTableModel(array2d, columnNames){
 			 @Override
-			    public boolean isCellEditable(int row, int column) {
+			    public boolean isCellEditable(int row, int column) { //method used to make all cells non editable
 			       //all cells false
 			       return false;
 			    }

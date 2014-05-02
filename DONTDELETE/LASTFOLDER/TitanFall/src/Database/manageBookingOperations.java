@@ -1,5 +1,8 @@
 package Database;
-
+/**
+ * Robert Kenny 
+ * Mark Lordan
+ */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -124,6 +127,8 @@ public class manageBookingOperations {
 		return resultList;
 	}
 	
+	//removes a users booking based on the booking id
+	//data is removed from bookings.roombookings and specialbookings if they have any
 	public void removeBooking(int id){
 		try
 		{

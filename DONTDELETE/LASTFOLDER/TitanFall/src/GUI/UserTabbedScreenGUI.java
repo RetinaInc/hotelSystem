@@ -8,14 +8,18 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Model.User;
-
+/**
+ * Thomas Murphy
+ * Mark Lordan
+ * Robert Kenny
+ * Derek Mulhern
+ */
 public class UserTabbedScreenGUI extends JFrame implements MouseListener {
 	private JTabbedPane tabbedPane;
 
 	private JPanel panel1;
 	private JPanel panel2;
 	private JPanel panel3;
-	private JPanel panel4;
 	private JPanel panel5;
 	private JPanel panel6;
 	private String usersID;

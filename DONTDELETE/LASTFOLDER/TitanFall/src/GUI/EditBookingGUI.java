@@ -1,5 +1,8 @@
  package GUI;
-
+/**
+ * Mark Lordan
+ * Robert Kenny
+ */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -360,6 +363,7 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 
 				}
 				Booking b = new Booking(bookingid, cost);
+				if(roomsChosen.size() > 0){ //check to see if users new room choice is greater than 0
 				c.updateBookingRooms(b, roomsChosen);
 				JOptionPane.showMessageDialog(null, "Your changes to booking  "
 						+ bookingid + " have been saved",
@@ -368,6 +372,11 @@ public class EditBookingGUI extends JPanel implements ActionListener {
 				m.setVisible(true);
 				addRooms.setVisible(false);
 				add(m);
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "You must have at least 1 room in your booking",
+							"Booking Error", JOptionPane.OK_OPTION);
+				}
 			}
 		}
 		// end of JTable code

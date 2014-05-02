@@ -1,5 +1,7 @@
 package GUI;
-
+/**
+ * Robert Kenny
+ */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -26,28 +28,29 @@ import Model.User;
 
 import javax.swing.SwingConstants;
 
-public class ManageAccountGUI extends JPanel implements KeyListener,
+public class ManageAccountGUI extends JPanel implements
 		ActionListener {
 	private JPanel container;
-	private JTextField tfname,tlname, address, temail, tphone;
-	private JLabel errorMessage, updatePasswordErrorMessage,updateYourAccount;
+	private JTextField tfname, tlname, address, temail, tphone;
+	private JLabel errorMessage, updatePasswordErrorMessage;
 	private String usersID;
 	private ArrayList<User> users;
-	private JPasswordField toldPass,tnewPass,  tconfirmNewPass;
-	private JButton changeDetailsBtn,changePasswordBtn;
+	private JPasswordField toldPass, tnewPass, tconfirmNewPass;
+	private JButton changeDetailsBtn, changePasswordBtn;
 	private Font fontBigger;
-	private Color color = new Color(227,99,26);
+	private Color color = new Color(227, 99, 26);
+
 	public ManageAccountGUI(String userID, ArrayList<User> users) {
 		usersID = userID;
 		this.users = users;
 		container = new JPanel();
 		container.setLayout(null);
-		container.setBounds(0, 80,1000, 450);
+		container.setBounds(0, 80, 1000, 450);
 		JPanel manage_account = new JPanel();
 		manage_account.setLayout(null);
 		add(container);
 		this.setLayout(null);
-		
+
 		fontBigger = new Font("Veranda", Font.PLAIN, 18);
 		container.add(manage_account);
 		// contains all the elements neccessary to change your details
@@ -99,10 +102,7 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		changeDetailsBtn.setBackground(color);
 		changeDetailsBtn.setFont(fontBigger);
 		changeDetailsBtn.setBounds(119, 200, 185, 30);
-		changeDetailsBtn.setToolTipText("Update your password");
-		changeDetailsBtn.isFocusable();
-		changeDetailsBtn.addKeyListener(this);
-		changeDetailsBtn.addActionListener(this);
+		changeDetailsBtn.setToolTipText("Update your password");		changeDetailsBtn.addActionListener(this);
 		updateDetailsOption.add(changeDetailsBtn);
 		// contains all the elements neccessary to change your password
 		JPanel updatePassword = new JPanel(new GridLayout(2, 0));
@@ -141,32 +141,26 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		changePasswordBtn.setFont(fontBigger);
 		changePasswordBtn.setBounds(114, 71, 185, 30);
 		changePasswordBtn.setToolTipText("Update your password");
-		changePasswordBtn.isFocusable();
-		changePasswordBtn.addKeyListener(this);
 		changePasswordBtn.addActionListener(this);
 		changePasswordPanel.add(changePasswordBtn);
 		updatePassword.add(changePasswordPanel);
 
-		 updateYourAccount = new JLabel(
-				"Update Your account details here ....");
-		updateYourAccount.setFont(fontBigger);
-		updateYourAccount.setBounds(297, 90, 345, 36);
-		container.add(updateYourAccount);
-		
-				errorMessage = new JLabel("");
-				errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-				errorMessage.setBounds(214, 401, 225, 23);
-				container.add(errorMessage);
-				errorMessage.setForeground(Color.RED);
-				
-				updatePasswordErrorMessage = new JLabel("");
-				updatePasswordErrorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-				updatePasswordErrorMessage.setBounds(584, 401, 225, 23);
-				container.add(updatePasswordErrorMessage);
-				updatePasswordErrorMessage.setForeground(Color.RED);
-				updatePasswordErrorMessage.setVisible(false);
-				errorMessage.setVisible(true);
+		errorMessage = new JLabel("");
+		errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
+		errorMessage.setBounds(214, 401, 225, 23);
+		container.add(errorMessage);
+		errorMessage.setForeground(Color.RED);
+
+		updatePasswordErrorMessage = new JLabel("");
+		updatePasswordErrorMessage
+				.setHorizontalAlignment(SwingConstants.CENTER);
+		updatePasswordErrorMessage.setBounds(584, 401, 225, 23);
+		container.add(updatePasswordErrorMessage);
+		updatePasswordErrorMessage.setForeground(Color.RED);
+		updatePasswordErrorMessage.setVisible(false);
+		errorMessage.setVisible(true);
 	}
+
 	public boolean emptyFields(String e) {
 		boolean valid = false;
 		if (e.isEmpty() == true) {
@@ -186,6 +180,7 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		}
 		return valid;
 	}
+
 	public static boolean isNumber(String string) {
 		try {
 			Long.parseLong(string);
@@ -195,22 +190,25 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 		}
 		return true;
 	}
-	public void errorCheckingForUpdateDetails(){
+
+	public void errorCheckingForUpdateDetails() {
 		if (isNumber(tfname.getText()) == false
 				&& isNumber(tlname.getText()) == false
 				&& validateEmail(temail.getText()) == true
-				&& isNumber(tphone.getText()) == true 
+				&& isNumber(tphone.getText()) == true
 				&& emptyFields(tfname.getText()) == true
 				&& emptyFields(tlname.getText()) == true
 				&& emptyFields(address.getText()) == true
-				&& emptyFields(tphone.getText()) == true){
-		
+				&& emptyFields(tphone.getText()) == true) {
+
 			CreateTables c = new CreateTables();
 			Hotel h = c.getHotel();
-			
-			
-			h.updateUsersDetails(usersID, tfname.getText(), tlname.getText(), address.getText(), temail.getText(), tphone.getText());
-			JOptionPane.showMessageDialog(null, "Details have been updated Successfully","Details Updated",JOptionPane.INFORMATION_MESSAGE);
+
+			h.updateUsersDetails(usersID, tfname.getText(), tlname.getText(),
+					address.getText(), temail.getText(), tphone.getText());
+			JOptionPane.showMessageDialog(null,
+					"Details have been updated Successfully",
+					"Details Updated", JOptionPane.INFORMATION_MESSAGE);
 			tfname.setText("");
 			tlname.setText("");
 			address.setText("");
@@ -218,28 +216,27 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 			tphone.setText("");
 			errorMessage.setText("");
 		}
-		
-		else{
-				if (emptyFields(tfname.getText()) == false
-						|| emptyFields(tlname.getText()) == false
-						|| emptyFields(address.getText()) == false
-						|| emptyFields(tphone.getText()) == false) {
-					errorMessage.setText("You cannot leave a field blank");
-					errorMessage.setVisible(true);
-				}
-				else if (validateEmail(temail.getText()) == false) {
-					errorMessage.setText("You must enter a valid email address");
-					errorMessage.setVisible(true);
-				} 
-				else
-				{
-					errorMessage.setText("You must enter valid data for each field");
-					errorMessage.setVisible(true);
-				}
+
+		else {
+			if (emptyFields(tfname.getText()) == false
+					|| emptyFields(tlname.getText()) == false
+					|| emptyFields(address.getText()) == false
+					|| emptyFields(tphone.getText()) == false) {
+				errorMessage.setText("You cannot leave a field blank");
+				errorMessage.setVisible(true);
+			} else if (validateEmail(temail.getText()) == false) {
+				errorMessage.setText("You must enter a valid email address");
+				errorMessage.setVisible(true);
+			} else {
+				errorMessage
+						.setText("You must enter valid data for each field");
+				errorMessage.setVisible(true);
 			}
 		}
-	public void errorCheckingForUpdatePassword(){
-		for(int i = 0; i < users.size(); i++){
+	}
+
+	public void errorCheckingForUpdatePassword() {
+		for (int i = 0; i < users.size(); i++) {
 			String oldPass = "";
 			String newPass = "";
 			String cNewPass = "";
@@ -247,7 +244,7 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 				oldPass = Encryption.encrypt(toldPass.getText());
 				newPass = Encryption.encrypt(tnewPass.getText());
 				cNewPass = Encryption.encrypt(tconfirmNewPass.getText());
-				
+
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -255,70 +252,55 @@ public class ManageAccountGUI extends JPanel implements KeyListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword().equals(oldPass) && 
-					newPass.equals(cNewPass) && emptyFields(tnewPass.getText()) == true &&
-							emptyFields(tconfirmNewPass.getText()) == true){
-				
+
+			if (users.get(i).getUserID().equals(usersID)
+					&& users.get(i).getPassword().equals(oldPass)
+					&& newPass.equals(cNewPass)
+					&& emptyFields(tnewPass.getText()) == true
+					&& emptyFields(tconfirmNewPass.getText()) == true) {
+
 				users.get(i).setPassword(newPass);
 				CreateTables c = new CreateTables();
 				Hotel h = c.getHotel();
-				
-				
+
 				h.updateUsersPassword(usersID, newPass);
-				JOptionPane.showMessageDialog(null, "Password has been updated Successfully","Password Updated",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"Password has been updated Successfully",
+						"Password Updated", JOptionPane.INFORMATION_MESSAGE);
 				toldPass.setText("");
 				tnewPass.setText("");
-				tconfirmNewPass.setText("");				
+				tconfirmNewPass.setText("");
 				updatePasswordErrorMessage.setVisible(false);
 				break;
 			}
-			
-			else if(users.get(i).getUserID().equals(usersID) && users.get(i).getPassword() != toldPass.getText()
-					&& emptyFields(tnewPass.getText()) == true &&
-					emptyFields(tconfirmNewPass.getText()) == true)
-				{
-					updatePasswordErrorMessage.setText("Invalid Password entered");
-					updatePasswordErrorMessage.setVisible(true);
-				}
-			
-			 if(emptyFields(toldPass.getText()) == false 
-					|| emptyFields(tnewPass.getText()) == false ||
-					emptyFields(tconfirmNewPass.getText()) == false){
-				updatePasswordErrorMessage.setText("You cannot leave a field blank");
-			updatePasswordErrorMessage.setVisible(true);
+
+			else if (users.get(i).getUserID().equals(usersID)
+					&& users.get(i).getPassword() != toldPass.getText()
+					&& emptyFields(tnewPass.getText()) == true
+					&& emptyFields(tconfirmNewPass.getText()) == true) {
+				updatePasswordErrorMessage.setText("Invalid Password entered");
+				updatePasswordErrorMessage.setVisible(true);
+			}
+
+			if (emptyFields(toldPass.getText()) == false
+					|| emptyFields(tnewPass.getText()) == false
+					|| emptyFields(tconfirmNewPass.getText()) == false) {
+				updatePasswordErrorMessage
+						.setText("You cannot leave a field blank");
+				updatePasswordErrorMessage.setVisible(true);
 			}
 		}
-		
-		 
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == changeDetailsBtn){
+		if (e.getSource() == changeDetailsBtn) {
 			errorCheckingForUpdateDetails();
 		}
-		
-		else if(e.getSource() == changePasswordBtn){
+
+		else if (e.getSource() == changePasswordBtn) {
 			errorCheckingForUpdatePassword();
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 }

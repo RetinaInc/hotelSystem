@@ -1,5 +1,8 @@
 package Model;
-
+/**
+ * Robert Kenny
+ * Mark Lordan
+ */
 public class Special {
 
 	private String specialName;

@@ -80,7 +80,7 @@ public class AdminAddSpecialsGUI extends JPanel implements ActionListener{
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(300, 230, 350, 120);
 		container.add(scrollPane);
-		fillTable();
+		fillTable(); //method that fills the jtable
 		model = new DefaultTableModel(array2d, columnNames){
 			 @Override
 			    public boolean isCellEditable(int row, int column) {
@@ -135,6 +135,7 @@ public class AdminAddSpecialsGUI extends JPanel implements ActionListener{
 					s.addSpecialsAdmin(special);
 					JOptionPane.showMessageDialog(null, specialsName.getText() + " is now a special","Special added",
 							JOptionPane.INFORMATION_MESSAGE);
+					//below is used to make it look like the jtable is refreshed when a special is added
 					AdminAddSpecialsGUI a = new AdminAddSpecialsGUI();
 					container.setVisible(false);
 					a.setVisible(true);

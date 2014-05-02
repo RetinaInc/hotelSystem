@@ -412,49 +412,6 @@ public class CreateTables {
 			pstmt.setString(1, "T");
 			pstmt.executeUpdate();
 
-			// CREDITCARD TABLE
-			stmt.executeUpdate("CREATE TABLE CreditCards "
-					+ "(Credit_CardNumber number NOT NULL PRIMARY KEY, CreditCard_Type varchar2(50) NOT NULL, NameOnCard varchar2(50) NOT NULL, ExpiryDate varchar2(50) NOT NULL, CCVNumber varchar2(50) NOT NULL, User_ID varchar2(50), FOREIGN KEY (User_ID) REFERENCES users (User_ID) ON DELETE CASCADE)");
-
-			String creditcardsInsert = "INSERT INTO creditcards VALUES (?,?,?,?,?,?)";
-			pstmt = q.getConn().prepareStatement(creditcardsInsert);
-
-			// Insert row #1.
-			pstmt.setInt(1, 1234);
-			pstmt.setString(2, "Visa");
-			pstmt.setString(3, "Derek Mulhern");
-			pstmt.setString(4, "01-01-2014");
-			pstmt.setString(5, "CCV123");
-			pstmt.setString(6, "01");
-			pstmt.executeUpdate();
-
-			// Insert row #2.
-			pstmt.setInt(1, 12345);
-			pstmt.setString(2, "Mastercard");
-			pstmt.setString(3, "Robert Kenny");
-			pstmt.setString(4, "02-02-2014");
-			pstmt.setString(5, "CCV456");
-			pstmt.setString(6, "02");
-			pstmt.executeUpdate();
-
-			// Insert row #3.
-			pstmt.setInt(1, 123456);
-			pstmt.setString(2, "Visa");
-			pstmt.setString(3, "Mark Lordan");
-			pstmt.setString(4, "03-03-2014");
-			pstmt.setString(5, "CCV789");
-			pstmt.setString(6, "03");
-			pstmt.executeUpdate();
-
-			// Insert row #4.
-			pstmt.setInt(1, 1234567);
-			pstmt.setString(2, "Visa");
-			pstmt.setString(3, "Thomas Murphy");
-			pstmt.setString(4, "04-04-2014");
-			pstmt.setString(5, "CCV001");
-			pstmt.setString(6, "04");
-			pstmt.executeUpdate();
-
 			// CREATE SPECIALBOOKINGS TABLE
 			stmt.executeUpdate("CREATE TABLE SpecialBookings "
 					+ "(Special_Number number,Special_ID number NOT NULL,"
@@ -469,7 +426,6 @@ public class CreateTables {
 			System.out.println("Rooms table created.");
 			System.out.println("Roomtypes table created.");
 			System.out.println("RoomBookings table created.");
-			System.out.println("Credit Card table created.");
 			System.out.println("Specials table created.");
 			System.out.println("SpecialBookings table created.\n");
 
@@ -842,7 +798,7 @@ public class CreateTables {
 			}
 			if (count < currentRooms.size()) {
 				JOptionPane.showMessageDialog(null,
-						"Sorry, not sorry. One or more rooms unavailable.");	
+						"One or more rooms unavailable for the selected dates");	
 			}
 			else{
 				System.out.println(b.getTotalCost() + " should be a total cost");
