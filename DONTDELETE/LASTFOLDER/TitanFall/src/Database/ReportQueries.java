@@ -41,31 +41,40 @@ public class ReportQueries {
 	
 	
 	public int[] getRoomCount(){
+		//This variable stores the values of each romm types ount
 		int[] roomTotal = new int[3];
+		//open connection
 		q.open();
+		//Select all the values from the type_id column in the database
 		String sql ="SELECT TYPE_ID FROM ROOMS";
+		
 		try{
-		pstmt = q.getConn().prepareStatement(sql);
-		rset = pstmt.executeQuery();
-		while(rset.next()){
-			if(rset.getInt(1) == 900){
-				roomTotal[0]++;
+			pstmt = q.getConn().prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			//Cycle through the result set
+			while(rset.next()){
+				//if id 900 is found increment the roomTotal[0] value this represents the number of single Rooms
+				if(rset.getInt(1) == 900){
+					roomTotal[0]++;
+					}
+				//if id 901 is found increment the roomTotal[1] value this represents the number of Double Rooms
+				if(rset.getInt(1) == 901){
+					roomTotal[1]++;
 				}
-			if(rset.getInt(1) == 901){
-				roomTotal[1]++;
+				//if id 902 is found increment the roomTotal[2] value this represents the number of Twin Rooms
+				if(rset.getInt(1) == 902){
+					roomTotal[2]++;
+				}
 			}
-			if(rset.getInt(1) == 902){
-				roomTotal[2]++;
-			}
-			}
-		
-		
 		}catch(Exception e){
+			//Error handling message Sent to the console
 			System.out.println("Could not get Monthly Count Vaules -- Check Queries Class" + e.getMessage());
 		}
 		q.close();
 		return roomTotal;
 	}
+	
+	
 	//Method to get the number of bookings in each month of the year
 	public int[] getMonthlyBookingCount(int year){
 		
@@ -73,50 +82,54 @@ public class ReportQueries {
 		int[] monthVals  = new int[]{1,2,3,4,5,6,7,8,9,10,11,12};//Month numbers
 		int[] monthCountValues = new int[12];//Array to store the no of bookings in each month
 		int[] monthLengths  = new int[]{28,30,31};//month lengths for sql insert
-		
+
 		try{
-		//open db connection	
-		q.open();
-		String sql ="";
-		for (int i = 0; i < months.length; i++) {
-			String startValue = "'01-"+months[i]+"-"+year+"'";
+			//open db connection	
+			q.open();
+			String sql ="";
 			
-			
-		
-			if(monthVals[i] == 2){
-				String endValue = "'" + monthLengths[0] + "-"+months[i]+"-"+year+"'";
-				//Count the number of  unique bookings in a particular month 
-				sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+			for (int i = 0; i < months.length; i++) {
 				
-						pstmt = q.getConn().prepareStatement(sql);
-						rset = pstmt.executeQuery();
-						//go through the result set(in this case it will only be one value) and add it to the monthCountValues array
-						while(rset.next()){
-							monthCountValues[i] = rset.getInt(1);
-						}
+				String startValue = "'01-"+months[i]+"-"+year+"'";//starting value
+
+
+				//For February
+				if(monthVals[i] == 2){
+					String endValue = "'" + monthLengths[0] + "-"+months[i]+"-"+year+"'";
+					//Count the number of  unique bookings in a particular month 
+					sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+
+					pstmt = q.getConn().prepareStatement(sql);
+					rset = pstmt.executeQuery();
+					//go through the result set(in this case it will only be one value) and add it to the monthCountValues array
+					while(rset.next()){
+						monthCountValues[i] = rset.getInt(1);
+					}
+				}
+				//For months of the year with 31 days
+				if(monthVals[i] == 1||monthVals[i] == 3||monthVals[i] ==5||monthVals[i] ==7||monthVals[i] ==8||monthVals[i] ==10||monthVals[i] ==12){
+					String endValue = "'" + monthLengths[2] + "-"+months[i]+"-"+year+"'";
+					sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+					pstmt = q.getConn().prepareStatement(sql);
+					rset = pstmt.executeQuery();
+					while(rset.next()){
+						monthCountValues[i] = rset.getInt(1);
+					}
+				}
+				//For months of the year with 30 days
+				if(monthVals[i] == 4||monthVals[i] == 6||monthVals[i] ==9||monthVals[i] ==11){
+					String endValue = "'" + monthLengths[1] + "-"+months[i]+"-"+year+"'";
+					sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
+					pstmt = q.getConn().prepareStatement(sql);
+					rset = pstmt.executeQuery();
+					while(rset.next()){
+						monthCountValues[i] = rset.getInt(1);
+					}
+				}
+
 			}
-			if(monthVals[i] == 1||monthVals[i] == 3||monthVals[i] ==5||monthVals[i] ==7||monthVals[i] ==8||monthVals[i] ==10||monthVals[i] ==12){
-				String endValue = "'" + monthLengths[2] + "-"+months[i]+"-"+year+"'";
-				sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
-						pstmt = q.getConn().prepareStatement(sql);
-						rset = pstmt.executeQuery();
-						while(rset.next()){
-							monthCountValues[i] = rset.getInt(1);
-						}
-			}
-			if(monthVals[i] == 4||monthVals[i] == 6||monthVals[i] ==9||monthVals[i] ==11){
-				String endValue = "'" + monthLengths[1] + "-"+months[i]+"-"+year+"'";
-				sql = "SELECT COUNT(DISTINCT BOOKING_ID) FROM ROOMBOOKINGS WHERE DATEOFBOOKING >='01-"+months[i]+"-"+year+"' AND DATEOFBOOKING <= +"+ endValue;
-						pstmt = q.getConn().prepareStatement(sql);
-						rset = pstmt.executeQuery();
-						while(rset.next()){
-							monthCountValues[i] = rset.getInt(1);
-						}
-			}
-			
-		}
-			}catch(Exception e){
-				//Exception Handling
+		}catch(Exception e){
+			//Exception Handling
 			System.out.println("Could not get Monthly Count Vaules -- Check Queries Class" + e.getMessage());
 			e.printStackTrace();
 		}

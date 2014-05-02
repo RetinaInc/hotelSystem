@@ -106,7 +106,7 @@ public class RoomOperations {
 			//check to see if room  has a booking on it
 			if(rset.next() == true){
 				JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has a booking on it and cannot be updated",
-					"Error deleting room",JOptionPane.ERROR_MESSAGE);
+					"Error Updating Room",JOptionPane.ERROR_MESSAGE);
 			}
 			else
 			{

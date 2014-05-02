@@ -203,7 +203,7 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 							e1.printStackTrace();
 						}
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, "Please enter a number","Error adding room",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Please enter a valid number","Error Deleting Room",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
