@@ -206,6 +206,7 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 				int month =0;
 				String y="";
 				String z ="";
+				int monthEntered = 0;
 				try {
 					y = JOptionPane
 							.showInputDialog(
@@ -221,8 +222,14 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 										"Please enter the number of the month "
 												+ "you wish to get the booking trends of (i.e. 1 for January)",
 										"Choose Year", JOptionPane.PLAIN_MESSAGE);
-						 int monthEntered = Integer.parseInt(z);
-						 if(z != null && z.length() >= 1 && z.length() <= 2 && z.contains("-") == false 
+						 try
+						 {
+						  monthEntered = Integer.parseInt(z);
+						 }
+						 catch(NumberFormatException b){
+							 System.out.println("user exited");
+						 }
+						 if(z != null && z.length() == 1 || z.length() == 2 && z.contains("-") == false 
 								 && monthEntered <= 12){
 							 month = Integer.parseInt(z);
 							 JFileChooser f = new JFileChooser();
@@ -260,6 +267,7 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 											JOptionPane.OK_OPTION);
 							 }
 						 }
+						 
 					}
 					else
 					{
@@ -284,6 +292,7 @@ public class AdminPrintReportsGUI extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(null,
 							"Please enter a valid number", "Choose Year",
 							JOptionPane.OK_OPTION);
+					ev.printStackTrace();
 				}
 				catch (NullPointerException me) {
 					System.out.println("user pressed cancel or the x button");

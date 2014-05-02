@@ -1,5 +1,10 @@
 package Database;
-
+/**
+ * Derek Mulhern
+ * Robert Kenny 
+ * Thomas Murphy
+ * Mark Lordan
+ */
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -16,6 +21,9 @@ public class CreateTables {
 	private ResultSet rset;
 	private Queries q = new Queries();
 	private Hotel h;
+	private String dayString, monthString, yearString, dayString2,
+	monthString2, yearString2;
+	private int day, month, year, day2, month2, year2;
 
 	/*
 	 * This method helps out when inserting dates into the database using
@@ -36,7 +44,7 @@ public class CreateTables {
 
 			// USERS TABLE
 			stmt.executeUpdate("CREATE TABLE Users "
-					+ "(User_ID	varchar2(50) NOT NULL PRIMARY KEY, UserType varchar2(1) CHECK (UserType IN ('G','A')), First_Name varchar2(50), Last_Name varchar2(50), HomeAddress varchar2(50), Phone_Number varchar2(50), Email_Address varchar2(50), UserPassword varchar2(50) NOT NULL)");
+					+ "(User_ID	varchar2(50) NOT NULL PRIMARY KEY, UserType varchar2(1) CHECK (UserType IN ('G','A')), First_Name varchar2(50), Last_Name varchar2(50), HomeAddress varchar2(255), Phone_Number varchar2(50), Email_Address varchar2(50), UserPassword varchar2(50) NOT NULL)");
 
 			String sqlInsert = "INSERT INTO users VALUES (?,?,?,?,?,?,?,?)";
 			pstmt = q.getConn().prepareStatement(sqlInsert);
@@ -472,7 +480,9 @@ public class CreateTables {
 		}
 		q.close();
 	}
-
+	
+//	this method returns the last booking id currently in the database
+//	which is incremented by 1 to make a booking in the add booking method
 	public int getLastRow() {
 		q.open();
 		String sqlStatement = "SELECT * FROM bookings ORDER BY Booking_ID";
@@ -494,10 +504,8 @@ public class CreateTables {
 	}
 
 	/*
-	 * This method takes a reference variable of type Booking as a parameter and
-	 * uses a prepared statement to add the booking to the Bookings table also
-	 * arrival date is split into 3 integers to convert it into a date format
-	 * suitable for sql
+	 * this method returns titanfall towers hotel as a hotel object which will be used to get 
+	 * the users of titanfall
 	 */
 	public Hotel getHotel() {
 		String hotelsqlS = "SELECT * FROM Hotels";
@@ -521,7 +529,11 @@ public class CreateTables {
 		q.close();
 		return h;
 	}
-
+	
+	/*
+	 * here an array list of users within the titanfall hotel is passed back.
+	 * 
+	 */
 	public ArrayList<User> getUsers() {
 		String sqlStatement = "SELECT * FROM Users";
 		try {
@@ -559,9 +571,13 @@ public class CreateTables {
 		return h.getUsers();
 	}
 
-	private String dayString, monthString, yearString, dayString2,
-			monthString2, yearString2;
-	private int day, month, year, day2, month2, year2;
+	/*the number of guests is calculated by using the rooms the user has chosen
+	 * any room the user has booked that is a single will result in 1 guest
+	 * any room the user has booked that is a double will result in 2 guests
+	 * any room the user has booked that is a twin will result in 4 guests
+	 * the number of guests will be added to a variable which will hold the total number of guests
+	 */
+	
 	public int calculateNumGuests(ArrayList<Integer> roomChoice){
 		int numGuests = 0;
 		try{
@@ -589,6 +605,12 @@ public class CreateTables {
 		}
 		return numGuests;
 		}
+	
+	/*
+	 * the arrival and departure dates are passed to here as strings.
+	 * these strings containing the dates are split into 3 seperate substrings for day month and year
+	 * 
+	 */
 	public void addBooking(Booking b, ArrayList<Integer> roomChoice,
 			int decision) {
 
@@ -621,9 +643,10 @@ public class CreateTables {
 
 			pstmt = q.getConn().prepareStatement(sql);
 			if (decision == 1) {
-				pstmt.setInt(1, (b.getBookingID() + 1));
+				pstmt.setInt(1, (b.getBookingID() + 1)); //used for creating a new booking
 			} else {
-				pstmt.setInt(1, (b.getBookingID()));
+				pstmt.setInt(1, (b.getBookingID()));  //this else is used for editing a booking so booking id is 
+													//not incremented
 			}
 			pstmt.setInt(2, calculateNumGuests(roomChoice));
 			pstmt.setInt(3, b.getNumNights());

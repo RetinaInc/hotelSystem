@@ -31,8 +31,8 @@ public class StartPanelGUI extends JPanel implements ActionListener, ItemListene
 	private JDateChooser dateChooser;
 	private JYearChooser day, year;
 	private JMonthChooser month;
-	private JComboBox numNights, numPeople;
-	private JLabel lblnumNights, lblnumPeople, arrivalDate;
+	private JComboBox numNights;
+	private JLabel lblnumNights, arrivalDate;
 	private JButton login, btnSearch;
 	private Font font;
 	private JPanel userInteraction;

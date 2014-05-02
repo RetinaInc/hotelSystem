@@ -204,6 +204,7 @@ public class AdminManageRoomsGUI extends JPanel implements ActionListener {
 						}
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null, "Please enter a valid number","Error Deleting Room",JOptionPane.WARNING_MESSAGE);
+
 					}
 				}
 			}

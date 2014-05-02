@@ -122,8 +122,6 @@ public class specialsOperations {
 			} catch (Exception ex) {
 				System.out.println("ERROR: " + ex.getMessage());
 			}
-			
-			//q.close();
 			return specialID;
 			
 		}
@@ -149,6 +147,10 @@ public class specialsOperations {
 			q.close();
 		}
 		
+		/*
+		 * this method returns all of the specials within the database as an object array which is then used
+		 * to populate the jtables used by the administrator and users
+		 */
 		public ArrayList<Object[]> getSpecials(){
 			ArrayList<Object[]> specials = new ArrayList<Object[]>();
 			try
@@ -172,11 +174,11 @@ public class specialsOperations {
 			return specials;
 		}
 
+		//name of special used to determine which special is being removed
 		public void removeSpecial(String name) {
 			try
 			{
 				q.open();
-				
 				today = Calendar.getInstance();
 				String todaysDate = s.format(today.getTime());
 				dayString = todaysDate.substring(0, 2);
@@ -199,7 +201,7 @@ public class specialsOperations {
 				
 				rset = pstmt.executeQuery();
 				//check to see if the special has a booking on it
-				if(rset.next() == true){
+				if(rset.next() == true){  //if it does do this
 					JOptionPane.showMessageDialog(null,name + " has a booking on it and cannot be removed",
 						"Error deleting special",JOptionPane.ERROR_MESSAGE);
 				}

@@ -39,7 +39,9 @@ public class ReportQueries {
 	private ArrayList<Integer> amount = new ArrayList<Integer>();     //used to keep track of the amount of times a booking was booked
 	private DecimalFormat df = new DecimalFormat("###,###.00");
 	
-	
+	/*
+	 * gets the room count of each room type and returns it in an array of integers
+	 */
 	public int[] getRoomCount(){
 		//This variable stores the values of each romm types ount
 		int[] roomTotal = new int[3];
@@ -162,13 +164,6 @@ public class ReportQueries {
 					"INNER JOIN ROOMBOOKINGS ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER "+
 					"WHERE ROOMBOOKINGS.DATEOFBOOKING >= "+"'01-"+months[(month-1)]+"-"+year+"'"+
 					" AND ROOMBOOKINGS.DATEOFBOOKING <= +"+ endValue;
-
-			//Original Sql Statement For future reference			
-//			Select ROOMS.TYPE_ID,ROOMBOOKINGS.ROOM_NUMBER,ROOMBOOKINGS.BOOKING_ID,ROOMBOOKINGS.DATEOFBOOKING 
-//			FROM ROOMS 
-//			INNER JOIN ROOMBOOKINGS ON ROOMS.ROOM_NUMBER = ROOMBOOKINGS.ROOM_NUMBER
-//			WHERE ROOMBOOKINGS.DATEOFBOOKING >= '01-MAY-14'
-//			AND ROOMBOOKINGS.DATEOFBOOKING <= '31-MAY-14';
 		}
 		if(month == 4||month == 6||month ==9||month ==11){
 			String endValue = "'" + monthLengths[1] + "-"+months[(month-1)]+"-"+year+"'";
@@ -203,7 +198,15 @@ public class ReportQueries {
 		
 	}
 		
-	
+	/*
+	 * this method counts the number of bookings on each room type for every month of the year
+	 * and also gets the total price from those bookings to show how much the hotel received that month.
+	 * The total number of bookings of each room type for the year is also shown as well as
+	 * the total price for the year
+	 * This method is very long but could be improved by incorporating a loop
+	 * It was left this size because it had the functionality and was very time consuming
+	 * to try and fix
+	 */
 	public String getBookingTrends(int year){
 		//Start of singles calculations from number of bookings per month and the total for each month
 		String sql = "select COUNT(ROOMTYPES.TYPE_ID) as numBookings from BOOKINGS,ROOMTYPES,ROOMBOOKINGS,ROOMS"
@@ -1046,7 +1049,11 @@ public class ReportQueries {
 	////////////////////////////////////////////////////////////////////////////
 	//Special Trends
 	///////////////////////////////////////////////////////////////////////////
-	public String specialsTrends(int year){
+	/*
+	 * this method returns the number of bookings made on each special for a 
+	 * particular year chosen by the year
+	 */
+	public String specialsTrends(int year){ //year the administrator wants the specials trends for
 		try
 		{
 			q.open();
@@ -1108,10 +1115,16 @@ public class ReportQueries {
 	////////////////////////////////////////////////////////////////////////////
 	//USERS RECEIPT
 	///////////////////////////////////////////////////////////////////////////
+	/*
+	 * the users booking id is passed in.
+	 * 
+	 */
 	public String usersReceipt(int id){ 
 		try
 		{
 			q.open();
+			//returns the type of the room,arrival date,departure date,number of nights and total cost for this
+			//booking
 			String sql = "select ROOMTYPES.TYPE_NAME as type1,BOOKINGS.ARRIVALDATE as arrivalD,BOOKINGS.DEPARTUREDATE as departureD"
 					+ ",BOOKINGS.NUMBER_OF_NIGHTS as numNights,BOOKINGS.TOTAL_COST as Total"
 					+ " from BOOKINGS,ROOMTYPES,ROOMBOOKINGS,ROOMS"
@@ -1121,10 +1134,10 @@ public class ReportQueries {
 			rset = pstmt.executeQuery();
 		
 			
-			while(rset.next()){
+			while(rset.next()){ //calculations for the total price is done here
 				if(rset.getString("type1").equals("Single")){
 					numSingles++;
-					cost4Single = (59 * rset.getInt("numNights")) * numSingles;
+					cost4Single = (59 * rset.getInt("numNights")) * numSingles; 
 				}
 				else if(rset.getString("type1").equals("Double")){
 					numDoubles++;
@@ -1167,7 +1180,7 @@ public class ReportQueries {
 		 if(numTwins > 0){
 			 twin = "\r\n\t\t" + numTwins + "\t\t\tTwin Room\t\t\t\t€199.00\t\t\t\t\t€" + df.format(cost4Twin);
 		}
-		 if(names.size() > 0){
+		 if(names.size() > 0){ //only shown on the receipt if the user has specials on their booking
 			 specials = "\r\n\r\n\r\n\t\t\t\t\t\t\t\t\tSPECIALS YOU HAVE CHOSEN\r\n";
 			 for (int i = 0; i < names.size(); i++) {
 				 String special = String.format("\r\n\t\t1\t\t\t%-20s\t\t\t\t\t€%9.2f", names.get(i),costs.get(i));

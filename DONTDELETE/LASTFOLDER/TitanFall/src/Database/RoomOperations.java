@@ -104,9 +104,11 @@ public class RoomOperations {
 			
 			rset = pstmt.executeQuery();
 			//check to see if room  has a booking on it
-			if(rset.next() == true){
+			if(rset.next() == true){ //if it does
 				JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has a booking on it and cannot be updated",
+
 					"Error Updating Room",JOptionPane.ERROR_MESSAGE);
+
 			}
 			else
 			{
@@ -120,7 +122,7 @@ public class RoomOperations {
 					String updateRoomQuery = "UPDATE Rooms SET Type_ID = " + 
 							+ roomTypeID + "WHERE Room_Number = " 
 							+ roomNumber;
-					stmt = connection.createStatement();
+					stmt = q.getConn().createStatement();
 					stmt.executeUpdate(updateRoomQuery);
 					JOptionPane.showMessageDialog(null, "Room " + roomNumber + " has been updated","Room updated"
 							 ,JOptionPane.INFORMATION_MESSAGE);
@@ -135,6 +137,7 @@ public class RoomOperations {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Please enter a number",
 					"Error updating room",JOptionPane.WARNING_MESSAGE);
+			e.printStackTrace();
 		}
 		q.close();
 	}
@@ -177,6 +180,10 @@ public class RoomOperations {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next() == true){
+				sql = "Delete from roombookings where Room_Number = " + roomNumber;
+				
+				pstmt = q.getConn().prepareStatement(sql);
+				pstmt.executeUpdate();
 				sql = "Delete from rooms where Room_Number = " + roomNumber;
 				
 				pstmt = q.getConn().prepareStatement(sql);

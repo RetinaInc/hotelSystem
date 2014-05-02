@@ -15,7 +15,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class CreateAccountGUI extends JPanel implements ActionListener,KeyListener {
+public class CreateAccountGUI extends JPanel implements ActionListener {
 	private JTextField fname, lname, email, address, phone, username;
 	private JPasswordField password;
 	private JButton btnLogin, btnContinue;
@@ -130,8 +130,6 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		btnLogin.setFont(fontBigger);
 		btnLogin.setBackground(color);
 		btnLogin.setToolTipText("Login to your account");
-		btnLogin.isFocusable();
-		btnLogin.addKeyListener(this);
 		btnLogin.addActionListener(this);
 		btnLogin.setBounds(40, 276, 120, 30);
 		container.add(btnLogin);
@@ -140,8 +138,6 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 		btnContinue.setFont(fontBigger);
 		btnContinue.setBackground(color);
 		btnContinue.setToolTipText("Create your account");
-		btnContinue.isFocusable();
-		btnContinue.addKeyListener(this);
 		btnContinue.addActionListener(this);
 		btnContinue.setBounds(280, 276, 120, 30);
 		container.add(btnContinue);
@@ -193,7 +189,14 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 					&& emptyFields(address.getText()) == true
 					&& emptyFields(phone.getText()) == true
 					&& emptyFields(username.getText()) == true
-					&& emptyFields(password.getText()) == true) {
+					&& emptyFields(password.getText()) == true
+					&& username.getText().length() <= 50
+					&& fname.getText().length() <= 50
+					&& lname.getText().length() <= 50
+					&& email.getText().length() <= 50
+					&& phone.getText().length() <= 50
+					&& address.getText().length() <= 255
+					&& password.getText().length() <= 50) {
 
 				// Add information to the database
 				CreateTables c = new CreateTables();
@@ -258,79 +261,5 @@ public class CreateAccountGUI extends JPanel implements ActionListener,KeyListen
 
 		}
 
-	}
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if(e.getSource() == btnLogin && e.getKeyCode() == KeyEvent.VK_ENTER){
-			LoginGUI l = new LoginGUI();
-			this.setVisible(false);
-			l.setVisible(true);
-		}
-		
-		else if(e.getSource() == btnContinue && e.getKeyCode() == KeyEvent.VK_ENTER){
-			if (isNumber(fname.getText()) == false
-					&& isNumber(lname.getText()) == false
-					&& validateEmail(email.getText()) == true
-					&& isNumber(phone.getText()) == true 
-					&& emptyFields(fname.getText()) == true
-					&& emptyFields(lname.getText()) == true
-					&& emptyFields(address.getText()) == true
-					&& emptyFields(phone.getText()) == true
-					&& emptyFields(username.getText()) == true
-					&& emptyFields(password.getText()) == true) {
-
-				// Add information to the database
-				CreateTables c = new CreateTables();
-				Hotel h = c.getHotel();
-				ArrayList<User> users = c.getUsers();
-				
-				User u = new User(username.getText(),"G",fname.getText(),lname.getText(),address.getText(),phone.getText(),
-						email.getText(),password.getText());
-				
-				users.add(u);
-
-				CreateUsers cu = new CreateUsers();
-				if (cu.buildUser(u) == true) {
-					JOptionPane.showMessageDialog(null,"Sorry, " + username.getText() +
-							" is already taken, please try a different username",
-									"Warning", JOptionPane.WARNING_MESSAGE);
-					username.setText("");
-				} else {
-					this.setVisible(false);
-					UserTabbedScreenGUI us = new UserTabbedScreenGUI(username.getText(),users);
-					us.setVisible(true);
-				}
-
-			} else {
-				if (emptyFields(fname.getText()) == false
-						|| emptyFields(lname.getText()) == false
-						|| emptyFields(address.getText()) == false
-						|| emptyFields(phone.getText()) == false
-						|| emptyFields(username.getText()) == false
-						|| emptyFields(password.getText()) == false) {
-					JOptionPane.showMessageDialog(null,
-							"You cannot leave a field blank", "Warning",
-							JOptionPane.WARNING_MESSAGE);
-				} else if (validateEmail(email.getText()) == false) {
-					JOptionPane.showMessageDialog(null,
-							"You must enter a valid email address", "Warning",
-							JOptionPane.WARNING_MESSAGE);
-				} else
-					JOptionPane.showMessageDialog(null,
-							"You must enter valid data for each field", "Warning",
-							JOptionPane.WARNING_MESSAGE);
-			}
-		}
-		
-	}
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }
